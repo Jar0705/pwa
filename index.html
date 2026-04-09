@@ -1,194 +1,166 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kasir PWA</title>
+  <meta charset="UTF-8">
+  <title>Kasir PWA</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4CAF50">
+  <link rel="manifest" href="manifest.json">
 
-<style>
-body { font-family: Arial; margin:0; background:#f4f4f4; }
-header { background:#4CAF50; color:white; padding:15px; text-align:center; }
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #121212;
+      color: white;
+      margin: 0;
+      padding: 20px;
+    }
 
-nav { display:flex; justify-content:center; background:white; }
-nav button { padding:10px; border:none; background:none; cursor:pointer; }
+    h1 {
+      text-align: center;
+      color: #ff4d4d;
+    }
 
-.page { display:none; padding:20px; max-width:600px; margin:auto; }
-.active { display:block; }
+    .status {
+      text-align: center;
+      padding: 10px;
+      margin-bottom: 15px;
+      border-radius: 10px;
+      font-weight: bold;
+    }
 
-.card { background:white; padding:15px; margin-bottom:10px; border-radius:8px; }
+    .online {
+      background: #1f8b4c;
+    }
 
-input { width:100%; padding:8px; margin-bottom:10px; }
+    .offline {
+      background: #b33939;
+    }
 
-button.primary { background:#4CAF50; color:white; }
-button.danger { background:red; color:white; }
+    .container {
+      display: flex;
+      gap: 20px;
+    }
 
-.status { text-align:center; padding:5px; font-size:12px; }
-</style>
+    .menu, .cart {
+      flex: 1;
+      background: #1e1e1e;
+      padding: 15px;
+      border-radius: 15px;
+    }
+
+    .item {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 10px;
+      background: #2a2a2a;
+      padding: 10px;
+      border-radius: 10px;
+    }
+
+    button {
+      background: #ff4d4d;
+      border: none;
+      padding: 5px 10px;
+      color: white;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background: #ff1a1a;
+    }
+
+    .total {
+      margin-top: 10px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
 </head>
-
 <body>
 
-<header>
-<h2>Kasir PWA Offline Online</h2>
-</header>
+<h1>🧾 Kasir Sederhana</h1>
 
 <div id="status" class="status">Checking...</div>
 
-<nav>
-<button onclick="nav('kasir')">Kasir</button>
-<button onclick="nav('riwayat')">Riwayat</button>
-</nav>
+<div class="container">
+  <!-- MENU -->
+  <div class="menu">
+    <h2>Menu</h2>
+    <div id="menuList"></div>
+  </div>
 
-<!-- KASIR -->
-<section id="kasir" class="page active">
-<div class="card">
-<input id="nama" placeholder="Nama Barang">
-<input id="harga" type="number" placeholder="Harga">
-<input id="qty" type="number" placeholder="Qty">
-<button class="primary" onclick="tambah()">Tambah</button>
+  <!-- KERANJANG -->
+  <div class="cart">
+    <h2>Keranjang</h2>
+    <div id="cartList"></div>
+    <div class="total">Total: Rp <span id="total">0</span></div>
+  </div>
 </div>
-
-<div class="card">
-<h3>Total: Rp <span id="total">0</span></h3>
-<button onclick="sync()">Sync Data</button>
-</div>
-</section>
-
-<!-- RIWAYAT -->
-<section id="riwayat" class="page">
-<div id="list"></div>
-</section>
 
 <script>
-const DB = 'kasir_db';
+let cart = [];
+let total = 0;
 
-// NAVIGATION
-function nav(id){
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-    if(id==='riwayat') tampil();
+// Load data
+fetch('data.json')
+.then(res => res.json())
+.then(data => {
+  const menuList = document.getElementById('menuList');
+
+  data.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `
+      <span>${item.nama} - Rp ${item.harga}</span>
+      <button onclick="addToCart('${item.nama}', ${item.harga})">+</button>
+    `;
+    menuList.appendChild(div);
+  });
+});
+
+function addToCart(nama, harga) {
+  cart.push({ nama, harga });
+  total += harga;
+  renderCart();
 }
 
-// CREATE
-function tambah(){
-    let nama = document.getElementById('nama').value;
-    let harga = parseInt(document.getElementById('harga').value);
-    let qty = parseInt(document.getElementById('qty').value);
+function renderCart() {
+  const cartList = document.getElementById('cartList');
+  cartList.innerHTML = '';
 
-    if(!nama || !harga || !qty){
-        alert('Isi semua!');
-        return;
-    }
+  cart.forEach(item => {
+    const div = document.createElement('div');
+    div.className = 'item';
+    div.innerHTML = `<span>${item.nama}</span><span>Rp ${item.harga}</span>`;
+    cartList.appendChild(div);
+  });
 
-    let total = harga * qty;
-
-    let data = JSON.parse(localStorage.getItem(DB)) || [];
-    data.unshift({ id: Date.now(), nama, harga, qty, total });
-
-    localStorage.setItem(DB, JSON.stringify(data));
-
-    document.getElementById('total').innerText = total;
-
-    document.getElementById('nama').value='';
-    document.getElementById('harga').value='';
-    document.getElementById('qty').value='';
-
-    alert('Berhasil disimpan!');
+  document.getElementById('total').innerText = total;
 }
 
-// READ
-function tampil(){
-    let data = JSON.parse(localStorage.getItem(DB)) || [];
-    let list = document.getElementById('list');
+// ONLINE / OFFLINE DETECTION
+function updateStatus() {
+  const status = document.getElementById('status');
 
-    if(data.length===0){
-        list.innerHTML = '<p>Tidak ada data</p>';
-        return;
-    }
-
-    list.innerHTML = data.map((d,i)=>`
-        <div class="card">
-            <b>${d.nama}</b><br>
-            Harga: ${d.harga}<br>
-            Qty: ${d.qty}<br>
-            Total: ${d.total}<br>
-            <button class="danger" onclick="hapus(${i})">Hapus</button>
-        </div>
-    `).join('');
+  if (navigator.onLine) {
+    status.innerText = "🟢 Anda sedang ONLINE";
+    status.className = "status online";
+  } else {
+    status.innerText = "🔴 Anda sedang OFFLINE";
+    status.className = "status offline";
+  }
 }
 
-// DELETE
-function hapus(i){
-    let data = JSON.parse(localStorage.getItem(DB));
-    data.splice(i,1);
-    localStorage.setItem(DB, JSON.stringify(data));
-    tampil();
-}
+window.addEventListener('online', updateStatus);
+window.addEventListener('offline', updateStatus);
 
-// STATUS ONLINE/OFFLINE
-function status(){
-    let el = document.getElementById('status');
+updateStatus();
 
-    if(navigator.onLine){
-        el.innerText = "ONLINE";
-        el.style.background = "green";
-        el.style.color = "white";
-    }else{
-        el.innerText = "OFFLINE";
-        el.style.background = "red";
-        el.style.color = "white";
-    }
-}
-
-window.addEventListener('online', ()=>{ status(); sync(); });
-window.addEventListener('offline', status);
-status();
-
-// SYNC (2 ARAH)
-async function sync(){
-    if(!navigator.onLine){
-        alert('Offline!');
-        return;
-    }
-
-    let localData = JSON.parse(localStorage.getItem(DB)) || [];
-
-    try{
-        // GET server
-        let res = await fetch('data.json');
-        let serverData = await res.json();
-
-        // MERGE
-        let merged = [...localData];
-
-        serverData.forEach(s=>{
-            let exist = localData.some(l=>l.id === s.id);
-            if(!exist) merged.push(s);
-        });
-
-        localStorage.setItem(DB, JSON.stringify(merged));
-
-        // POST ke server (butuh PHP)
-        await fetch('save.php',{
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify(merged)
-        });
-
-        alert('Sync sukses!');
-        tampil();
-
-    }catch(e){
-        alert('Sync gagal');
-    }
-}
-
-// SERVICE WORKER
-if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('sw.js');
+// REGISTER SERVICE WORKER
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js');
 }
 </script>
 
