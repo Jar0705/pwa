@@ -1,16 +1,28 @@
-const CACHE_NAME = 'v1_cache';
-const urlsToCache = ['./', './index.html'];
+const CACHE_NAME = 'kasir-pwa-v2';
+const urlsToCache = [
+    '/',
+    '/index.html',
+    '/manifest.json'
+];
 
-self.addEventListener('install', event => {
-    event.waitUntil(
-        caches.open(CACHE_NAME).then(cache => cache.addAll(urlsToCache))
+// INSTALL → simpan cache
+self.addEventListener('install', e => {
+    e.waitUntil(
+        caches.open(CACHE_NAME)
+            .then(cache => cache.addAll(urlsToCache))
     );
 });
 
-self.addEventListener('fetch', event => {
-    event.respondWith(
-        caches.match(event.request).then(response => {
-            return response || fetch(event.request);
-        })
+// FETCH → offline fallback
+self.addEventListener('fetch', e => {
+    e.respondWith(
+        fetch(e.request)
+            .then(res => {
+                // simpan cache baru
+                const clone = res.clone();
+                caches.open(CACHE_NAME).then(cache => cache.put(e.request, clone));
+                return res;
+            })
+            .catch(() => caches.match(e.request)) // kalau offline
     );
 });
