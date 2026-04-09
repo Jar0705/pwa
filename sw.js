@@ -1,26 +1,23 @@
-const CACHE_NAME = "kasir-cache-v1";
+const CACHE = 'kasir-v1';
 
-const urlsToCache = [
-  "/",
-  "/index.html",
-  "/data.json",
-  "/manifest.json"
-];
-
-// INSTALL
-self.addEventListener("install", event => {
-  event.waitUntil(
-    caches.open(CACHE_NAME)
-      .then(cache => cache.addAll(urlsToCache))
-  );
+self.addEventListener('install', e=>{
+    e.waitUntil(
+        caches.open(CACHE).then(c=>c.addAll([
+            '/',
+            '/index.html',
+            '/manifest.json'
+        ]))
+    );
 });
 
-// FETCH (offline support)
-self.addEventListener("fetch", event => {
-  event.respondWith(
-    caches.match(event.request)
-      .then(response => {
-        return response || fetch(event.request);
-      })
-  );
+self.addEventListener('fetch', e=>{
+    e.respondWith(
+        fetch(e.request)
+        .then(res=>{
+            let clone = res.clone();
+            caches.open(CACHE).then(c=>c.put(e.request, clone));
+            return res;
+        })
+        .catch(()=>caches.match(e.request))
+    );
 });
