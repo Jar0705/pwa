@@ -3,16 +3,17 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kasir PWA Offline Online</title>
+<title>Kasir PWA</title>
 
 <link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4a90e2">
+<meta name="theme-color" content="#4CAF50">
 
 <style>
-body { font-family: sans-serif; margin:0; background:#f4f4f4; }
-header { background:#4a90e2; color:white; padding:1rem; text-align:center; }
+body { font-family: Arial; margin:0; background:#f4f4f4; }
+header { background:#4CAF50; color:white; padding:15px; text-align:center; }
+
 nav { display:flex; justify-content:center; background:white; }
-nav a { padding:1rem; cursor:pointer; }
+nav button { padding:10px; border:none; background:none; cursor:pointer; }
 
 .page { display:none; padding:20px; max-width:600px; margin:auto; }
 .active { display:block; }
@@ -21,76 +22,71 @@ nav a { padding:1rem; cursor:pointer; }
 
 input { width:100%; padding:8px; margin-bottom:10px; }
 
-button { padding:10px; background:#4a90e2; color:white; border:none; cursor:pointer; }
-.danger { background:red; }
+button.primary { background:#4CAF50; color:white; }
+button.danger { background:red; color:white; }
 
-.status { text-align:center; font-size:12px; padding:5px; }
+.status { text-align:center; padding:5px; font-size:12px; }
 </style>
 </head>
 
 <body>
 
 <header>
-<h1>Kasir PWA</h1>
+<h2>Kasir PWA Offline Online</h2>
 </header>
 
-<div class="status" id="status">Checking...</div>
+<div id="status" class="status">Checking...</div>
 
 <nav>
-<a onclick="navigateTo('kasir')">Kasir</a>
-<a onclick="navigateTo('riwayat')">Riwayat</a>
+<button onclick="nav('kasir')">Kasir</button>
+<button onclick="nav('riwayat')">Riwayat</button>
 </nav>
 
 <!-- KASIR -->
 <section id="kasir" class="page active">
-<h2>Input Transaksi</h2>
-
 <div class="card">
-<input type="text" id="nama" placeholder="Nama Barang">
-<input type="number" id="harga" placeholder="Harga">
-<input type="number" id="qty" placeholder="Jumlah">
-<button onclick="tambah()">Simpan</button>
+<input id="nama" placeholder="Nama Barang">
+<input id="harga" type="number" placeholder="Harga">
+<input id="qty" type="number" placeholder="Qty">
+<button class="primary" onclick="tambah()">Tambah</button>
 </div>
 
 <div class="card">
 <h3>Total: Rp <span id="total">0</span></h3>
-<button onclick="syncData()">Sync Data</button>
+<button onclick="sync()">Sync Data</button>
 </div>
 </section>
 
 <!-- RIWAYAT -->
 <section id="riwayat" class="page">
-<h2>Riwayat</h2>
 <div id="list"></div>
 </section>
 
 <script>
-// DATABASE
 const DB = 'kasir_db';
 
 // NAVIGATION
-function navigateTo(page){
+function nav(id){
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.getElementById(page).classList.add('active');
-
-    if(page==='riwayat') tampil();
+    document.getElementById(id).classList.add('active');
+    if(id==='riwayat') tampil();
 }
 
 // CREATE
 function tambah(){
-    const nama = document.getElementById('nama').value;
-    const harga = parseInt(document.getElementById('harga').value);
-    const qty = parseInt(document.getElementById('qty').value);
+    let nama = document.getElementById('nama').value;
+    let harga = parseInt(document.getElementById('harga').value);
+    let qty = parseInt(document.getElementById('qty').value);
 
     if(!nama || !harga || !qty){
         alert('Isi semua!');
         return;
     }
 
-    const total = harga * qty;
+    let total = harga * qty;
 
     let data = JSON.parse(localStorage.getItem(DB)) || [];
-    data.unshift({nama, harga, qty, total});
+    data.unshift({ id: Date.now(), nama, harga, qty, total });
 
     localStorage.setItem(DB, JSON.stringify(data));
 
@@ -100,7 +96,7 @@ function tambah(){
     document.getElementById('harga').value='';
     document.getElementById('qty').value='';
 
-    alert('Tersimpan!');
+    alert('Berhasil disimpan!');
 }
 
 // READ
@@ -109,18 +105,18 @@ function tampil(){
     let list = document.getElementById('list');
 
     if(data.length===0){
-        list.innerHTML='<p>Tidak ada data</p>';
+        list.innerHTML = '<p>Tidak ada data</p>';
         return;
     }
 
     list.innerHTML = data.map((d,i)=>`
-    <div class="card">
-        <b>${d.nama}</b><br>
-        Harga: ${d.harga}<br>
-        Qty: ${d.qty}<br>
-        Total: ${d.total}<br>
-        <button onclick="hapus(${i})" class="danger">Hapus</button>
-    </div>
+        <div class="card">
+            <b>${d.nama}</b><br>
+            Harga: ${d.harga}<br>
+            Qty: ${d.qty}<br>
+            Total: ${d.total}<br>
+            <button class="danger" onclick="hapus(${i})">Hapus</button>
+        </div>
     `).join('');
 }
 
@@ -132,9 +128,9 @@ function hapus(i){
     tampil();
 }
 
-// ONLINE OFFLINE STATUS
-function updateStatus(){
-    const el = document.getElementById('status');
+// STATUS ONLINE/OFFLINE
+function status(){
+    let el = document.getElementById('status');
 
     if(navigator.onLine){
         el.innerText = "ONLINE";
@@ -147,32 +143,44 @@ function updateStatus(){
     }
 }
 
-window.addEventListener('online', ()=>{
-    updateStatus();
-    syncData(); // auto sync
-});
+window.addEventListener('online', ()=>{ status(); sync(); });
+window.addEventListener('offline', status);
+status();
 
-window.addEventListener('offline', updateStatus);
-
-updateStatus();
-
-// SYNC (SIMULASI)
-async function syncData(){
+// SYNC (2 ARAH)
+async function sync(){
     if(!navigator.onLine){
-        alert('Offline, tidak bisa sync');
+        alert('Offline!');
         return;
     }
 
-    let data = JSON.parse(localStorage.getItem(DB)) || [];
+    let localData = JSON.parse(localStorage.getItem(DB)) || [];
 
     try{
-        await fetch('data.json',{
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify(data)
+        // GET server
+        let res = await fetch('data.json');
+        let serverData = await res.json();
+
+        // MERGE
+        let merged = [...localData];
+
+        serverData.forEach(s=>{
+            let exist = localData.some(l=>l.id === s.id);
+            if(!exist) merged.push(s);
         });
 
-        alert('Sync berhasil!');
+        localStorage.setItem(DB, JSON.stringify(merged));
+
+        // POST ke server (butuh PHP)
+        await fetch('save.php',{
+            method:'POST',
+            headers:{'Content-Type':'application/json'},
+            body:JSON.stringify(merged)
+        });
+
+        alert('Sync sukses!');
+        tampil();
+
     }catch(e){
         alert('Sync gagal');
     }
@@ -180,9 +188,7 @@ async function syncData(){
 
 // SERVICE WORKER
 if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('sw.js')
-        .then(()=>console.log('SW aktif'))
-        .catch(()=>console.log('SW gagal'));
+    navigator.serviceWorker.register('sw.js');
 }
 </script>
 
