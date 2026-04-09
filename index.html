@@ -1,166 +1,178 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <title>Kasir PWA</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-  <link rel="manifest" href="manifest.json">
-
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #121212;
-      color: white;
-      margin: 0;
-      padding: 20px;
-    }
-
-    h1 {
-      text-align: center;
-      color: #ff4d4d;
-    }
-
-    .status {
-      text-align: center;
-      padding: 10px;
-      margin-bottom: 15px;
-      border-radius: 10px;
-      font-weight: bold;
-    }
-
-    .online {
-      background: #1f8b4c;
-    }
-
-    .offline {
-      background: #b33939;
-    }
-
-    .container {
-      display: flex;
-      gap: 20px;
-    }
-
-    .menu, .cart {
-      flex: 1;
-      background: #1e1e1e;
-      padding: 15px;
-      border-radius: 15px;
-    }
-
-    .item {
-      display: flex;
-      justify-content: space-between;
-      margin-bottom: 10px;
-      background: #2a2a2a;
-      padding: 10px;
-      border-radius: 10px;
-    }
-
-    button {
-      background: #ff4d4d;
-      border: none;
-      padding: 5px 10px;
-      color: white;
-      border-radius: 5px;
-      cursor: pointer;
-    }
-
-    button:hover {
-      background: #ff1a1a;
-    }
-
-    .total {
-      margin-top: 10px;
-      font-size: 18px;
-      font-weight: bold;
-    }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Kasir Digital</title>
+<style>
+body{font-family:'Segoe UI';background:#f4f6f9;margin:0}
+header{background:linear-gradient(135deg,#4f46e5,#06b6d4);color:#fff;padding:20px;text-align:center}
+.container{max-width:1100px;margin:20px auto;display:grid;grid-template-columns:1fr 1fr;gap:20px}
+.card{background:#fff;padding:20px;border-radius:15px;box-shadow:0 10px 20px rgba(0,0,0,0.1)}
+input,button{width:100%;padding:10px;margin-top:10px;border-radius:8px;border:1px solid #ccc}
+button{background:#4f46e5;color:#fff;border:none;cursor:pointer}
+button:hover{background:#4338ca}
+table{width:100%;margin-top:10px;border-collapse:collapse}
+th,td{padding:10px;border-bottom:1px solid #ddd}
+.btn-danger{background:red;color:#fff}
+.total{font-weight:bold;margin-top:10px}
+.hidden{display:none}
+</style>
 </head>
 <body>
 
-<h1>🧾 Kasir Sederhana</h1>
+<header>💳 Kasir Digital (Admin & Kasir)</header>
 
-<div id="status" class="status">Checking...</div>
+<!-- MENU PILIH ROLE -->
+<div class="card" id="menu">
+<h3>Pilih Menu</h3>
+<button onclick="showAdmin()">AdminAdminn>
+<button onclick="showPembeli()">Kasir</button>
+</div>
 
-<div class="container">
-  <!-- MENU -->
-  <div class="menu">
-    <h2>Menu</h2>
-    <div id="menuList"></div>
-  </div>
+<!-- PENJUAL (INPUT PRODUK) -->
+<div class="container hidden" id="penjualPage">
+<div class="card">
+<h3>Input Barang (Admin)</h3>
+<input type="text" id="p_nama" placeholder="Nama Barang">
+<input type="number" id="p_harga" placeholder="Harga">
+<input type="number" id="p_stok" placeholder="Stok">
+<button onclick="tambahBarang()">Simpan Barang</button>
+<button onclick="kembaliMenu()">Kembali</button>
+</div>
 
-  <!-- KERANJANG -->
-  <div class="cart">
-    <h2>Keranjang</h2>
-    <div id="cartList"></div>
-    <div class="total">Total: Rp <span id="total">0</span></div>
-  </div>
+<div class="card">
+<h3>Daftar Barang</h3>
+<table>
+<thead>
+<tr><th>Nama</th><th>Harga</th><th>Stok</th><th>Aksi</th></tr>
+</thead>
+<tbody id="listBarang"></tbody>
+</table>
+</div>
+</div>
+
+<!-- PEMBELI (TRANSAKSI) -->
+<div class="container hidden" id="pembeliPage">
+<div class="card">
+<h3>Beli Barang</h3>
+<select id="pilihBarang"></select>
+<input type="number" id="jumlah" placeholder="Jumlah Beli">
+<input type="number" id="bayar" placeholder="Uang Bayar">
+<button onclick="beliBarang()">Tambah ke Keranjang</button>
+<button onclick="kembaliMenu()">Kembali</button>
+</div>
+
+<div class="card">
+<h3>Keranjang</h3>
+<table>
+<thead>
+<tr><th>Nama</th><th>Harga</th><th>Jumlah</th><th>Total</th></tr>
+</thead>
+<tbody id="keranjang"></tbody>
+</table>
+<div class="total">Total: Rp <span id="total">0</span></div>
+<button onclick="checkout()">Checkout</button>
+</div>
 </div>
 
 <script>
-let cart = [];
-let total = 0;
+let barang=[];
+let cart=[];
 
-// Load data
-fetch('data.json')
-.then(res => res.json())
-.then(data => {
-  const menuList = document.getElementById('menuList');
-
-  data.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'item';
-    div.innerHTML = `
-      <span>${item.nama} - Rp ${item.harga}</span>
-      <button onclick="addToCart('${item.nama}', ${item.harga})">+</button>
-    `;
-    menuList.appendChild(div);
-  });
-});
-
-function addToCart(nama, harga) {
-  cart.push({ nama, harga });
-  total += harga;
-  renderCart();
+function showAdmin(){
+ document.getElementById('menu').classList.add('hidden');
+ document.getElementById('penjualPage').classList.remove('hidden');
+ renderBarang();
 }
 
-function renderCart() {
-  const cartList = document.getElementById('cartList');
-  cartList.innerHTML = '';
-
-  cart.forEach(item => {
-    const div = document.createElement('div');
-    div.className = 'item';
-    div.innerHTML = `<span>${item.nama}</span><span>Rp ${item.harga}</span>`;
-    cartList.appendChild(div);
-  });
-
-  document.getElementById('total').innerText = total;
+function showPembeli(){
+ document.getElementById('menu').classList.add('hidden');
+ document.getElementById('pembeliPage').classList.remove('hidden');
+ loadSelect();
 }
 
-// ONLINE / OFFLINE DETECTION
-function updateStatus() {
-  const status = document.getElementById('status');
-
-  if (navigator.onLine) {
-    status.innerText = "🟢 Anda sedang ONLINE";
-    status.className = "status online";
-  } else {
-    status.innerText = "🔴 Anda sedang OFFLINE";
-    status.className = "status offline";
-  }
+function kembaliMenu(){
+ document.getElementById('menu').classList.remove('hidden');
+ document.getElementById('penjualPage').classList.add('hidden');
+ document.getElementById('pembeliPage').classList.add('hidden');
 }
 
-window.addEventListener('online', updateStatus);
-window.addEventListener('offline', updateStatus);
+function tambahBarang(){
+ const nama=document.getElementById('p_nama').value;
+ const harga=parseInt(document.getElementById('p_harga').value);
+ const stok=parseInt(document.getElementById('p_stok').value);
 
-updateStatus();
+ if(!nama||!harga||!stok){alert('Lengkapi data');return}
 
-// REGISTER SERVICE WORKER
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('sw.js');
+ barang.push({nama,harga,stok});
+ renderBarang();
+
+ document.getElementById('p_nama').value='';
+ document.getElementById('p_harga').value='';
+ document.getElementById('p_stok').value='';
+}
+
+function renderBarang(){
+ let html='';
+ barang.forEach((b,i)=>{
+  html+=`<tr>
+  <td>${b.nama}</td>
+  <td>${b.harga}</td>
+  <td>${b.stok}</td>
+  <td><button class='btn-danger' onclick='hapusBarang(${i})'>Hapus</button></td>
+  </tr>`;
+ });
+ document.getElementById('listBarang').innerHTML=html;
+}
+
+function hapusBarang(i){barang.splice(i,1);renderBarang();}
+
+function loadSelect(){
+ let opt='';
+ barang.forEach((b,i)=>{
+  opt+=`<option value='${i}'>${b.nama} (Stok:${b.stok})</option>`;
+ });
+ document.getElementById('pilihBarang').innerHTML=opt;
+}
+
+function beliBarang(){
+ const idx=document.getElementById('pilihBarang').value;
+ const jumlah=parseInt(document.getElementById('jumlah').value);
+
+ if(barang.length==0){alert('Barang kosong');return}
+
+ let item=barang[idx];
+ if(jumlah>item.stok){alert('Stok tidak cukup');return}
+
+ cart.push({nama:item.nama,harga:item.harga,jumlah});
+ item.stok-=jumlah;
+ renderCart();
+ renderBarang();
+ loadSelect();
+}
+
+function renderCart(){
+ let html='';
+ let total=0;
+ cart.forEach(c=>{
+  let sub=c.harga*c.jumlah;
+  total+=sub;
+  html+=`<tr><td>${c.nama}</td><td>${c.harga}</td><td>${c.jumlah}</td><td>${sub}</td></tr>`;
+ });
+ document.getElementById('keranjang').innerHTML=html;
+ document.getElementById('total').innerText=total;
+}
+
+function checkout(){
+ const bayar=parseInt(document.getElementById('bayar').value);
+ const total=cart.reduce((a,b)=>a+(b.harga*b.jumlah),0);
+ if(!bayar||bayar<total){alert('Uang kurang');return}
+ let kembalian=bayar-total;
+ alert(`Total: ${total}\nBayar: ${bayar}\nKembalian: ${kembalian}`);
+ cart=[];
+ renderCart();
+ document.getElementById('bayar').value='';
 }
 </script>
 
