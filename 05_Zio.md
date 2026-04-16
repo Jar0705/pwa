@@ -40,6 +40,7 @@ Fungsi:
 
 Menyediakan fitur yang digunakan user
 Berinteraksi dengan framework
+
 2. Application Framework Layer
 
 Lapisan yang menyediakan layanan/API untuk aplikasi.
@@ -54,6 +55,7 @@ Fungsi:
 
 Penghubung aplikasi dengan sistem
 Mengatur resource dan lifecycle
+
 3. Libraries & Android Runtime
 
 Berisi library dan runtime yang menjalankan aplikasi.
@@ -68,6 +70,7 @@ Fungsi:
 
 Menyediakan fungsi dasar (database, web, grafik)
 Menjalankan kode aplikasi
+
 4. Linux Kernel Layer
 
 Lapisan paling bawah yang berhubungan langsung dengan hardware.
