@@ -5,6 +5,7 @@ Komunikasi antar aplikasi dilakukan melalui IPC seperti intent, sementara pengol
 Selain itu, aspek keamanan dan optimasi sangat penting, termasuk mencegah exploit serta mengatur penggunaan energi agar baterai lebih hemat. Secara keseluruhan, mobile computing berfokus pada efisiensi, performa, dan pengalaman pengguna dalam lingkungan yang terbatas sumber daya.
 
 menggunakan framework prep:
+
 Point:
 Dalam wireless dan mobile computing, sistem operasi mobile dirancang untuk mengelola sumber daya secara efisien agar aplikasi tetap berjalan optimal meskipun memiliki keterbatasan seperti memori dan baterai.
 
