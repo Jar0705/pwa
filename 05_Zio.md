@@ -10,6 +10,31 @@ Sistem Android juga menerapkan konsep event-driven, di mana seluruh aktivitas ap
 
 Dalam menentukan prioritas aplikasi, sistem juga mempertimbangkan faktor lain seperti notifikasi aktif, penggunaan sensor (misalnya GPS atau musik), serta aktivitas pengguna. Aplikasi yang masih memberikan layanan penting kepada pengguna akan tetap dipertahankan meskipun berjalan di latar belakang.
 
-Selain itu, Android juga sangat memperhatikan aspek keamanan data. Setiap aplikasi berjalan dalam lingkungan terisolasi (sandbox), sehingga tidak dapat mengakses data aplikasi lain secara langsung tanpa izin. Hal ini bertujuan untuk menjaga privasi dan keamanan pengguna.
+Android juga menerapkan sistem keamanan data berbasis sandbox, di mana setiap aplikasi berjalan dalam ruang terisolasi. Hal ini mencegah aplikasi mengakses data aplikasi lain tanpa izin, sehingga keamanan dan privasi pengguna tetap terjaga.
 
-Pada akhirnya, semua mekanisme tersebut dirancang untuk mencapai optimasi sistem, baik dari segi performa maupun konsumsi baterai. Aplikasi yang berjalan secara efisien akan membantu menghemat daya dan menjaga kinerja perangkat tetap stabil. Oleh karena itu, pengembang aplikasi harus memahami perbedaan antara proses aktif dan pasif, serta menggunakan komponen yang tepat agar aplikasi tidak membebani sistem secara berlebihan.
+Penjelasan Framework (Framework Layer Android)
+
+Berdasarkan konteks tulisan di papan (seperti “Intent”, “API”, “NFC”, “Service”, “Manager”), hal tersebut merujuk pada Android Framework, yaitu lapisan yang menjadi penghubung antara aplikasi dengan sistem operasi (kernel).
+
+Framework Android menyediakan berbagai API (Application Programming Interface) yang memudahkan developer dalam membuat aplikasi tanpa harus berinteraksi langsung dengan hardware.
+
+Beberapa komponen penting dalam framework Android antara lain:
+
+Activity Manager
+Mengatur siklus hidup aplikasi dan perpindahan antar activity.
+Window Manager
+Mengatur tampilan antarmuka (UI) di layar.
+Content Provider
+Mengelola dan berbagi data antar aplikasi secara aman.
+Resource Manager
+Mengatur resource seperti gambar, string, layout, dll.
+Notification Manager
+Mengatur notifikasi yang muncul ke pengguna.
+Location Manager (GPS)
+Mengelola akses lokasi perangkat.
+Telephony & NFC API
+Digunakan untuk komunikasi seperti telepon, SMS, dan NFC.
+Service & Background Processing
+Mengatur proses yang berjalan di latar belakang.
+
+Framework ini bekerja dengan konsep abstraksi, artinya developer cukup memanggil fungsi yang sudah tersedia tanpa perlu memahami detail implementasi di level bawah (kernel atau hardware).
