@@ -10,6 +10,7 @@ Dalam wireless dan mobile computing, sistem operasi mobile dirancang untuk menge
 
 Reason:
 Hal ini dilakukan dengan membagi proses menjadi foreground, background, dan cache, serta menggunakan mekanisme seperti killer process untuk menghentikan aplikasi yang tidak diperlukan. Selain itu, komunikasi antar aplikasi menggunakan IPC (intent), dan sistem juga memanfaatkan sensor seperti GPS serta teknologi seperti NFC. Optimasi dan keamanan juga penting untuk menjaga performa dan mencegah penyalahgunaan sistem.
+
 Example:
 Contohnya, saat pengguna membuka aplikasi peta, aplikasi tersebut menjadi foreground dan menggunakan GPS secara aktif. Sementara itu, aplikasi lain seperti musik dapat berjalan di background, dan aplikasi yang sudah ditutup akan masuk ke cache. Jika memori penuh, sistem akan otomatis menutup aplikasi cache terlebih dahulu.
 
