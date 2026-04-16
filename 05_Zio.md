@@ -2,55 +2,84 @@ Pada sistem operasi Android, pengelolaan aplikasi dilakukan melalui mekanisme ya
 
 Proses foreground merupakan aplikasi yang sedang aktif digunakan oleh pengguna, sehingga memiliki prioritas tertinggi dan hampir tidak pernah dihentikan oleh sistem. Sementara itu, proses background adalah aplikasi yang tidak sedang tampil di layar, namun masih berjalan, misalnya aplikasi pesan yang tetap menerima notifikasi. Di sisi lain, proses cached adalah aplikasi yang sudah tidak aktif dan hanya disimpan sementara di memori untuk mempercepat pembukaan ulang. Proses ini memiliki prioritas paling rendah dan akan menjadi yang pertama dihentikan jika sistem membutuhkan memori tambahan.
 
-Selain pengelolaan proses, Android juga menyediakan mekanisme komunikasi antar aplikasi yang dikenal sebagai Inter Process Communication (IPC). Salah satu implementasi utamanya adalah penggunaan Intent, yang memungkinkan aplikasi untuk berpindah aktivitas atau mengirim data ke aplikasi lain. Intent ini terbagi menjadi dua jenis, yaitu explicit intent, yang digunakan untuk memanggil komponen tertentu secara langsung, dan implicit intent, yang memberikan kebebasan kepada sistem untuk memilih aplikasi yang sesuai dengan kebutuhan.
+Selain pengelolaan proses, Android juga menyediakan mekanisme komunikasi antar aplikasi yang dikenal sebagai Inter Process Communication (IPC). Salah satu implementasi utamanya adalah penggunaan Intent, yang memungkinkan aplikasi untuk berpindah aktivitas atau mengirim data ke aplikasi lain. Intent ini terbagi menjadi dua jenis, yaitu explicit intent dan implicit intent. Explicit intent digunakan untuk memanggil komponen tertentu secara langsung, sedangkan implicit intent memberikan kebebasan kepada sistem untuk memilih aplikasi yang sesuai.
 
-Untuk menjalankan tugas di latar belakang secara efisien, Android menyediakan komponen seperti WorkManager dan Service. WorkManager biasanya digunakan untuk pekerjaan yang terjadwal atau tertunda, seperti sinkronisasi data atau pengiriman laporan. Sementara itu, Service digunakan untuk menjalankan proses yang terus berjalan di latar belakang, seperti pemutar musik atau pelacakan lokasi menggunakan GPS.
+Untuk menjalankan tugas di latar belakang secara efisien, Android menyediakan komponen seperti Service dan WorkManager. Service digunakan untuk proses yang berjalan terus-menerus seperti pemutar musik atau GPS, sedangkan WorkManager digunakan untuk pekerjaan terjadwal seperti sinkronisasi data. Sistem Android juga bersifat event-driven, artinya aplikasi berjalan berdasarkan kejadian seperti klik, notifikasi, atau perubahan sensor.
 
-Sistem Android juga menerapkan konsep event-driven, di mana seluruh aktivitas aplikasi dipicu oleh suatu kejadian atau peristiwa, seperti sentuhan pengguna, notifikasi masuk, atau perubahan sensor. Pendekatan ini membuat sistem lebih efisien karena tidak semua proses berjalan terus-menerus, melainkan hanya aktif ketika diperlukan.
+Selain itu, Android menerapkan sistem keamanan berbasis sandbox, di mana setiap aplikasi berjalan di ruang terpisah sehingga tidak bisa sembarangan mengakses data aplikasi lain.
 
-Dalam menentukan prioritas aplikasi, sistem juga mempertimbangkan faktor lain seperti notifikasi aktif, penggunaan sensor (misalnya GPS atau musik), serta aktivitas pengguna. Aplikasi yang masih memberikan layanan penting kepada pengguna akan tetap dipertahankan meskipun berjalan di latar belakang.
+Framework Android
 
-Android juga menerapkan sistem keamanan data berbasis sandbox, di mana setiap aplikasi berjalan dalam ruang terisolasi. Hal ini mencegah aplikasi mengakses data aplikasi lain tanpa izin, sehingga keamanan dan privasi pengguna tetap terjaga.
+Framework merupakan lapisan yang menyediakan berbagai API agar aplikasi bisa berinteraksi dengan sistem. Dari tulisan di papan seperti Intent, API, NFC, Service, semuanya termasuk bagian dari framework.
 
-Penjelasan Framework (Framework Layer Android)
+Contoh komponen framework:
 
-Berdasarkan konteks tulisan di papan (seperti “Intent”, “API”, “NFC”, “Service”, “Manager”), hal tersebut merujuk pada Android Framework, yaitu lapisan yang menjadi penghubung antara aplikasi dengan sistem operasi (kernel).
+Activity Manager → mengatur lifecycle aplikasi
+Notification Manager → mengatur notifikasi
+Location Manager (GPS) → mengatur lokasi
+NFC API → komunikasi jarak dekat
+Content Provider → berbagi data antar aplikasi
 
-Framework Android menyediakan berbagai API (Application Programming Interface) yang memudahkan developer dalam membuat aplikasi tanpa harus berinteraksi langsung dengan hardware.
+Framework ini memudahkan developer karena tidak perlu berinteraksi langsung dengan hardware.
 
-Beberapa komponen penting dalam framework Android antara lain:
+4 Layer Mobile OS (Android) + Contoh Komponen di HP
 
-- Activity Manager
+Android memiliki 4 lapisan utama, dan setiap lapisan bisa kita kaitkan langsung dengan komponen nyata di HP:
 
-Mengatur siklus hidup aplikasi dan perpindahan antar activity.
+1. Applications Layer (Lapisan Aplikasi)
 
-- Window Manager
+Lapisan paling atas, yang langsung digunakan oleh pengguna.
 
-Mengatur tampilan antarmuka (UI) di layar.
+Contoh di HP:
 
-- Content Provider
+WhatsApp
+YouTube
+Kamera (Camera App)
 
-Mengelola dan berbagi data antar aplikasi secara aman.
+Fungsi:
 
-- Resource Manager
+Menyediakan fitur yang digunakan user
+Berinteraksi dengan framework
+2. Application Framework Layer
 
-Mengatur resource seperti gambar, string, layout, dll.
+Lapisan yang menyediakan layanan/API untuk aplikasi.
 
-- Notification Manager
+Contoh di HP:
 
-Mengatur notifikasi yang muncul ke pengguna.
+Notification Manager → notifikasi WA muncul
+Location Manager → Google Maps pakai GPS
+Activity Manager → pindah antar aplikasi
 
-- Location Manager (GPS)
+Fungsi:
 
-Mengelola akses lokasi perangkat.
+Penghubung aplikasi dengan sistem
+Mengatur resource dan lifecycle
+3. Libraries & Android Runtime
 
-- Telephony & NFC API
+Berisi library dan runtime yang menjalankan aplikasi.
 
-Digunakan untuk komunikasi seperti telepon, SMS, dan NFC.
+Contoh di HP:
 
-- Service & Background Processing
+Android Runtime (ART) → menjalankan aplikasi Android
+SQLite → database lokal aplikasi
+WebKit / Chromium → browser di HP
 
-Mengatur proses yang berjalan di latar belakang.
+Fungsi:
 
+Menyediakan fungsi dasar (database, web, grafik)
+Menjalankan kode aplikasi
+4. Linux Kernel Layer
 
-Framework ini bekerja dengan konsep abstraksi, artinya developer cukup memanggil fungsi yang sudah tersedia tanpa perlu memahami detail implementasi di level bawah (kernel atau hardware).
+Lapisan paling bawah yang berhubungan langsung dengan hardware.
+
+Contoh di HP:
+
+Driver Kamera → mengontrol kamera
+Driver WiFi/Bluetooth → koneksi jaringan
+Driver Audio → suara dan musik
+
+Fungsi:
+
+Mengatur hardware
+Manajemen memori & proses
+Keamanan sistem
