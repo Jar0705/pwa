@@ -21,27 +21,35 @@ Framework Android menyediakan berbagai API (Application Programming Interface) y
 Beberapa komponen penting dalam framework Android antara lain:
 
 Activity Manager
+
 Mengatur siklus hidup aplikasi dan perpindahan antar activity.
 
 Window Manager
+
 Mengatur tampilan antarmuka (UI) di layar.
 
 Content Provider
+
 Mengelola dan berbagi data antar aplikasi secara aman.
 
 Resource Manager
+
 Mengatur resource seperti gambar, string, layout, dll.
 
 Notification Manager
+
 Mengatur notifikasi yang muncul ke pengguna.
 
 Location Manager (GPS)
+
 Mengelola akses lokasi perangkat.
 
 Telephony & NFC API
+
 Digunakan untuk komunikasi seperti telepon, SMS, dan NFC.
 
 Service & Background Processing
+
 Mengatur proses yang berjalan di latar belakang.
 
 
