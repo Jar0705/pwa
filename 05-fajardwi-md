@@ -1,0 +1,34 @@
+1. Killer Proses (Manajemen Memori)
+- Bagian ini membahas bagaimana sistem operasi (Android Runtime) mengelola sumber daya dan memutuskan proses mana yang akan dihentikan ("dibunuh") ketika memori RAM penuh.
+
+- Foreground: Proses yang sedang berinteraksi langsung dengan pengguna (aplikasi yang sedang terbuka di layar). Ini memiliki prioritas tertinggi dan terakhir untuk dihentikan.
+
+- Background: Aplikasi yang tidak terlihat oleh pengguna. Sistem akan menghentikan proses ini lebih dulu jika butuh memori. Di catatan terdapat tulisan "Peristiwa siapa mati dulu", yang merujuk pada hierarki prioritas ini.
+
+- Cache: Data sementara yang disimpan agar aplikasi lebih cepat saat dibuka kembali. Ini adalah kategori pertama yang akan dibersihkan oleh sistem karena tidak berdampak langsung pada fungsionalitas aplikasi yang sedang berjalan.
+
+- Interaksi GPS & Music: Catatan ini menunjukkan pengecualian. Meskipun aplikasi berada di background, jika sedang menggunakan layanan aktif seperti navigasi GPS atau memutar musik, sistem akan memberinya prioritas lebih tinggi agar tidak mati tiba-tiba.
+
+2. Komunikasi Antar Proses (IPC)
+Bagian ini menjelaskan bagaimana satu komponen aplikasi berkomunikasi dengan komponen lain, baik di dalam aplikasi yang sama maupun aplikasi yang berbeda.
+
+- Intent: Mekanisme utama di Android untuk meminta aksi dari komponen lain.
+
+- Eksplisit: Digunakan untuk memanggil komponen spesifik (misalnya, berpindah dari MainActivity ke DetailActivity).
+
+- Implisit: Digunakan saat aplikasi meminta aksi umum (misalnya, "Buka NFC" atau "Buka Galeri"), di mana sistem akan mencari aplikasi mana pun yang bisa menangani permintaan tersebut.
+
+- WorkManager: API untuk menjadwalkan tugas di latar belakang (background tasks) yang harus tetap berjalan meskipun aplikasi ditutup atau perangkat di-restart (misalnya, sinkronisasi data ke server).
+
+3. Keamanan Data & Event Driven
+- Keamanan Data: Terdapat catatan mengenai FBE (File-Based Encryption). Ini adalah standar keamanan Android di mana file yang berbeda dienkripsi dengan kunci yang berbeda pula, memungkinkan fitur seperti "Direct Boot" (aplikasi tertentu bisa berjalan meski ponsel belum dibuka kuncinya setelah restart).
+
+- Event-Driven: Arsitektur di mana aliran program ditentukan oleh peristiwa atau "event" (seperti klik tombol, sensor, atau pesan dari sistem).
+
+4. Optimasi (Aktif vs Pasif)
+Bagian ini berkaitan dengan efisiensi penggunaan sumber daya perangkat:
+- Optimasi Aktif: Aplikasi secara sadar melakukan tindakan untuk menghemat energi (misalnya, mengurangi frekuensi update lokasi).
+
+- Optimasi Pasif: Memanfaatkan data yang sudah ada tanpa meminta sumber daya baru (misalnya, aplikasi cuaca yang menunggu data lokasi dari Google Maps daripada menyalakan GPS sendiri).
+
+- Battery & Apps: Fokus utamanya adalah memastikan aplikasi tetap lancar tanpa menguras baterai secara berlebihan, sering kali melalui manajemen wakelocks dan job scheduling.
