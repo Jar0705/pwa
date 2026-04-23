@@ -36,3 +36,53 @@ Repositori ini berisi ringkasan hasil diskusi mengenai perbandingan antara metod
 Data ini disadur dari hasil brainstorming tim pada sesi perencanaan arsitektur aplikasi.
 
 ---
+
+# Analisis Teknologi Wireless Mobile Computing & Aplikasi
+
+Dokumen ini berisi penjelasan komprehensif mengenai ekosistem komputasi nirkabel dan perbandingan arsitektur pengembangan aplikasi (Native, Hybrid, dan PWA) berdasarkan dimensi teknis dan operasional.
+
+---
+
+## 1. Wireless Mobile Computing (Analisis PREP)
+
+* **Point (Titik Utama):** Wireless Mobile Computing adalah teknologi yang memungkinkan transmisi data, suara, dan video secara nirkabel melalui perangkat portabel tanpa ketergantungan pada koneksi kabel fisik.
+* **Reason (Alasan):** Teknologi ini memanfaatkan infrastruktur jaringan nirkabel (seperti Wi-Fi, 4G/5G, dan Bluetooth) untuk memberikan mobilitas tinggi, sehingga pengguna dapat mengakses informasi secara *real-time* di mana saja.
+* **Example (Contoh):** Penggunaan smartphone untuk pembayaran digital via NFC, akses dashboard cloud saat di perjalanan, serta penggunaan sensor IoT untuk monitoring jarak jauh.
+* **Point (Penegasan):** Singkatnya, ini adalah fondasi utama yang memungkinkan aplikasi seluler dapat beroperasi secara dinamis dalam mendukung aktivitas modern.
+
+---
+
+## 2. Matriks Perbandingan Teknologi Aplikasi
+
+Berdasarkan analisis dimensi pada papan tulis, berikut adalah perbandingan antara **Native**, **Hybrid**, dan **PWA**:
+
+| Dimensi | Native Application | Hybrid Application | PWA (Progressive Web App) |
+| :--- | :--- | :--- | :--- |
+| **Akses Hardware** | Penuh (NFC, Kamera, Sensor) | Menengah (Melalui Plugin) | Terbatas (Web Standard API) |
+| **Performa** | Sangat Tinggi | Menengah | Cukup (Tergantung Browser) |
+| **Biaya & Tim** | Tinggi (Tim Khusus per OS) | Menengah (Efisien/Cross-platform) | Rendah (Berbasis Web Stack) |
+| **Distribusi** | Play Store / App Store | Play Store / App Store | Web / URL Langsung |
+
+---
+
+## 3. Analisis Framework PREP per Kategori
+
+### A. Native Application
+* **P:** Memberikan performa dan pengalaman pengguna paling optimal.
+* **R:** Ditulis dengan bahasa asli platform (Swift/Kotlin) sehingga aplikasi dapat berkomunikasi langsung dengan sistem operasi.
+* **E:** Sangat cocok untuk aplikasi dengan beban kerja tinggi seperti Game 3D atau aplikasi berbasis AR/VR.
+* **P:** Pilih Native jika performa dan integrasi hardware adalah prioritas utama.
+
+### B. Hybrid Application
+* **P:** Menyeimbangkan antara kecepatan pengembangan dan jangkauan platform.
+* **R:** Menggunakan satu basis kode (HTML/JS) yang dibungkus kontainer native, sehingga bisa rilis di Android dan iOS sekaligus.
+* **E:** Ideal untuk aplikasi bisnis seperti sistem kasir (POS), ERP, atau aplikasi e-commerce.
+* **P:** Hybrid adalah solusi terbaik jika Anda memiliki keterbatasan waktu dan anggaran namun ingin hadir di toko aplikasi.
+
+### C. Progressive Web App (PWA)
+* **P:** Menawarkan aksesibilitas tertinggi dengan hambatan instalasi terendah.
+* **R:** Berjalan langsung di browser namun memiliki fitur menyerupai aplikasi native, sehingga sangat ringan dan mudah diperbarui.
+* **E:** Cocok untuk portal berita, katalog produk, atau dashboard informasi publik.
+* **P:** Gunakan PWA jika tujuannya adalah distribusi informasi yang cepat tanpa memaksa pengguna mengunduh aplikasi besar.
+
+---
