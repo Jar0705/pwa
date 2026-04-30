@@ -112,6 +112,3 @@ Point: Mekanisme ini memastikan sistem tetap responsif bagi pengguna sambil teta
 
 ---
 *Dibuat untuk keperluan dokumentasi teknis dan panduan pengembangan sistem.*
-
----
-*Dibuat untuk keperluan dokumentasi teknis dan panduan pengembangan sistem.*
