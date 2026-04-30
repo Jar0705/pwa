@@ -32,14 +32,14 @@ Kapabilitas mobilitas mengacu pada kemampuan sistem atau pengguna untuk tetap me
 
 -**Karakteristik**: Mobilitas memungkinkan komputasi terjadi di mana saja dan kapan saja (ubiquitous computing).
 
-- **Penjelasan:** Wireless adalah teknologi yang menghilangkan kebutuhan kabel fisik untuk komunikasi data (fokus pada konektivitas). Sementara itu, *Mobile Computing* adalah kemampuan untuk memproses data dan menjalankan aplikasi saat pengguna berpindah lokasi tanpa memutus sesi kerja.
-- **Contoh Kasus:**
-    - **Hanya Wireless:** Smart TV yang terhubung Wi-Fi; perangkat nirkabel namun statis di satu tempat.
-    - **Hanya Mobile:** Penggunaan aplikasi spreadsheet offline di laptop saat berada di kereta; pengguna berpindah fisik (mobile) namun tidak terhubung jaringan.
-    - **Keduanya:** Penggunaan smartphone dengan data seluler saat berjalan di area publik; perangkat terhubung nirkabel dan pengguna bergerak aktif.
-- **Kesimpulan:** Keduanya sering tumpang tindih, namun secara teknis memisahkan antara media fisik komunikasi dan status mobilitas pengguna.
+**Point:** Perbedaan mendasar terletak pada **media transmisi** versus **kapabilitas pengguna**[cite: 1].
 
----
+- **Reason:** Wireless berfokus pada penghapusan kabel (transmisi data), sedangkan Mobile berfokus pada mobilitas fisik pengguna tanpa memutus layanan[cite: 1].
+- **Example:**
+    - **Hanya Wireless:** Smart TV atau PC Desktop yang terhubung ke Wi-Fi; perangkat tidak berpindah secara fisik namun nirkabel[cite: 1].
+    - **Hanya Mobile:** Penggunaan aplikasi pencatat offline di tablet saat berada di pesawat; pengguna bergerak tetapi tidak terhubung jaringan nirkabel[cite: 1].
+    - **Keduanya:** Smartphone menggunakan data seluler saat bepergian; pengguna berpindah fisik dan terhubung nirkabel[cite: 1].
+- **Point:** Keduanya sering berjalan beriringan tetapi memiliki tujuan teknis yang berbeda[cite: 1].
 
 ## 2. Mobility & Handover (Hard vs. Soft)
 **Point:** **Soft Handover** merupakan mekanisme yang jauh lebih baik untuk menjaga kualitas layanan suara (*voice call*).
