@@ -1,88 +1,105 @@
-# Ringkasan Konsep Komputasi Bergerak (Mobile Computing)
+# Dokumentasi Komprehensif: Konsep Komputasi Bergerak & Strategi Aplikasi
 
-Dokumen ini berisi penjelasan teknis mengenai perbedaan antara wireless dan mobile computing, mekanisme handover, standar IEEE, arsitektur sistem, serta strategi pengembangan aplikasi.
-
-## 1. Wireless vs. Mobile Computing
-**Point:** Perbedaan mendasar terletak pada **media transmisi** versus **kapabilitas pengguna**.
-
-- **Reason:** Wireless berfokus pada penghapusan kabel, sedangkan Mobile berfokus pada mobilitas fisik pengguna tanpa memutus layanan.
-- **Example:**
-    - **Hanya Wireless:** Smart TV atau PC Desktop yang terhubung ke Wi-Fi (statis namun nirkabel).
-    - **Hanya Mobile:** Penggunaan aplikasi pencatat offline di tablet saat di pesawat (bergerak tanpa koneksi).
-    - **Keduanya:** Smartphone menggunakan 4G/5G saat bepergian (nirkabel dan bergerak).
-- **Point:** Keduanya sering berjalan beriringan tetapi memiliki tujuan teknis yang berbeda.
-
-## 2. Mobility & Handover
-**Point:** **Soft Handover** adalah pilihan terbaik untuk layanan *Voice Call*.
-
-- **Reason:** Soft handover menggunakan prinsip *make-before-break* (terhubung ke sel baru sebelum memutus sel lama), meminimalisir risiko paket hilang (*packet loss*). Hard handover menggunakan *break-before-make* yang menyebabkan jeda (latency).
-- **Example:** Jaringan WCDMA (3G) menggunakan Soft Handover untuk menjaga kontinuitas suara, sedangkan Wi-Fi tradisional sering mengalami *disconnection* singkat saat berpindah Access Point (Hard Handover).
-- **Point:** Untuk stabilitas layanan real-time, mekanisme Soft Handover lebih unggul.
-
-## 3. Standar IEEE & Topologi
-**Point:** Standar IEEE mengklasifikasikan teknologi nirkabel berdasarkan jangkauan area dan fungsionalitasnya.
-
-**Reason:** Perbedaan standar (seperti 802.11 vs 802.15) menentukan protokol komunikasi, kecepatan data, dan konsumsi daya yang dioptimalkan untuk jarak tertentu (dari beberapa meter hingga skala kota).
-
-**Example:**
-- **WPAN (Personal):** IEEE 802.15 (Bluetooth). Digunakan untuk menghubungkan mouse/headset ke laptop.
-- **WLAN (Local):** IEEE 802.11 (Wi-Fi). Digunakan untuk akses internet di dalam rumah atau kantor.
-- **WMAN (Metropolitan):** IEEE 802.16 (WiMAX). Digunakan untuk menyediakan internet nirkabel skala kota.
-- **WWAN (Wide):** IEEE 802.20 atau standar seluler (4G/5G). Digunakan untuk konektivitas luas saat berpindah antar kota.
-- **Ad-Hoc vs Infrastruktur:** Jaringan **Infrastruktur** menggunakan titik pusat (Access Point), sedangkan **Ad-Hoc** menghubungkan perangkat secara langsung tanpa perantara pusat (Peer-to-Peer).
-
-**Point:** Pemilihan standar yang tepat sangat krusial untuk efisiensi konektivitas sesuai dengan kebutuhan jangkauan geografis.
-
-## 4. Arsitektur 4 Lapisan Android & Sandboxing
-**Point:** Android menerapkan arsitektur berlapis untuk pemisahan tugas dan sistem **Sandboxing** yang ketat untuk isolasi keamanan.
-
-**Reason:** Berbeda dengan desktop di mana aplikasi sering berbagi hak akses yang sama (seperti akses penuh ke folder 'Documents'), Android menganggap setiap aplikasi sebagai pengguna (User ID) yang berbeda di level Kernel. Hal ini mencegah aplikasi berbahaya mencuri data dari aplikasi lain.
-
-**Example:**
-- **Fungsi 4 Lapisan:**
-    1. **System Apps:** Menyediakan fungsionalitas utama bagi pengguna (Email, SMS).
-    2. **Java API Framework:** Alat bagi developer untuk mengakses fitur sistem (Window/Resource Manager).
-    3. **Native Libraries & ART:** Tempat eksekusi kode (Android Runtime) dan pustaka grafis/media (C/C++).
-    4. **Linux Kernel:** Fondasi yang mengelola hardware, memori, dan keamanan tingkat rendah.
-- **Keamanan:** Karena sandboxing, aplikasi Kalkulator tidak bisa secara otomatis membaca riwayat percakapan di aplikasi WhatsApp tanpa izin pengguna, meskipun keduanya berjalan di perangkat yang sama.
-
-**Point:** Arsitektur berlapis dan sandboxing menjadikan Android platform yang sangat tangguh terhadap penyebaran malware secara lateral antar aplikasi.
-
-## 5. LMK, IPC, & Intent
-**Point:**
-Android menggunakan sistem hierarki proses melalui **Low Memory Killer (LMK)** untuk menjaga stabilitas sistem, serta menggunakan **Intent** sebagai mekanisme utama komunikasi antar komponen.
-
-**Reason:**
-* **LMK (Low Memory Killer):** Perangkat mobile memiliki sumber daya RAM yang terbatas. LMK berfungsi mematikan proses berdasarkan prioritas untuk memastikan aplikasi yang sedang aktif (foreground) mendapatkan memori yang cukup.
-* **IPC (Inter-Process Communication):** Karena setiap aplikasi berjalan di dalam sandbox yang terisolasi, IPC (melalui driver *Binder*) diperlukan agar aplikasi dapat berkomunikasi satu sama lain secara aman.
-* **Intent:** Merupakan abstraksi pesan untuk meminta tindakan dari komponen lain (Activity, Service, Broadcast Receiver).
-
-**Example:**
-* **Hierarki LMK:** Saat sistem kehabisan memori, proses yang berada di *Background* (aplikasi yang sudah lama tidak dibuka) akan dimatikan terlebih dahulu sebelum proses *Foreground* (aplikasi yang sedang dilihat pengguna).
-* **Intent Eksplisit:** Mengarahkan pengguna dari `LoginActivity` ke `DashboardActivity` di dalam kode yang sama dengan menyebutkan nama kelas tujuannya secara spesifik.
-* **Intent Implisit:** Memanggil aksi `ACTION_VIEW` dengan data URL. Sistem akan mencari aplikasi mana saja yang bisa membuka link tersebut (seperti Chrome atau Browser bawaan) tanpa menyebutkan nama aplikasinya secara spesifik.
-
-**Point:**
-Kombinasi antara manajemen proses yang agresif (LMK) dan sistem perpesanan yang fleksibel (Intent) memungkinkan Android tetap efisien dalam penggunaan baterai dan memori, namun tetap interaktif bagi pengguna.
-## 6. Rekomendasi Strategi: Inventaris 2 Platform
-## Perbandingan Strategi Pengembangan
-
-| Kriteria | Native | Hybrid (Cross-Platform) | PWA (Progressive Web App) |
-| :--- | :--- | :--- | :--- |
-| **Biaya & Waktu** | Tinggi (Butuh 2 tim/codebase) | **Efisien** (1 codebase untuk 2 platform) | Paling Rendah (Berbasis web) |
-| **Akses Hardware** | Full & Optimal | **Sangat Baik** (Akses Kamera/Scanner) | Terbatas (Terutama di iOS) |
-| **Distribusi** | Play Store & App Store | **Play Store & App Store** | URL / Browser |
-| **Performa** | Maksimal | Tinggi (Mendekati Native) | Menengah |
-| **Offline Mode** | Sangat Baik | Sangat Baik | Terbatas |
-
-## Analisis Rekomendasi: Hybrid (Cross-Platform)
-
-Berdasarkan kebutuhan klien untuk aplikasi **inventaris** dengan **budget terbatas**, strategi **Hybrid** adalah pilihan yang paling logis karena:
-
-1.  **Single Codebase:** Pengembangan hanya dilakukan satu kali menggunakan framework seperti Flutter atau React Native, namun hasilnya dapat dipublikasikan ke Android dan iOS sekaligus.
-2.  **Fungsionalitas Kritis:** Aplikasi inventaris membutuhkan akses stabil ke kamera untuk pemindaian barcode/QR Code. Hybrid menyediakan API yang jauh lebih matang dibandingkan PWA dalam hal integrasi hardware.
-3.  **Maintenance:** Pemeliharaan aplikasi jauh lebih mudah dan murah karena perbaikan bug atau penambahan fitur hanya dilakukan pada satu basis kode.
-4.  **Keseimbangan:** Memberikan pengalaman pengguna (UX) yang profesional seperti aplikasi native dengan biaya yang mendekati pengembangan web.
+Dokumen ini menyajikan analisis mendalam mengenai infrastruktur jaringan nirkabel, mekanisme internal sistem operasi Android, hingga strategi manajerial pengembangan aplikasi.
 
 ---
-*Dokumen ini disusun untuk memberikan pertimbangan teknis dan manajerial dalam pengambilan keputusan pengembangan software.*
+
+## 1. Wireless vs. Mobile Computing
+**Point:** Perbedaan mendasar terletak pada **media transmisi** (nirkabel) versus **kapabilitas mobilitas** (perpindahan pengguna).
+Dalam konteks Mobile Computing, pemahaman mengenai Media Transmisi dan Kapabilitas Mobilitas sangat penting untuk membedakan aspek infrastruktur dan aspek penggunaan.
+
+Berikut adalah penjelasan mendalam mengenai kedua aspek tersebut:
+
+**1. Media Transmisi (Wireless Connectivity)**
+Media transmisi mengacu pada jalur atau perantara yang digunakan untuk mengirimkan data dari satu titik ke titik lain tanpa menggunakan kabel fisik.
+
+-**Cara Kerja**: Data dikirimkan melalui gelombang elektromagnetik (seperti gelombang radio, mikrowave, atau inframerah) yang merambat di udara.  
+
+-**Fokus Utama**: Menghilangkan ketergantungan pada kabel tembaga atau serat optik (fiber optic) untuk menghubungkan perangkat ke jaringan.  
+
+-**Contoh Teknologi**: Wi-Fi (IEEE 802.11), Bluetooth (IEEE 802.15), dan koneksi satelit.  
+
+-**Karakteristik**: Meskipun nirkabel, perangkat bisa saja tetap bersifat statis (tidak berpindah), seperti antena pemancar internet di atap gedung.
+
+**2. Kapabilitas Mobilitas (User Mobility)**
+Kapabilitas mobilitas mengacu pada kemampuan sistem atau pengguna untuk tetap melakukan proses komputasi, mengakses data, dan menjalankan aplikasi sambil berpindah lokasi secara fisik.
+
+-**Cara Kerja**: Sistem mobile dirancang untuk menangani perubahan titik akses atau "handover" saat pengguna berpindah dari satu area cakupan pemancar ke pemancar lainnya tanpa memutus koneksi.
+
+-**Fokus Utama**: Portabilitas perangkat dan kontinuitas layanan (layanan tetap aktif meski pengguna sedang di dalam kendaraan atau berjalan kaki).
+
+-**Aspek Penting**: Melibatkan perangkat keras yang ringkas (smartphone/tablet), manajemen baterai, dan sistem operasi yang mampu beradaptasi dengan perubahan sinyal.
+
+-**Karakteristik**: Mobilitas memungkinkan komputasi terjadi di mana saja dan kapan saja (ubiquitous computing).
+
+- **Penjelasan:** Wireless adalah teknologi yang menghilangkan kebutuhan kabel fisik untuk komunikasi data (fokus pada konektivitas). Sementara itu, *Mobile Computing* adalah kemampuan untuk memproses data dan menjalankan aplikasi saat pengguna berpindah lokasi tanpa memutus sesi kerja.
+- **Contoh Kasus:**
+    - **Hanya Wireless:** Smart TV yang terhubung Wi-Fi; perangkat nirkabel namun statis di satu tempat.
+    - **Hanya Mobile:** Penggunaan aplikasi spreadsheet offline di laptop saat berada di kereta; pengguna berpindah fisik (mobile) namun tidak terhubung jaringan.
+    - **Keduanya:** Penggunaan smartphone dengan data seluler saat berjalan di area publik; perangkat terhubung nirkabel dan pengguna bergerak aktif.
+- **Kesimpulan:** Keduanya sering tumpang tindih, namun secara teknis memisahkan antara media fisik komunikasi dan status mobilitas pengguna.
+
+---
+
+## 2. Mobility & Handover (Hard vs. Soft)
+**Point:** **Soft Handover** merupakan mekanisme yang jauh lebih baik untuk menjaga kualitas layanan suara (*voice call*).
+
+- **Penjelasan:** Mekanisme *Soft Handover* menggunakan prinsip **"make-before-break"**, di mana perangkat terhubung ke pemancar (BTS) baru sebelum memutuskan hubungan dengan pemancar lama. Hal ini menjamin tidak adanya jeda (*latency*) yang terasa. Sebaliknya, *Hard Handover* menggunakan prinsip **"break-before-make"** yang menyebabkan pemutusan sesaat, sering kali mengakibatkan suara terputus atau *dropped call*.
+- **Contoh Kasus:** Pada jaringan 3G/WCDMA, *Soft Handover* memungkinkan transisi mulus saat pengguna menelpon di dalam kendaraan yang bergerak cepat melintasi berbagai zona pemancar.
+- **Kesimpulan:** Untuk aplikasi real-time seperti telepon atau video call, stabilitas *Soft Handover* adalah standar utama untuk kenyamanan pengguna.
+
+---
+
+## 3. Standar IEEE & Topologi Jaringan
+**Point:** Klasifikasi jaringan ditentukan oleh standar IEEE berdasarkan jangkauan cakupan dan tujuan fungsionalnya.
+
+- **Daftar Standar:**
+    - **WPAN (Personal):** IEEE 802.15 (Bluetooth) untuk koneksi jarak sangat dekat (headset/wearable).
+    - **WLAN (Local):** IEEE 802.11 (Wi-Fi) untuk akses internet di dalam gedung atau rumah.
+    - **WMAN (Metropolitan):** IEEE 802.16 (WiMAX) untuk cakupan nirkabel skala kota.
+    - **WWAN (Wide Area):** IEEE 802.20 atau standar seluler (4G/5G) untuk area luas antar wilayah.
+- **Topologi Ad-Hoc vs Infrastruktur:** Jaringan **Infrastruktur** bergantung pada titik pusat kendali (Access Point), sedangkan **Ad-Hoc** memungkinkan antar perangkat berkomunikasi langsung tanpa perantara pusat, sangat berguna dalam situasi darurat atau area tanpa sinyal pusat.
+- **Kesimpulan:** Pemilihan standar menentukan efisiensi biaya dan performa sesuai dengan luas cakupan geografis.
+
+---
+
+## 4. Arsitektur 4 Lapisan Android & Sandboxing
+**Point:** Android menggunakan arsitektur berlapis untuk pemisahan tugas dan sistem **Sandboxing** ketat guna melindungi privasi data.
+
+- **Penjelasan:** Berbeda dengan desktop, Android menerapkan keamanan berbasis Kernel Linux di mana setiap aplikasi dianggap sebagai pengguna (User ID) yang berbeda. Hal ini mengisolasi setiap aplikasi dalam wadahnya sendiri (sandbox) sehingga serangan pada satu aplikasi tidak dapat menyebar ke aplikasi lain secara otomatis.
+- **4 Lapisan Utama:**
+    1. **System Apps:** Aplikasi tingkat atas yang berinteraksi langsung dengan pengguna (SMS, Kontak).
+    2. **Java API Framework:** Alat bagi developer untuk mengakses fitur ponsel (Kamera, Lokasi).
+    3. **Native Libraries & ART:** Tempat eksekusi kode (Android Runtime) agar aplikasi berjalan cepat dan efisien.
+    4. **Linux Kernel:** Pengelola hardware, memori, dan keamanan tingkat rendah.
+- **Kesimpulan:** Sistem *Sandboxing* memastikan aplikasi kalkulator tidak bisa membaca chat WhatsApp Anda tanpa izin, memberikan perlindungan ganda terhadap malware.
+
+---
+
+## 5. LMK, IPC, dan Intent
+**Point:** Android mengelola efisiensi memori melalui **Low Memory Killer (LMK)** dan memfasilitasi komunikasi antar aplikasi melalui **Intent**.
+
+- **Penjelasan:** Karena RAM terbatas, **LMK** akan mematikan proses yang tidak aktif berdasarkan prioritas. Agar aplikasi yang terisolasi di sandbox berbeda tetap bisa bekerja sama, digunakanlah mekanisme **IPC** (Inter-Process Communication) yang dijembatani oleh **Intent**.
+- **Contoh Kasus:**
+    - **Hierarki LMK:** Saat RAM penuh, Android akan menutup aplikasi media sosial yang sudah lama tidak dibuka (Background) agar game yang sedang Anda mainkan (Foreground) tetap lancar.
+    - **Intent Eksplisit:** Digunakan untuk berpindah halaman di dalam satu aplikasi secara spesifik (misal: klik tombol "Profil").
+    - **Intent Implisit:** Saat klik "Kirim Email", sistem menawarkan pilihan aplikasi (Gmail atau Outlook) tanpa developer harus menentukan aplikasinya di dalam kode.
+- **Kesimpulan:** Kombinasi ini memastikan perangkat tetap responsif meski sumber daya hardware terbatas.
+
+---
+
+## 6. Strategi Pengembangan: Inventaris 2 Platform
+**Point:** Strategi **Hybrid (Cross-Platform)** adalah pilihan paling logis untuk aplikasi inventaris dengan budget terbatas.
+
+### Analisis Berdasarkan Kriteria:
+| Kriteria | Penjelasan Strategi Hybrid |
+| :--- | :--- |
+| **Akses** | Memiliki akses kamera/scanner yang sangat baik melalui *bridge* (penting untuk barcode). |
+| **Performa** | Sangat halus dan responsif, cukup kuat untuk menangani ribuan data inventaris. |
+| **Biaya** | Sangat efisien karena hanya butuh **satu basis kode** untuk Android & iOS sekaligus. |
+| **Distribusi** | Bisa dipublikasikan secara profesional melalui Google Play Store dan App Store. |
+
+- **Pilihan Tepat:** Dibandingkan Native yang mahal (butuh 2 tim) atau PWA yang lemah dalam akses hardware di iOS, **Hybrid** (seperti Flutter atau React Native) memberikan keseimbangan terbaik antara fungsionalitas teknis dan penghematan anggaran bagi klien.
+
+---
+*Dibuat untuk keperluan dokumentasi teknis dan panduan pengembangan sistem.*
