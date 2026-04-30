@@ -32,8 +32,6 @@ Kapabilitas mobilitas mengacu pada kemampuan sistem atau pengguna untuk tetap me
 
 -**Karakteristik**: Mobilitas memungkinkan komputasi terjadi di mana saja dan kapan saja (ubiquitous computing).
 
-**Point:** Perbedaan mendasar terletak pada **media transmisi** versus **kapabilitas pengguna**[cite: 1].
-
 - **Reason:** Wireless berfokus pada penghapusan kabel (transmisi data), sedangkan Mobile berfokus pada mobilitas fisik pengguna tanpa memutus layanan[cite: 1].
 - **Example:**
     - **Hanya Wireless:** Smart TV atau PC Desktop yang terhubung ke Wi-Fi; perangkat tidak berpindah secara fisik namun nirkabel[cite: 1].
@@ -41,37 +39,47 @@ Kapabilitas mobilitas mengacu pada kemampuan sistem atau pengguna untuk tetap me
     - **Keduanya:** Smartphone menggunakan data seluler saat bepergian; pengguna berpindah fisik dan terhubung nirkabel[cite: 1].
 - **Point:** Keduanya sering berjalan beriringan tetapi memiliki tujuan teknis yang berbeda[cite: 1].
 
-## 2. Mobility & Handover (Hard vs. Soft)
-**Point:** **Soft Handover** merupakan mekanisme yang jauh lebih baik untuk menjaga kualitas layanan suara (*voice call*).
+---
 
-- **Penjelasan:** Mekanisme *Soft Handover* menggunakan prinsip **"make-before-break"**, di mana perangkat terhubung ke pemancar (BTS) baru sebelum memutuskan hubungan dengan pemancar lama. Hal ini menjamin tidak adanya jeda (*latency*) yang terasa. Sebaliknya, *Hard Handover* menggunakan prinsip **"break-before-make"** yang menyebabkan pemutusan sesaat, sering kali mengakibatkan suara terputus atau *dropped call*.
-- **Contoh Kasus:** Pada jaringan 3G/WCDMA, *Soft Handover* memungkinkan transisi mulus saat pengguna menelpon di dalam kendaraan yang bergerak cepat melintasi berbagai zona pemancar.
-- **Kesimpulan:** Untuk aplikasi real-time seperti telepon atau video call, stabilitas *Soft Handover* adalah standar utama untuk kenyamanan pengguna.
+## 2. Mobility & Handover (Hard vs. Soft)
+**Point**: Soft Handover merupakan mekanisme yang jauh lebih baik untuk menjaga kualitas layanan suara (voice call) dibandingkan Hard Handover.  
+
+**Reason**: Mekanisme Soft Handover menggunakan prinsip "make-before-break", di mana perangkat terhubung ke pemancar baru sebelum memutuskan hubungan dengan pemancar lama. Hal ini menjamin tidak adanya jeda (latency) yang terasa oleh pengguna. Sebaliknya, Hard Handover menggunakan prinsip "break-before-make" yang sering menyebabkan suara terputus sejenak atau bahkan panggilan terhenti jika perpindahan gagal.  
+
+**Example**: Pada jaringan CDMA atau WCDMA (3G), Soft Handover memungkinkan transisi yang mulus saat Anda menelpon di dalam mobil yang bergerak cepat melintasi area cakupan BTS yang berbeda.
+
+**Point**: Untuk aplikasi yang sensitif terhadap waktu seperti panggilan suara dan video, stabilitas yang ditawarkan Soft Handover adalah standar emas untuk menjaga kenyamanan pengguna.  
 
 ---
 
 ## 3. Standar IEEE & Topologi Jaringan
-**Point:** Klasifikasi jaringan ditentukan oleh standar IEEE berdasarkan jangkauan cakupan dan tujuan fungsionalnya.
+**Point**: Klasifikasi jaringan nirkabel ditentukan oleh standar IEEE berdasarkan jangkauan area cakupan dan tujuan fungsionalnya.  
 
-- **Daftar Standar:**
-    - **WPAN (Personal):** IEEE 802.15 (Bluetooth) untuk koneksi jarak sangat dekat (headset/wearable).
-    - **WLAN (Local):** IEEE 802.11 (Wi-Fi) untuk akses internet di dalam gedung atau rumah.
-    - **WMAN (Metropolitan):** IEEE 802.16 (WiMAX) untuk cakupan nirkabel skala kota.
-    - **WWAN (Wide Area):** IEEE 802.20 atau standar seluler (4G/5G) untuk area luas antar wilayah.
-- **Topologi Ad-Hoc vs Infrastruktur:** Jaringan **Infrastruktur** bergantung pada titik pusat kendali (Access Point), sedangkan **Ad-Hoc** memungkinkan antar perangkat berkomunikasi langsung tanpa perantara pusat, sangat berguna dalam situasi darurat atau area tanpa sinyal pusat.
-- **Kesimpulan:** Pemilihan standar menentukan efisiensi biaya dan performa sesuai dengan luas cakupan geografis.
+**Reason**: Setiap standar (seperti 802.11 untuk Wi-Fi) dirancang dengan protokol yang berbeda untuk mengoptimalkan kecepatan data, konsumsi daya, dan kekuatan sinyal sesuai jarak tempuh komunikasinya.  
+
+**Example**:
+
+-**WPAN** (Personal): IEEE 802.15 (Bluetooth) untuk menghubungkan perangkat pribadi dalam jarak beberapa meter.  
+
+-**WLAN** (Local): IEEE 802.11 (Wi-Fi) untuk satu gedung atau rumah.  
+
+-**WMAN** (Metropolitan): IEEE 802.16 (WiMAX) untuk cakupan satu kota.  
+
+-**WWAN** (Wide): IEEE 802.20 atau jaringan seluler untuk antar kota/negara.  
+
+Ad-Hoc vs Infrastruktur: Jaringan Infrastruktur sangat bergantung pada titik pusat (Access Point) sebagai pengatur lalu lintas data, sedangkan Ad-Hoc memungkinkan antar perangkat berkomunikasi langsung tanpa perantara, sangat berguna dalam kondisi darurat di mana tidak ada pemancar sinyal pusat.
+Point: Pemilihan standar dan topologi yang tepat sangat krusial untuk memastikan efisiensi biaya dan performa sesuai dengan luas wilayah yang ingin dicakup.
 
 ---
 
 ## 4. Arsitektur 4 Lapisan Android & Sandboxing
 **Point:** Android menggunakan arsitektur berlapis untuk pemisahan tugas dan sistem **Sandboxing** ketat guna melindungi privasi data.
 
-- **Penjelasan:** Berbeda dengan desktop, Android menerapkan keamanan berbasis Kernel Linux di mana setiap aplikasi dianggap sebagai pengguna (User ID) yang berbeda. Hal ini mengisolasi setiap aplikasi dalam wadahnya sendiri (sandbox) sehingga serangan pada satu aplikasi tidak dapat menyebar ke aplikasi lain secara otomatis.
-- **4 Lapisan Utama:**
-    1. **System Apps:** Aplikasi tingkat atas yang berinteraksi langsung dengan pengguna (SMS, Kontak).
-    2. **Java API Framework:** Alat bagi developer untuk mengakses fitur ponsel (Kamera, Lokasi).
-    3. **Native Libraries & ART:** Tempat eksekusi kode (Android Runtime) agar aplikasi berjalan cepat dan efisien.
-    4. **Linux Kernel:** Pengelola hardware, memori, dan keamanan tingkat rendah.
+**Reason**: Berbeda dengan sistem operasi desktop yang cenderung lebih terbuka, Android menerapkan sistem keamanan berbasis Kernel Linux di mana setiap aplikasi dianggap sebagai "pengguna" yang berbeda dengan User ID (UID) unik. Hal ini mengisolasi setiap aplikasi dalam wadahnya sendiri (sandbox) sehingga kegagalan atau serangan pada satu aplikasi tidak menyebar ke aplikasi lain.  
+
+**Example**:System Apps: Lapisan atas yang bersentuhan langsung dengan pengguna (seperti aplikasi Telepon atau SMS).  Java API Framework: Kumpulan kelas yang digunakan pengembang untuk mengakses fitur ponsel seperti lokasi atau kamera.  Native Libraries & ART: Tempat di mana kode aplikasi dijalankan dan dioptimalkan agar responsif.  Linux Kernel: Lapisan terbawah yang mengatur hardware, memori, dan keamanan sistem secara keseluruhan.  Sandboxing: Aplikasi game yang baru Anda unduh secara teknis tidak dapat membaca data di dalam aplikasi Mobile Banking Anda karena keduanya berada di sandbox yang terpisah dan terisolasi.
+
+**Point**: Arsitektur ini memberikan lapisan perlindungan ganda yang menjaga perangkat tetap stabil meskipun ada aplikasi yang bermasalah di dalamnya.  
 - **Kesimpulan:** Sistem *Sandboxing* memastikan aplikasi kalkulator tidak bisa membaca chat WhatsApp Anda tanpa izin, memberikan perlindungan ganda terhadap malware.
 
 ---
@@ -79,11 +87,11 @@ Kapabilitas mobilitas mengacu pada kemampuan sistem atau pengguna untuk tetap me
 ## 5. LMK, IPC, dan Intent
 **Point:** Android mengelola efisiensi memori melalui **Low Memory Killer (LMK)** dan memfasilitasi komunikasi antar aplikasi melalui **Intent**.
 
-- **Penjelasan:** Karena RAM terbatas, **LMK** akan mematikan proses yang tidak aktif berdasarkan prioritas. Agar aplikasi yang terisolasi di sandbox berbeda tetap bisa bekerja sama, digunakanlah mekanisme **IPC** (Inter-Process Communication) yang dijembatani oleh **Intent**.
-- **Contoh Kasus:**
-    - **Hierarki LMK:** Saat RAM penuh, Android akan menutup aplikasi media sosial yang sudah lama tidak dibuka (Background) agar game yang sedang Anda mainkan (Foreground) tetap lancar.
-    - **Intent Eksplisit:** Digunakan untuk berpindah halaman di dalam satu aplikasi secara spesifik (misal: klik tombol "Profil").
-    - **Intent Implisit:** Saat klik "Kirim Email", sistem menawarkan pilihan aplikasi (Gmail atau Outlook) tanpa developer harus menentukan aplikasinya di dalam kode.
+**Reason**: Karena RAM pada perangkat mobile terbatas, LMK harus secara agresif mematikan proses yang tidak aktif berdasarkan prioritas (hierarki proses). Agar aplikasi yang berada di sandbox berbeda tetap bisa bekerja sama (misalnya mengirim data), digunakanlah mekanisme IPC yang dijembatani oleh Intent.  
+
+**Example**:Hierarki LMK: Jika RAM penuh saat Anda membuka aplikasi berat, Android akan otomatis menutup aplikasi media sosial yang sudah lama Anda tinggalkan di latar belakang agar sistem tidak macet.  Intent Eksplisit: Digunakan di dalam aplikasi Anda sendiri, misalnya saat Anda menekan tombol "Profil" untuk berpindah halaman secara spesifik.  Intent Implisit: Saat Anda menekan "Kirim Email", sistem akan mencarikan aplikasi email apa pun yang terpasang di HP Anda untuk melakukan tugas tersebut tanpa Anda harus menentukan aplikasinya secara manual.
+Point: Mekanisme ini memastikan sistem tetap responsif bagi pengguna sambil tetap memberikan fleksibilitas fungsionalitas antar aplikasi yang tinggi.
+
 - **Kesimpulan:** Kombinasi ini memastikan perangkat tetap responsif meski sumber daya hardware terbatas.
 
 ---
