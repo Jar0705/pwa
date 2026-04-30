@@ -1,198 +1,257 @@
-# Ringkasan Modul 1–6 — Pertanyaan Kunci (Format PREP + APBDP)
+# Ringkasan Modul 1–6 — Pertanyaan Kunci (PREP + APBDP + Insight Teknis)
 
 ---
 
-## 🔗 Koneksi Antar Konsep yang Harus Dipahami
+# 🔗 Koneksi Antar Konsep yang Harus Dipahami
 
-### 1. Jaringan → OS → Aplikasi
+---
+
+## 1. Jaringan → OS → Aplikasi
 
 ### Point
-Kinerja aplikasi mobile sangat dipengaruhi oleh karakteristik jaringan dan bagaimana OS mengelola resource.
+Kinerja aplikasi mobile ditentukan oleh interaksi antara jaringan, sistem operasi, dan desain aplikasi itu sendiri.
 
 ### Reason
-Jaringan mobile memiliki keterbatasan seperti **latency tinggi** dan **bandwidth terbatas**, sehingga OS harus mengoptimalkan penggunaan resource (RAM, CPU, network).
+Jaringan mobile memiliki karakteristik:
+- **Latency tinggi** (delay)
+- **Bandwidth fluktuatif**
+- **Packet loss (kehilangan data)**
+
+OS harus menyesuaikan:
+- Manajemen RAM (LMK)
+- Scheduling CPU
+- Pengaturan background process
+
+Aplikasi harus adaptif:
+- Tidak selalu mengandalkan koneksi real-time
+- Mengurangi request berulang
 
 ### Example
-- OS menggunakan **LMK (Low Memory Killer)** untuk menghemat RAM  
-- Background process dibatasi agar tidak boros data  
-- Aplikasi menggunakan teknik caching & lazy loading  
+- Instagram menyimpan cache gambar → loading cepat meski sinyal lemah  
+- WhatsApp tetap bisa mengetik saat offline → kirim saat online  
+- Android menghentikan background app untuk hemat resource  
 
 ### Point (Penegasan)
-Efisiensi aplikasi mobile bukan hanya tanggung jawab developer, tetapi juga hasil kerja sama antara jaringan dan OS.
+Aplikasi mobile yang baik = adaptif terhadap keterbatasan jaringan + efisien terhadap resource OS.
 
 ### APBDP
-| Dimensi | Tanpa Optimasi OS | Dengan Optimasi OS |
-|--------|------------------|-------------------|
-| Performa | Lambat | Lebih cepat |
-| Penggunaan data | Boros | Efisien |
-| Stabilitas | Mudah crash | Lebih stabil |
+| Dimensi | Tanpa Optimasi | Dengan Optimasi |
+|--------|----------------|-----------------|
+| Latency handling | Tidak adaptif | Adaptif (retry, cache) |
+| RAM usage | Boros | Efisien |
+| UX | Lag / delay | Smooth |
+| Battery | Cepat habis | Lebih hemat |
 
 **Penilaian:**
-Optimasi OS sangat penting untuk memastikan aplikasi tetap performant di kondisi jaringan terbatas.
+Optimasi lintas layer (network + OS + app) adalah faktor utama performa aplikasi modern.
 
 ---
 
-### 2. Handover → Data Consistency
+## 2. Handover → Data Consistency
 
 ### Point
-Handover dapat menyebabkan gangguan koneksi yang berdampak pada konsistensi data.
+Perpindahan jaringan (handover) dapat menyebabkan inkonsistensi data jika tidak ditangani dengan benar.
 
 ### Reason
-Saat perpindahan jaringan, koneksi bisa terputus sementara sehingga data tidak terkirim atau sinkronisasi gagal.
+Saat handover:
+- Koneksi bisa **terputus sementara**
+- Request API bisa gagal
+- Data bisa tidak sinkron antara client dan server
 
 ### Example
-- Saat transaksi online → bisa gagal saat pindah jaringan  
-- Chat tidak terkirim saat sinyal berpindah  
-- Solusi: **Offline-first + retry mechanism**
+- Checkout e-commerce gagal saat pindah jaringan  
+- Chat tidak terkirim (pending)  
+- Upload file berhenti di tengah  
+
+### Solusi Desain
+- **Offline-first architecture**
+- Local database (SQLite, IndexedDB)
+- Retry otomatis (exponential backoff)
+- Queue system (antrian request)
 
 ### Point (Penegasan)
-Aplikasi harus dirancang untuk tahan terhadap gangguan jaringan.
+Aplikasi mobile harus **tahan gangguan jaringan (resilient)**, bukan hanya cepat saat kondisi ideal.
 
 ### APBDP
 | Dimensi | Tanpa Penanganan | Dengan Offline-First |
 |--------|------------------|---------------------|
-| Kehilangan data | Tinggi | Rendah |
-| User experience | Buruk | Lebih baik |
+| Data loss | Tinggi | Sangat rendah |
+| Konsistensi | Lemah | Kuat |
+| UX | Frustrasi | Stabil |
 | Reliabilitas | Rendah | Tinggi |
 
 **Penilaian:**
-Pendekatan **Offline-First** sangat direkomendasikan untuk aplikasi mobile modern.
+Offline-first adalah standar desain aplikasi mobile modern.
 
 ---
 
-### 3. Native vs PWA → Tradeoff
+## 3. Native vs PWA → Tradeoff
 
 ### Point
-Pemilihan teknologi aplikasi adalah tradeoff antara performa, biaya, dan akses fitur.
+Pemilihan teknologi aplikasi adalah keputusan strategis berbasis tradeoff.
 
 ### Reason
-Setiap pendekatan memiliki kelebihan dan kekurangan tergantung kebutuhan bisnis.
+Setiap pendekatan berbeda dalam:
+- Performa
+- Biaya
+- Akses hardware
+- Time-to-market
 
 ### Example
-- Native: akses penuh hardware (kamera, sensor)
-- PWA: ringan dan cepat dikembangkan
-- Hybrid: kompromi antara keduanya
+- Native: Game, aplikasi kamera, fintech  
+- Hybrid: Startup dengan budget terbatas  
+- PWA: Dashboard, admin panel, e-commerce ringan  
+
+### Insight Teknis
+- Native → akses langsung ke OS API  
+- Hybrid → bridge (React Native / Flutter)  
+- PWA → browser + service worker  
 
 ### Point (Penegasan)
-Pemilihan bukan soal terbaik, tapi paling sesuai kebutuhan.
+Pilihan teknologi harus berbasis kebutuhan bisnis, bukan tren.
 
 ### APBDP
 | Dimensi | Native | Hybrid | PWA |
 |--------|--------|--------|-----|
-| Performa | Tinggi | Sedang | Rendah |
-| Biaya | Tinggi | Sedang | Rendah |
-| Akses hardware | Full | Cukup | Terbatas |
-| Development time | Lama | Sedang | Cepat |
+| Performa | 🔥 Tinggi | ⚖️ Sedang | ❄️ Rendah |
+| Biaya | 💸 Tinggi | 💰 Sedang | 🪶 Rendah |
+| Hardware access | Full | Cukup | Terbatas |
+| Maintenance | Kompleks | Sedang | Mudah |
 
 **Penilaian:**
-- Native → untuk aplikasi kompleks  
-- Hybrid → untuk efisiensi tim  
-- PWA → untuk budget minim  
+- Native → performa maksimal  
+- Hybrid → balance terbaik  
+- PWA → efisiensi maksimal  
 
 ---
 
-# 📚 Ringkasan Modul
+# 📚 RINGKASAN MODUL
 
 ---
 
 ## P1: Wireless vs Mobile Computing
 
 ### Point
-Wireless ≠ Mobile, meskipun sering digunakan bersamaan.
+Wireless dan Mobile adalah konsep berbeda namun saling melengkapi.
 
 ### Reason
-Wireless = media komunikasi  
-Mobile = mobilitas perangkat
+- Wireless = cara komunikasi  
+- Mobile = sifat perangkat  
 
 ### Example
-- WiFi di PC → Wireless saja  
-- Game offline di HP → Mobile saja  
+- Laptop WiFi → Wireless  
+- HP offline → Mobile  
 - HP + internet → Keduanya  
 
-### Point
-Keduanya bisa berdiri sendiri maupun digabung.
+### Insight
+- IoT banyak menggunakan Wireless tanpa Mobile  
+- Mobile apps bisa tetap berjalan tanpa internet  
+
+### Point (Penegasan)
+Memahami perbedaan ini penting untuk desain sistem.
 
 ### APBDP
 | Dimensi | Wireless | Mobile |
 |--------|---------|--------|
-| Fokus | Jaringan | Perangkat |
-| Mobilitas | Tidak wajib | Wajib |
-| Koneksi | Wajib | Opsional |
+| Fokus | Koneksi | Mobilitas |
+| Ketergantungan jaringan | Tinggi | Tidak selalu |
+| Fleksibilitas | Terbatas | Tinggi |
 
 **Penilaian:**
-Mobile lebih fleksibel, Wireless lebih fokus pada konektivitas.
+Mobile lebih fleksibel, Wireless lebih spesifik pada konektivitas.
 
 ---
 
 ## P2: Hard vs Soft Handoff
 
 ### Point
-Perpindahan jaringan dapat mempengaruhi kualitas koneksi.
+Handoff mempengaruhi kualitas koneksi saat perangkat berpindah.
 
 ### Reason
-Hard memutus koneksi, Soft mempertahankan koneksi sementara.
+- Hard: koneksi lama diputus dulu  
+- Soft: koneksi baru dibuat sebelum lama diputus  
 
 ### Example
-Voice call lebih stabil di Soft Handoff.
+- GSM → Hard  
+- CDMA → Soft  
 
-### Point
-Soft lebih unggul untuk real-time communication.
+### Insight Teknis
+Soft handoff menggunakan **multiple base station** untuk menjaga koneksi.
+
+### Point (Penegasan)
+Soft handoff lebih unggul untuk aplikasi real-time.
 
 ### APBDP
 | Dimensi | Hard | Soft |
 |--------|------|------|
 | Stabilitas | Rendah | Tinggi |
-| Risiko putus | Tinggi | Rendah |
+| Delay | Tinggi | Rendah |
+| Kompleksitas | Rendah | Tinggi |
 
 **Penilaian:**
-Soft handoff lebih baik untuk komunikasi penting.
+Soft lebih baik, tetapi lebih kompleks secara sistem.
 
 ---
 
 ## P3: Jaringan & IEEE
 
 ### Point
-Jaringan dibedakan berdasarkan cakupan.
+Jaringan dibedakan berdasarkan cakupan geografis.
 
 ### Reason
-Semakin luas jaringan → semakin kompleks.
+Setiap jaringan memiliki kebutuhan infrastruktur berbeda.
 
 ### Example
-WPAN → WLAN → WMAN → WWAN
+- WPAN → Bluetooth  
+- WLAN → WiFi  
+- WMAN → WiMAX  
+- WWAN → 4G/5G  
 
-### Point
-Pemilihan jaringan harus sesuai kebutuhan.
+### Insight
+Semakin luas jaringan:
+- Latency meningkat
+- Infrastruktur makin kompleks
+
+### Point (Penegasan)
+Pemilihan jaringan harus sesuai skala aplikasi.
 
 ### APBDP
 | Dimensi | Ad-Hoc | Infrastructure |
 |--------|--------|----------------|
+| Setup | Cepat | Lebih lama |
 | Stabilitas | Rendah | Tinggi |
-| Skalabilitas | Rendah | Tinggi |
+| Kontrol | Tidak ada | Terpusat |
 
 **Penilaian:**
-Infrastructure lebih cocok untuk sistem nyata.
+Infrastructure lebih cocok untuk sistem produksi.
 
 ---
 
 ## P4: OS Mobile & Sandbox
 
 ### Point
-Mobile OS dirancang lebih aman dibanding desktop.
+Mobile OS dirancang dengan keamanan tinggi melalui sandboxing.
 
 ### Reason
-Menggunakan sandbox untuk membatasi akses aplikasi.
+Setiap aplikasi berjalan di lingkungan terisolasi.
 
 ### Example
-Permission system di Android/iOS.
+- Aplikasi tidak bisa akses file app lain  
+- Permission harus disetujui user  
 
-### Point
-Keamanan adalah prioritas utama.
+### Insight Teknis
+- Android: Linux kernel + sandbox UID  
+- iOS: sandbox lebih ketat  
+
+### Point (Penegasan)
+Keamanan > fleksibilitas di mobile OS.
 
 ### APBDP
 | Dimensi | Mobile | Desktop |
 |--------|--------|---------|
 | Keamanan | Tinggi | Sedang |
-| Fleksibilitas | Rendah | Tinggi |
+| Kontrol user | Terbatas | Lebih bebas |
+| Risiko malware | Rendah | Tinggi |
 
 **Penilaian:**
 Mobile lebih aman, Desktop lebih fleksibel.
@@ -202,40 +261,53 @@ Mobile lebih aman, Desktop lebih fleksibel.
 ## P5: LMK, IPC, Intent
 
 ### Point
-Android mengatur proses dan komunikasi antar komponen.
+Android mengelola resource dan komunikasi antar komponen secara efisien.
 
 ### Reason
-Untuk efisiensi resource dan modularitas aplikasi.
+- LMK → menghemat RAM  
+- IPC → komunikasi antar proses  
+- Intent → penghubung antar komponen  
 
 ### Example
-Intent untuk membuka aplikasi lain.
+- Buka kamera dari aplikasi lain  
+- Share ke WhatsApp  
 
-### Point
-Intent adalah kunci komunikasi.
+### Insight Teknis
+- Binder = mekanisme IPC Android  
+- Intent filter menentukan handler  
+
+### Point (Penegasan)
+Intent adalah backbone interaksi aplikasi Android.
 
 ### APBDP
 | Dimensi | Explicit | Implicit |
 |--------|----------|----------|
+| Target | Spesifik | Umum |
 | Keamanan | Tinggi | Sedang |
 | Fleksibilitas | Rendah | Tinggi |
 
 **Penilaian:**
-Explicit lebih aman, Implicit lebih fleksibel.
+Gunakan Explicit untuk kontrol, Implicit untuk fleksibilitas.
 
 ---
 
 ## P6: Native vs Hybrid vs PWA
 
 ### Point
-Pemilihan teknologi harus sesuai kebutuhan.
+Pemilihan teknologi harus mempertimbangkan kebutuhan bisnis dan teknis.
 
 ### Reason
-Setiap teknologi memiliki tradeoff.
+Tidak semua aplikasi butuh performa tinggi.
 
 ### Example
-Aplikasi inventaris → Hybrid / PWA
+- Inventory app → Hybrid/PWA  
+- Game → Native  
 
-### Point
+### Insight
+- PWA bisa offline (service worker)  
+- Hybrid bisa akses API native  
+
+### Point (Penegasan)
 Tidak ada solusi universal.
 
 ### APBDP
@@ -243,24 +315,31 @@ Tidak ada solusi universal.
 |--------|--------|--------|-----|
 | Performa | Tinggi | Sedang | Rendah |
 | Biaya | Tinggi | Sedang | Rendah |
+| Time to market | Lama | Sedang | Cepat |
 
 **Penilaian:**
-Hybrid adalah pilihan paling seimbang.
+Hybrid adalah pilihan paling realistis untuk banyak kasus.
 
 ---
 
-# 🧠 Kesimpulan
+# 🧠 KESIMPULAN AKHIR
 
 ### Point
-Semua konsep saling terhubung dalam ekosistem mobile computing.
+Mobile computing adalah kombinasi dari jaringan, sistem, dan aplikasi.
 
 ### Reason
-Mulai dari jaringan → OS → aplikasi → user experience.
+Setiap layer saling mempengaruhi:
+- Jaringan → latency
+- OS → resource
+- App → user experience
 
 ### Example
-Jaringan buruk → OS kerja lebih keras → aplikasi harus adaptif.
+Sinyal buruk → OS batasi resource → app harus adaptif
 
-### Point
-Pemahaman hubungan antar konsep adalah kunci utama sukses di ujian dan praktik nyata.
+### Point (Penegasan)
+Developer yang memahami hubungan ini akan menghasilkan aplikasi yang:
+- Lebih cepat  
+- Lebih stabil  
+- Lebih efisien  
 
 ---
