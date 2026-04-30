@@ -42,14 +42,23 @@ Dokumen ini berisi penjelasan teknis mengenai perbedaan antara wireless dan mobi
 - **Point:** Ini memitigasi dampak dari serangan malware di perangkat mobile.
 
 ## 5. LMK, IPC, & Intent
-**Point:** Android mengelola memori secara agresif melalui **Low Memory Killer (LMK)**.
+## 1. Low Memory Killer (LMK), IPC, dan Intent
 
-- **Hierarki Proses:** Foreground > Visible > Service > Background > Empty.
-- **Intent Eksplisit vs Implisit:**
-    - **Eksplisit:** Menentukan target komponen secara spesifik (Contoh: Buka `Activity_B` dari `Activity_A`).
-    - **Implisit:** Memberikan aksi umum ke sistem (Contoh: "Buka Galeri", sistem akan menawarkan aplikasi yang tersedia).
-- **Point:** Mekanisme ini memungkinkan efisiensi baterai dan interoperabilitas antar aplikasi.
+**Point:**
+Android menggunakan sistem hierarki proses melalui **Low Memory Killer (LMK)** untuk menjaga stabilitas sistem, serta menggunakan **Intent** sebagai mekanisme utama komunikasi antar komponen.
 
+**Reason:**
+* **LMK (Low Memory Killer):** Perangkat mobile memiliki sumber daya RAM yang terbatas. LMK berfungsi mematikan proses berdasarkan prioritas untuk memastikan aplikasi yang sedang aktif (foreground) mendapatkan memori yang cukup.
+* **IPC (Inter-Process Communication):** Karena setiap aplikasi berjalan di dalam sandbox yang terisolasi, IPC (melalui driver *Binder*) diperlukan agar aplikasi dapat berkomunikasi satu sama lain secara aman.
+* **Intent:** Merupakan abstraksi pesan untuk meminta tindakan dari komponen lain (Activity, Service, Broadcast Receiver).
+
+**Example:**
+* **Hierarki LMK:** Saat sistem kehabisan memori, proses yang berada di *Background* (aplikasi yang sudah lama tidak dibuka) akan dimatikan terlebih dahulu sebelum proses *Foreground* (aplikasi yang sedang dilihat pengguna).
+* **Intent Eksplisit:** Mengarahkan pengguna dari `LoginActivity` ke `DashboardActivity` di dalam kode yang sama dengan menyebutkan nama kelas tujuannya secara spesifik.
+* **Intent Implisit:** Memanggil aksi `ACTION_VIEW` dengan data URL. Sistem akan mencari aplikasi mana saja yang bisa membuka link tersebut (seperti Chrome atau Browser bawaan) tanpa menyebutkan nama aplikasinya secara spesifik.
+
+**Point:**
+Kombinasi antara manajemen proses yang agresif (LMK) dan sistem perpesanan yang fleksibel (Intent) memungkinkan Android tetap efisien dalam penggunaan baterai dan memori, namun tetap interaktif bagi pengguna.
 ## 6. Rekomendasi Strategi: Inventaris 2 Platform
 ## Perbandingan Strategi Pengembangan
 
