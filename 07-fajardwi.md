@@ -20,26 +20,33 @@ Dokumen ini berisi penjelasan teknis mengenai perbedaan antara wireless dan mobi
 - **Point:** Untuk stabilitas layanan real-time, mekanisme Soft Handover lebih unggul.
 
 ## 3. Standar IEEE & Topologi
-**Point:** Cakupan area menentukan standar IEEE yang digunakan.
+**Point:** Standar IEEE mengklasifikasikan teknologi nirkabel berdasarkan jangkauan area dan fungsionalitasnya.
 
-- **Daftar Standar:**
-    - **WPAN:** IEEE 802.15 (Bluetooth)
-    - **WLAN:** IEEE 802.11 (Wi-Fi)
-    - **WMAN:** IEEE 802.16 (WiMAX)
-    - **WWAN:** IEEE 802.20 (Mobile Broadband)
-- **Reason (Ad-Hoc vs Infrastruktur):** Ad-Hoc tidak memiliki pusat kendali (desentralisasi), sedangkan Infrastruktur bergantung pada Access Point (sentralisasi).
-- **Point:** Pemilihan arsitektur bergantung pada kebutuhan skalabilitas dan ketersediaan infrastruktur tetap.
+**Reason:** Perbedaan standar (seperti 802.11 vs 802.15) menentukan protokol komunikasi, kecepatan data, dan konsumsi daya yang dioptimalkan untuk jarak tertentu (dari beberapa meter hingga skala kota).
 
-## 4. Arsitektur 4 Lapisan & Sandboxing
-**Point:** Android menggunakan model keamanan berbasis kernel untuk mengisolasi aplikasi.
+**Example:**
+- **WPAN (Personal):** IEEE 802.15 (Bluetooth). Digunakan untuk menghubungkan mouse/headset ke laptop.
+- **WLAN (Local):** IEEE 802.11 (Wi-Fi). Digunakan untuk akses internet di dalam rumah atau kantor.
+- **WMAN (Metropolitan):** IEEE 802.16 (WiMAX). Digunakan untuk menyediakan internet nirkabel skala kota.
+- **WWAN (Wide):** IEEE 802.20 atau standar seluler (4G/5G). Digunakan untuk konektivitas luas saat berpindah antar kota.
+- **Ad-Hoc vs Infrastruktur:** Jaringan **Infrastruktur** menggunakan titik pusat (Access Point), sedangkan **Ad-Hoc** menghubungkan perangkat secara langsung tanpa perantara pusat (Peer-to-Peer).
 
-- **Lapisan:**
-    1. **System Apps:** Aplikasi tingkat atas.
-    2. **Java API Framework:** Abstraksi fitur sistem.
-    3. **Native Libraries & ART:** Eksekusi kode rendah dan runtime.
-    4. **Linux Kernel:** Manajemen resource hardware.
-- **Reason (Sandboxing):** Android menerapkan sandboxing lebih ketat daripada desktop karena setiap aplikasi dianggap sebagai "User" berbeda di Linux (UID unik), sehingga data satu aplikasi tidak dapat diakses aplikasi lain secara default.
-- **Point:** Ini memitigasi dampak dari serangan malware di perangkat mobile.
+**Point:** Pemilihan standar yang tepat sangat krusial untuk efisiensi konektivitas sesuai dengan kebutuhan jangkauan geografis.
+
+## 4. Arsitektur 4 Lapisan Android & Sandboxing
+**Point:** Android menerapkan arsitektur berlapis untuk pemisahan tugas dan sistem **Sandboxing** yang ketat untuk isolasi keamanan.
+
+**Reason:** Berbeda dengan desktop di mana aplikasi sering berbagi hak akses yang sama (seperti akses penuh ke folder 'Documents'), Android menganggap setiap aplikasi sebagai pengguna (User ID) yang berbeda di level Kernel. Hal ini mencegah aplikasi berbahaya mencuri data dari aplikasi lain.
+
+**Example:**
+- **Fungsi 4 Lapisan:**
+    1. **System Apps:** Menyediakan fungsionalitas utama bagi pengguna (Email, SMS).
+    2. **Java API Framework:** Alat bagi developer untuk mengakses fitur sistem (Window/Resource Manager).
+    3. **Native Libraries & ART:** Tempat eksekusi kode (Android Runtime) dan pustaka grafis/media (C/C++).
+    4. **Linux Kernel:** Fondasi yang mengelola hardware, memori, dan keamanan tingkat rendah.
+- **Keamanan:** Karena sandboxing, aplikasi Kalkulator tidak bisa secara otomatis membaca riwayat percakapan di aplikasi WhatsApp tanpa izin pengguna, meskipun keduanya berjalan di perangkat yang sama.
+
+**Point:** Arsitektur berlapis dan sandboxing menjadikan Android platform yang sangat tangguh terhadap penyebaran malware secara lateral antar aplikasi.
 
 ## 5. LMK, IPC, & Intent
 **Point:**
