@@ -42,8 +42,6 @@ Dokumen ini berisi penjelasan teknis mengenai perbedaan antara wireless dan mobi
 - **Point:** Ini memitigasi dampak dari serangan malware di perangkat mobile.
 
 ## 5. LMK, IPC, & Intent
-## 1. Low Memory Killer (LMK), IPC, dan Intent
-
 **Point:**
 Android menggunakan sistem hierarki proses melalui **Low Memory Killer (LMK)** untuk menjaga stabilitas sistem, serta menggunakan **Intent** sebagai mekanisme utama komunikasi antar komponen.
 
