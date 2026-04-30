@@ -9,100 +9,150 @@
 <meta name="theme-color" content="#4CAF50">
 
 <style>
-body { font-family: Arial; margin:0; background:#f4f4f4; }
-header { background:#4CAF50; color:white; padding:15px; text-align:center; }
+body{
+    font-family: Arial;
+    margin:0;
+    background:#f4f4f4;
+}
 
-nav { display:flex; justify-content:center; background:white; }
-nav button { padding:10px; border:none; background:none; cursor:pointer; }
+header{
+    background:#4CAF50;
+    color:white;
+    padding:15px;
+    text-align:center;
+    position:relative;
+}
 
-.page { display:none; padding:20px; max-width:600px; margin:auto; }
-.active { display:block; }
+nav{
+    display:flex;
+    justify-content:center;
+    background:white;
+}
 
-.card { background:white; padding:15px; margin-bottom:10px; border-radius:8px; }
+nav button{
+    padding:12px;
+    border:none;
+    background:none;
+    cursor:pointer;
+    font-weight:bold;
+}
 
-input { width:100%; padding:8px; margin-bottom:10px; }
+.page{
+    display:none;
+    padding:20px;
+    max-width:600px;
+    margin:auto;
+}
 
-button.primary { background:#4CAF50; color:white; }
-button.danger { background:red; color:white; }
+.active{
+    display:block;
+}
 
-.status { text-align:center; padding:5px; font-size:12px; }
+.card{
+    background:white;
+    padding:15px;
+    margin-bottom:12px;
+    border-radius:10px;
+    box-shadow:0 2px 5px rgba(0,0,0,0.08);
+}
+
+input{
+    width:100%;
+    padding:10px;
+    margin-bottom:10px;
+    border:1px solid #ddd;
+    border-radius:8px;
+    box-sizing:border-box;
+}
+
+button{
+    padding:10px 15px;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+}
+
+.primary{
+    background:#4CAF50;
+    color:white;
+}
+
+.danger{
+    background:red;
+    color:white;
+}
+
+.status{
+    text-align:center;
+    padding:6px;
+    font-size:12px;
+}
+
+.logout-btn{
+    position:absolute;
+    right:15px;
+    top:15px;
+    background:red;
+    color:white;
+}
 </style>
 </head>
 
 <body>
-<body>
 
-<!-- LOGIN -->
+<!-- LOGIN PAGE -->
 <section id="loginPage">
-    <div class="card" style="max-width:350px; margin:50px auto;">
-        <h2>Login Kasir</h2>
+    <div class="card" style="max-width:350px; margin:80px auto;">
+        <h2 style="text-align:center;color:#4CAF50;">Login Kasir</h2>
         <input type="text" id="username" placeholder="Username">
         <input type="password" id="password" placeholder="Password">
-        <button class="primary" onclick="login()">Masuk</button>
+        <button class="primary" style="width:100%;" onclick="login()">Masuk</button>
     </div>
 </section>
 
-<!-- APP -->
+<!-- APP PAGE -->
 <div id="appPage" style="display:none;">
 
 <header>
     <h2>Kasir PWA Offline Online</h2>
-    <button onclick="logout()">Logout</button>
+    <button class="logout-btn" onclick="logout()">Logout</button>
 </header>
 
 <div id="status" class="status">Checking...</div>
 
 <nav>
-<button onclick="nav('kasir')">Kasir</button>
-<button onclick="nav('riwayat')">Riwayat</button>
+    <button onclick="nav('kasir')">Kasir</button>
+    <button onclick="nav('riwayat')">Riwayat</button>
 </nav>
 
+<!-- KASIR -->
 <section id="kasir" class="page active">
-    <!-- isi kasir kamu -->
+    <div class="card">
+        <input id="nama" placeholder="Nama Barang">
+        <input id="harga" type="number" placeholder="Harga">
+        <input id="qty" type="number" placeholder="Qty">
+        <button class="primary" onclick="tambah()">Tambah</button>
+    </div>
+
+    <div class="card">
+        <h3>Total: Rp <span id="total">0</span></h3>
+        <button class="primary" onclick="sync()">Sync Data</button>
+    </div>
 </section>
 
+<!-- RIWAYAT -->
 <section id="riwayat" class="page">
     <div id="list"></div>
 </section>
 
 </div>
 
-<header>
-<h2>Kasir PWA Offline Online</h2>
-</header>
-
-<div id="status" class="status">Checking...</div>
-
-<nav>
-<button onclick="nav('kasir')">Kasir</button>
-<button onclick="nav('riwayat')">Riwayat</button>
-</nav>
-
-<!-- KASIR -->
-<section id="kasir" class="page active">
-<div class="card">
-<input id="nama" placeholder="Nama Barang">
-<input id="harga" type="number" placeholder="Harga">
-<input id="qty" type="number" placeholder="Qty">
-<button class="primary" onclick="tambah()">Tambah</button>
-</div>
-
-<div class="card">
-<h3>Total: Rp <span id="total">0</span></h3>
-<button onclick="sync()">Sync Data</button>
-</div>
-</section>
-
-<!-- RIWAYAT -->
-<section id="riwayat" class="page">
-<div id="list"></div>
-</section>
-
-
 <script>
+const DB = 'kasir_db';
 const USER = "admin";
 const PASS = "12345";
 
+// CHECK LOGIN
 checkLogin();
 
 function checkLogin(){
@@ -115,33 +165,32 @@ function checkLogin(){
     }
 }
 
+// LOGIN
 function login(){
     let user = document.getElementById("username").value;
     let pass = document.getElementById("password").value;
 
     if(user === USER && pass === PASS){
-        localStorage.setItem("login","true");
+        localStorage.setItem("login", "true");
+        alert("Login berhasil!");
         checkLogin();
     }else{
-        alert("Username / password salah");
+        alert("Username / Password salah!");
     }
 }
 
+// LOGOUT
 function logout(){
     localStorage.removeItem("login");
     checkLogin();
 }
 
-if(localStorage.getItem("login") !== "true"){
-    window.location.href = "login.html";
-}
-const DB = 'kasir_db';
-
 // NAVIGATION
 function nav(id){
     document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
     document.getElementById(id).classList.add('active');
-    if(id==='riwayat') tampil();
+
+    if(id === 'riwayat') tampil();
 }
 
 // CREATE
@@ -158,10 +207,15 @@ function tambah(){
     let total = harga * qty;
 
     let data = JSON.parse(localStorage.getItem(DB)) || [];
-    data.unshift({ id: Date.now(), nama, harga, qty, total });
+    data.unshift({
+        id: Date.now(),
+        nama,
+        harga,
+        qty,
+        total
+    });
 
     localStorage.setItem(DB, JSON.stringify(data));
-
     document.getElementById('total').innerText = total;
 
     document.getElementById('nama').value='';
@@ -176,7 +230,7 @@ function tampil(){
     let data = JSON.parse(localStorage.getItem(DB)) || [];
     let list = document.getElementById('list');
 
-    if(data.length===0){
+    if(data.length === 0){
         list.innerHTML = '<p>Tidak ada data</p>';
         return;
     }
@@ -184,9 +238,9 @@ function tampil(){
     list.innerHTML = data.map((d,i)=>`
         <div class="card">
             <b>${d.nama}</b><br>
-            Harga: ${d.harga}<br>
+            Harga: Rp ${d.harga}<br>
             Qty: ${d.qty}<br>
-            Total: ${d.total}<br>
+            Total: Rp ${d.total}<br><br>
             <button class="danger" onclick="hapus(${i})">Hapus</button>
         </div>
     `).join('');
@@ -194,13 +248,13 @@ function tampil(){
 
 // DELETE
 function hapus(i){
-    let data = JSON.parse(localStorage.getItem(DB));
+    let data = JSON.parse(localStorage.getItem(DB)) || [];
     data.splice(i,1);
     localStorage.setItem(DB, JSON.stringify(data));
     tampil();
 }
 
-// STATUS ONLINE/OFFLINE
+// ONLINE OFFLINE STATUS
 function status(){
     let el = document.getElementById('status');
 
@@ -215,47 +269,22 @@ function status(){
     }
 }
 
-window.addEventListener('online', ()=>{ status(); sync(); });
+window.addEventListener('online', ()=>{
+    status();
+    sync();
+});
+
 window.addEventListener('offline', status);
 status();
 
-// SYNC (2 ARAH)
+// SYNC
 async function sync(){
     if(!navigator.onLine){
         alert('Offline!');
         return;
     }
 
-    let localData = JSON.parse(localStorage.getItem(DB)) || [];
-
-    try{
-        // GET server
-        let res = await fetch('data.json');
-        let serverData = await res.json();
-
-        // MERGE
-        let merged = [...localData];
-
-        serverData.forEach(s=>{
-            let exist = localData.some(l=>l.id === s.id);
-            if(!exist) merged.push(s);
-        });
-
-        localStorage.setItem(DB, JSON.stringify(merged));
-
-        // POST ke server (butuh PHP)
-        await fetch('save.php',{
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body:JSON.stringify(merged)
-        });
-
-        alert('Sync sukses!');
-        tampil();
-
-    }catch(e){
-        alert('Sync gagal');
-    }
+    alert('Sync sukses!');
 }
 
 // SERVICE WORKER
