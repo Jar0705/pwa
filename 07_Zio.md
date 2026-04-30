@@ -1,153 +1,210 @@
-# Ringkasan Modul 1–6 — Pertanyaan Kunci (Format PREP)
+# Ringkasan Modul 1–6 — Pertanyaan Kunci (Format PREP + APBDP)
 
 ---
 
 ## P1: Fondasi — Wireless vs Mobile Computing
 
 ### Point
-Wireless Computing dan Mobile Computing adalah dua konsep yang sering dianggap sama, tetapi sebenarnya berbeda secara mendasar.
+Wireless Computing dan Mobile Computing adalah dua konsep berbeda namun sering dianggap sama.
 
 ### Reason
-Wireless Computing berfokus pada **media komunikasi tanpa kabel**, sedangkan Mobile Computing berfokus pada **kemampuan perangkat untuk berpindah (mobilitas)** saat digunakan.
+Wireless berfokus pada **media komunikasi tanpa kabel**, sedangkan Mobile berfokus pada **mobilitas perangkat**.
 
 ### Example
-- **Hanya Wireless**: PC desktop menggunakan WiFi (tidak berpindah, tapi tanpa kabel)
-- **Hanya Mobile**: Aplikasi offline di smartphone tanpa koneksi internet
-- **Keduanya**: Smartphone yang menggunakan 4G/5G saat berpindah tempat
+- Wireless saja: PC dengan WiFi
+- Mobile saja: Aplikasi offline di HP
+- Keduanya: Smartphone dengan 4G/5G
 
 ### Point (Penegasan)
-Jadi, Wireless = cara koneksi, Mobile = sifat perangkat. Keduanya bisa berdiri sendiri atau digabung.
+Wireless = koneksi, Mobile = mobilitas.
+
+### APBDP (Analisis Perbandingan Berbasis Dimensi + Penilaian)
+| Dimensi | Wireless Computing | Mobile Computing |
+|--------|------------------|------------------|
+| Fokus | Teknologi jaringan | Perangkat & mobilitas |
+| Ketergantungan | Butuh jaringan | Bisa offline |
+| Fleksibilitas | Terbatas lokasi | Sangat fleksibel |
+| Contoh | WiFi, Bluetooth | Smartphone |
+
+**Penilaian:**
+Mobile Computing lebih unggul dalam fleksibilitas penggunaan, sedangkan Wireless unggul dalam efisiensi koneksi.
 
 ---
 
 ## P2: Mobilitas — Hard vs Soft Handoff
 
 ### Point
-Hard Handoff dan Soft Handoff adalah dua metode perpindahan koneksi antar jaringan saat perangkat bergerak.
+Handoff adalah proses perpindahan koneksi saat user berpindah jaringan.
 
 ### Reason
-- **Hard Handoff**: Koneksi lama diputus sebelum koneksi baru dibuat (break before make)
-- **Soft Handoff**: Koneksi lama tetap aktif sampai koneksi baru stabil (make before break)
+- Hard: putus dulu baru sambung
+- Soft: sambung dulu baru putus
 
 ### Example
-- **Hard Handoff**: Umum di GSM → bisa menyebabkan call drop
-- **Soft Handoff**: Digunakan di CDMA → lebih stabil untuk voice call
+- Hard → GSM
+- Soft → CDMA
 
 ### Point (Penegasan)
-Soft Handoff lebih baik untuk voice call karena mengurangi kemungkinan terputus.
+Soft handoff lebih baik untuk komunikasi real-time.
+
+### APBDP
+| Dimensi | Hard Handoff | Soft Handoff |
+|--------|-------------|--------------|
+| Mekanisme | Break before make | Make before break |
+| Stabilitas | Rendah | Tinggi |
+| Kompleksitas | Rendah | Tinggi |
+| Risiko putus | Tinggi | Rendah |
+
+**Penilaian:**
+Soft handoff lebih direkomendasikan untuk voice call karena koneksi lebih stabil.
 
 ---
 
 ## P3: Jaringan — WPAN, WLAN, WMAN, WWAN + IEEE
 
 ### Point
-Setiap jenis jaringan memiliki cakupan dan standar IEEE yang berbeda.
+Jenis jaringan dibedakan berdasarkan cakupan dan teknologi.
 
 ### Reason
-Perbedaan utama terletak pada **jarak jangkauan** dan **teknologi yang digunakan**.
+Semakin luas cakupan, semakin kompleks infrastrukturnya.
 
 ### Example
-| Jenis | Cakupan | Teknologi | Standar |
-|------|--------|----------|--------|
-| WPAN | Personal | Bluetooth | IEEE 802.15 |
-| WLAN | Lokal | WiFi | IEEE 802.11 |
-| WMAN | Kota | WiMAX | IEEE 802.16 |
-| WWAN | Luas | 4G/5G | Tidak spesifik IEEE |
+| Jenis | Cakupan | Standar |
+|------|--------|--------|
+| WPAN | Personal | 802.15 |
+| WLAN | Lokal | 802.11 |
+| WMAN | Kota | 802.16 |
+| WWAN | Luas | Seluler |
 
-**Ad-Hoc vs Infrastructure:**
-- Ad-Hoc: langsung antar device tanpa access point
-- Infrastructure: melalui access point/router
+**Ad-Hoc vs Infrastructure**
+- Ad-Hoc: tanpa access point
+- Infrastructure: menggunakan access point
 
 ### Point (Penegasan)
-Perbedaan utama jaringan ada pada skala dan infrastrukturnya.
+Setiap jaringan memiliki fungsi sesuai skala kebutuhan.
+
+### APBDP
+| Dimensi | Ad-Hoc | Infrastructure |
+|--------|--------|----------------|
+| Setup | Cepat | Butuh perangkat |
+| Stabilitas | Rendah | Tinggi |
+| Skalabilitas | Terbatas | Tinggi |
+| Kontrol | Minim | Terpusat |
+
+**Penilaian:**
+Infrastructure lebih cocok untuk penggunaan nyata karena lebih stabil dan scalable.
 
 ---
 
 ## P4: OS Mobile — Arsitektur 4 Lapisan + Sandbox
 
 ### Point
-OS Mobile memiliki arsitektur berlapis untuk efisiensi dan keamanan.
+OS Mobile menggunakan arsitektur berlapis untuk keamanan dan efisiensi.
 
 ### Reason
-Setiap lapisan memiliki fungsi spesifik:
-1. **Kernel** → mengatur hardware
-2. **Libraries** → menyediakan fungsi dasar
-3. **Application Framework** → penghubung aplikasi dengan sistem
-4. **Applications** → aplikasi pengguna
+Lapisan:
+1. Kernel
+2. Libraries
+3. Framework
+4. Applications
 
-Sandbox digunakan untuk membatasi akses aplikasi.
+Sandbox membatasi akses aplikasi.
 
 ### Example
-- Aplikasi tidak bisa sembarangan akses data aplikasi lain
-- Izin (permission) harus diberikan user
+Aplikasi tidak bisa akses data aplikasi lain tanpa izin.
 
 ### Point (Penegasan)
-Sandbox di mobile lebih ketat karena faktor keamanan dan privasi pengguna.
+Sandbox penting untuk keamanan data pengguna.
+
+### APBDP
+| Dimensi | Mobile OS | Desktop OS |
+|--------|----------|------------|
+| Keamanan | Sangat ketat | Lebih longgar |
+| Sandbox | Wajib | Opsional |
+| Akses sistem | Terbatas | Lebih bebas |
+| Risiko malware | Lebih rendah | Lebih tinggi |
+
+**Penilaian:**
+Mobile OS lebih aman karena sandbox yang ketat, tetapi kurang fleksibel dibanding desktop.
 
 ---
 
 ## P5: OS Lanjutan — LMK, IPC, Intent
 
 ### Point
-Android mengelola proses dengan sistem hierarki dan komunikasi antar komponen.
+Android mengelola proses dan komunikasi antar komponen secara efisien.
 
 ### Reason
-- **LMK (Low Memory Killer)**: menghapus proses prioritas rendah saat RAM penuh
-- **IPC (Inter-Process Communication)**: komunikasi antar proses
-- **Intent**: mekanisme untuk menjalankan komponen lain
+- LMK: menghemat RAM
+- IPC: komunikasi antar proses
+- Intent: penghubung antar komponen
 
 ### Example
-- **Hierarki proses**:
-  1. Foreground
-  2. Visible
-  3. Service
-  4. Background
-  5. Empty
-
-- **Intent**:
-  - Explicit → langsung ke target (misalnya buka Activity tertentu)
-  - Implicit → berdasarkan aksi (misalnya share ke aplikasi mana saja)
+- Foreground vs Background process
+- Intent untuk membuka aplikasi lain
 
 ### Point (Penegasan)
-Intent adalah inti komunikasi antar komponen di Android.
+Intent adalah mekanisme utama komunikasi di Android.
+
+### APBDP
+| Dimensi | Explicit Intent | Implicit Intent |
+|--------|----------------|----------------|
+| Target | Spesifik | Umum |
+| Fleksibilitas | Rendah | Tinggi |
+| Kontrol | Tinggi | Lebih rendah |
+| Risiko | Aman | Lebih berisiko |
+
+**Penilaian:**
+Explicit lebih aman, Implicit lebih fleksibel tergantung kebutuhan aplikasi.
 
 ---
 
 ## P6: Mobile Web — Native vs Hybrid vs PWA
 
 ### Point
-Pemilihan teknologi pengembangan aplikasi bergantung pada kebutuhan dan budget.
+Pemilihan teknologi bergantung pada kebutuhan dan budget.
 
 ### Reason
-- **Native**: performa tinggi, biaya mahal
-- **Hybrid**: satu codebase, performa cukup
-- **PWA**: berbasis web, paling murah dan cepat
+- Native: performa tinggi
+- Hybrid: efisien
+- PWA: murah dan cepat
 
 ### Example
-Kasus: Aplikasi inventaris untuk 2 platform dengan budget terbatas
-- Native: mahal (buat Android & iOS terpisah)
-- Hybrid: efisien (React Native / Flutter)
-- PWA: paling murah (web app)
+Kasus: aplikasi inventaris 2 platform
+→ pilih Hybrid atau PWA
 
 ### Point (Penegasan)
-Rekomendasi terbaik: **Hybrid atau PWA**, tergantung kebutuhan fitur (offline, akses device, dll).
+Tidak ada solusi terbaik mutlak, semua tergantung konteks.
+
+### APBDP
+| Dimensi | Native | Hybrid | PWA |
+|--------|--------|--------|-----|
+| Performa | Tinggi | Sedang | Rendah |
+| Biaya | Tinggi | Sedang | Rendah |
+| Development | Lama | Cepat | Sangat cepat |
+| Akses device | Full | Cukup | Terbatas |
+
+**Penilaian:**
+- Native: terbaik untuk performa tinggi
+- Hybrid: terbaik untuk efisiensi
+- PWA: terbaik untuk budget minim
 
 ---
 
 ## Kesimpulan Umum
 
 ### Point
-Setiap modul membahas aspek penting dalam mobile computing dari dasar hingga implementasi.
+Setiap modul saling terhubung dalam ekosistem mobile computing.
 
 ### Reason
-Pemahaman menyeluruh diperlukan untuk memilih teknologi dan solusi yang tepat.
+Dari jaringan hingga implementasi aplikasi.
 
 ### Example
-- P1–P3: dasar jaringan & komunikasi
-- P4–P5: sistem operasi & proses
-- P6: implementasi bisnis
+- P1–P3: dasar jaringan
+- P4–P5: sistem
+- P6: implementasi
 
 ### Point (Penegasan)
-Menguasai konsep ini membantu dalam pengembangan aplikasi mobile yang efisien, aman, dan sesuai kebutuhan bisnis.
+Pemahaman ini penting untuk memilih teknologi yang tepat sesuai kebutuhan.
 
 ---
