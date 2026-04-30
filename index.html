@@ -64,7 +64,9 @@ button.danger { background:red; color:white; }
 
 
 <script>
-
+if(localStorage.getItem("login") !== "true"){
+    window.location.href = "login.html";
+}
 const DB = 'kasir_db';
 
 // NAVIGATION
