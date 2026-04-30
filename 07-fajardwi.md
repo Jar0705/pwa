@@ -97,6 +97,7 @@ Point: Mekanisme ini memastikan sistem tetap responsif bagi pengguna sambil teta
 ---
 
 ## 6. Strategi Pengembangan: Inventaris 2 Platform
+## 6. Strategi Pengembangan: Inventaris 2 Platform
 **Point:** Strategi **Hybrid (Cross-Platform)** adalah pilihan paling logis untuk aplikasi inventaris dengan budget terbatas.
 
 ### Analisis Berdasarkan Kriteria:
@@ -108,6 +109,9 @@ Point: Mekanisme ini memastikan sistem tetap responsif bagi pengguna sambil teta
 | **Distribusi** | Bisa dipublikasikan secara profesional melalui Google Play Store dan App Store. |
 
 - **Pilihan Tepat:** Dibandingkan Native yang mahal (butuh 2 tim) atau PWA yang lemah dalam akses hardware di iOS, **Hybrid** (seperti Flutter atau React Native) memberikan keseimbangan terbaik antara fungsionalitas teknis dan penghematan anggaran bagi klien.
+
+---
+*Dibuat untuk keperluan dokumentasi teknis dan panduan pengembangan sistem.*
 
 ---
 *Dibuat untuk keperluan dokumentasi teknis dan panduan pengembangan sistem.*
