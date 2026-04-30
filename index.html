@@ -30,6 +30,42 @@ button.danger { background:red; color:white; }
 </head>
 
 <body>
+<body>
+
+<!-- LOGIN -->
+<section id="loginPage">
+    <div class="card" style="max-width:350px; margin:50px auto;">
+        <h2>Login Kasir</h2>
+        <input type="text" id="username" placeholder="Username">
+        <input type="password" id="password" placeholder="Password">
+        <button class="primary" onclick="login()">Masuk</button>
+    </div>
+</section>
+
+<!-- APP -->
+<div id="appPage" style="display:none;">
+
+<header>
+    <h2>Kasir PWA Offline Online</h2>
+    <button onclick="logout()">Logout</button>
+</header>
+
+<div id="status" class="status">Checking...</div>
+
+<nav>
+<button onclick="nav('kasir')">Kasir</button>
+<button onclick="nav('riwayat')">Riwayat</button>
+</nav>
+
+<section id="kasir" class="page active">
+    <!-- isi kasir kamu -->
+</section>
+
+<section id="riwayat" class="page">
+    <div id="list"></div>
+</section>
+
+</div>
 
 <header>
 <h2>Kasir PWA Offline Online</h2>
@@ -64,6 +100,38 @@ button.danger { background:red; color:white; }
 
 
 <script>
+const USER = "admin";
+const PASS = "12345";
+
+checkLogin();
+
+function checkLogin(){
+    if(localStorage.getItem("login") === "true"){
+        document.getElementById("loginPage").style.display = "none";
+        document.getElementById("appPage").style.display = "block";
+    }else{
+        document.getElementById("loginPage").style.display = "block";
+        document.getElementById("appPage").style.display = "none";
+    }
+}
+
+function login(){
+    let user = document.getElementById("username").value;
+    let pass = document.getElementById("password").value;
+
+    if(user === USER && pass === PASS){
+        localStorage.setItem("login","true");
+        checkLogin();
+    }else{
+        alert("Username / password salah");
+    }
+}
+
+function logout(){
+    localStorage.removeItem("login");
+    checkLogin();
+}
+
 if(localStorage.getItem("login") !== "true"){
     window.location.href = "login.html";
 }
