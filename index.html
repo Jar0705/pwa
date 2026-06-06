@@ -1,297 +1,300 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Kasir PWA</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Kasir PWA Pro</title>
 
-<link rel="manifest" href="manifest.json">
-<meta name="theme-color" content="#4CAF50">
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#00529C">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <link rel="apple-touch-icon" href="favicon-192.png">
 
-<style>
-body{
-    font-family: Arial;
-    margin:0;
-    background:#f4f4f4;
-}
+    <!-- SVG Icons Inline Cache -->
+    <svg style="display:none;">
+        <defs>
+            <symbol id="icon-dashboard" viewBox="0 0 24 24">
+                <path fill="currentColor"
+                    d="M4 13h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zm0 8h6c.55 0 1-.45 1-1v-4c0-.55-.45-1-1-1H4c-.55 0-1 .45-1 1v4c0 .55.45 1 1 1zm10 0h6c.55 0 1-.45 1-1v-8c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1v8c0 .55.45 1 1 1zM13 4v4c0 .55.45 1 1 1h6c.55 0 1-.45 1-1V4c0-.55-.45-1-1-1h-6c-.55 0-1 .45-1 1z" />
+            </symbol>
+            <symbol id="icon-pos" viewBox="0 0 24 24">
+                <path fill="currentColor"
+                    d="M19 8h-1V3c0-.55-.45-1-1-1H7c-.55 0-1 .45-1 1v5H5c-1.1 0-2 .9-2 2v8c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2v-8c0-1.1-.9-2-2-2zM8 4h8v4H8V4zm11 14H5v-8h14v8z" />
+            </symbol>
+            <symbol id="icon-box" viewBox="0 0 24 24">
+                <path fill="currentColor"
+                    d="M20 6h-4V4c0-1.11-.89-2-2-2h-4c-1.11 0-2 .89-2 2v2H4c-1.11 0-1.99.89-1.99 2L2 19c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V8c0-1.11-.89-2-2-2zm-6 0h-4V4h4v2z" />
+            </symbol>
+            <symbol id="icon-history" viewBox="0 0 24 24">
+                <path fill="currentColor"
+                    d="M13 3c-4.97 0-9 4.03-9 9H1l3.89 3.89.07.14L9 12H6c0-3.87 3.13-7 7-7s7 3.13 7 7-3.13 7-7 7c-1.93 0-3.68-.79-4.94-2.06l-1.42 1.42C8.27 19.99 10.51 21 13 21c4.97 0 9-4.03 9-9s-4.03-9-9-9zm-1 5v5l4.28 2.54.72-1.21-3.5-2.08V8H12z" />
+            </symbol>
+            <symbol id="icon-moon" viewBox="0 0 24 24">
+                <path fill="currentColor"
+                    d="M20 8.69V4h-4.69L12 .69 8.69 4H4v4.69L.69 12 4 15.31V20h4.69L12 23.31 15.31 20H20v-4.69L23.31 12 20 8.69zm-2 5.79V18h-3.52L12 20.48 9.52 18H6v-3.52L3.52 12 6 9.52V6h3.52L12 3.52 14.48 6H18v3.52L20.48 12 18 14.48zM12 6c-3.31 0-6 2.69-6 6s2.69 6 6 6 6-2.69 6-6-2.69-6-6-6zm0 10c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4z" />
+            </symbol>
+        </defs>
+    </svg>
 
-header{
-    background:#4CAF50;
-    color:white;
-    padding:15px;
-    text-align:center;
-    position:relative;
-}
-
-nav{
-    display:flex;
-    justify-content:center;
-    background:white;
-}
-
-nav button{
-    padding:12px;
-    border:none;
-    background:none;
-    cursor:pointer;
-    font-weight:bold;
-}
-
-.page{
-    display:none;
-    padding:20px;
-    max-width:600px;
-    margin:auto;
-}
-
-.active{
-    display:block;
-}
-
-.card{
-    background:white;
-    padding:15px;
-    margin-bottom:12px;
-    border-radius:10px;
-    box-shadow:0 2px 5px rgba(0,0,0,0.08);
-}
-
-input{
-    width:100%;
-    padding:10px;
-    margin-bottom:10px;
-    border:1px solid #ddd;
-    border-radius:8px;
-    box-sizing:border-box;
-}
-
-button{
-    padding:10px 15px;
-    border:none;
-    border-radius:8px;
-    cursor:pointer;
-}
-
-.primary{
-    background:#4CAF50;
-    color:white;
-}
-
-.danger{
-    background:red;
-    color:white;
-}
-
-.status{
-    text-align:center;
-    padding:6px;
-    font-size:12px;
-}
-
-.logout-btn{
-    position:absolute;
-    right:15px;
-    top:15px;
-    background:red;
-    color:white;
-}
-</style>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<!-- LOGIN PAGE -->
-<section id="loginPage">
-    <div class="card" style="max-width:350px; margin:80px auto;">
-        <h2 style="text-align:center;color:#4CAF50;">Login Kasir</h2>
-        <input type="text" id="username" placeholder="Username">
-        <input type="password" id="password" placeholder="Password">
-        <button class="primary" style="width:100%;" onclick="login()">Masuk</button>
-    </div>
-</section>
+    <!-- LOGIN PAGE -->
+    <section id="loginPage">
+        <div class="login-box">
+            <img src="Indomaret Logo.jpg" alt="Indomaret" style="max-width: 220px; margin-bottom: 15px; border-radius: 8px;">
+            <p style="color:var(--text-muted); margin-bottom:30px; font-weight:600;">Point of Sale</p>
 
-<!-- APP PAGE -->
-<div id="appPage" style="display:none;">
+            <div class="form-group" style="text-align: left;">
+                <label>Username</label>
+                <input type="text" id="username" placeholder="Masukkan admin" autocomplete="off">
+            </div>
+            <div class="form-group" style="text-align: left;">
+                <label>Password</label>
+                <input type="password" id="password" placeholder="Masukkan 12345">
+            </div>
 
-<header>
-    <h2>Kasir PWA Offline Online</h2>
-    <button class="logout-btn" onclick="logout()">Logout</button>
-</header>
-
-<div id="status" class="status">Checking...</div>
-
-<nav>
-    <button onclick="nav('kasir')">Kasir</button>
-    <button onclick="nav('riwayat')">Riwayat</button>
-</nav>
-
-<!-- KASIR -->
-<section id="kasir" class="page active">
-    <div class="card">
-        <input id="nama" placeholder="Nama Barang">
-        <input id="harga" type="number" placeholder="Harga">
-        <input id="qty" type="number" placeholder="Qty">
-        <button class="primary" onclick="tambah()">Tambah</button>
-    </div>
-
-    <div class="card">
-        <h3>Total: Rp <span id="total">0</span></h3>
-        <button class="primary" onclick="sync()">Sync Data</button>
-    </div>
-</section>
-
-<!-- RIWAYAT -->
-<section id="riwayat" class="page">
-    <div id="list"></div>
-</section>
-
-</div>
-
-<script>
-const DB = 'kasir_db';
-const USER = "admin";
-const PASS = "12345";
-
-// CHECK LOGIN
-checkLogin();
-
-function checkLogin(){
-    if(localStorage.getItem("login") === "true"){
-        document.getElementById("loginPage").style.display = "none";
-        document.getElementById("appPage").style.display = "block";
-    }else{
-        document.getElementById("loginPage").style.display = "block";
-        document.getElementById("appPage").style.display = "none";
-    }
-}
-
-// LOGIN
-function login(){
-    let user = document.getElementById("username").value;
-    let pass = document.getElementById("password").value;
-
-    if(user === USER && pass === PASS){
-        localStorage.setItem("login", "true");
-        alert("Login berhasil!");
-        checkLogin();
-    }else{
-        alert("Username / Password salah!");
-    }
-}
-
-// LOGOUT
-function logout(){
-    localStorage.removeItem("login");
-    checkLogin();
-}
-
-// NAVIGATION
-function nav(id){
-    document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
-
-    if(id === 'riwayat') tampil();
-}
-
-// CREATE
-function tambah(){
-    let nama = document.getElementById('nama').value;
-    let harga = parseInt(document.getElementById('harga').value);
-    let qty = parseInt(document.getElementById('qty').value);
-
-    if(!nama || !harga || !qty){
-        alert('Isi semua!');
-        return;
-    }
-
-    let total = harga * qty;
-
-    let data = JSON.parse(localStorage.getItem(DB)) || [];
-    data.unshift({
-        id: Date.now(),
-        nama,
-        harga,
-        qty,
-        total
-    });
-
-    localStorage.setItem(DB, JSON.stringify(data));
-    document.getElementById('total').innerText = total;
-
-    document.getElementById('nama').value='';
-    document.getElementById('harga').value='';
-    document.getElementById('qty').value='';
-
-    alert('Berhasil disimpan!');
-}
-
-// READ
-function tampil(){
-    let data = JSON.parse(localStorage.getItem(DB)) || [];
-    let list = document.getElementById('list');
-
-    if(data.length === 0){
-        list.innerHTML = '<p>Tidak ada data</p>';
-        return;
-    }
-
-    list.innerHTML = data.map((d,i)=>`
-        <div class="card">
-            <b>${d.nama}</b><br>
-            Harga: Rp ${d.harga}<br>
-            Qty: ${d.qty}<br>
-            Total: Rp ${d.total}<br><br>
-            <button class="danger" onclick="hapus(${i})">Hapus</button>
+            <button class="btn primary" style="width:100%; margin-top:10px;" onclick="app.login()">Masuk</button>
         </div>
-    `).join('');
-}
+    </section>
 
-// DELETE
-function hapus(i){
-    let data = JSON.parse(localStorage.getItem(DB)) || [];
-    data.splice(i,1);
-    localStorage.setItem(DB, JSON.stringify(data));
-    tampil();
-}
+    <!-- APP WRAPPER -->
+    <div id="appPage" class="app-container" style="display:none;">
 
-// ONLINE OFFLINE STATUS
-function status(){
-    let el = document.getElementById('status');
+        <!-- SIDEBAR NAVIGATION -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <img src="Indomaret Logo.jpg" alt="Indomaret" style="max-width: 150px; border-radius: 5px;">
+            </div>
+            <div class="nav-links">
+                <div class="nav-item active" data-target="dashboard">
+                    <svg width="24" height="24">
+                        <use href="#icon-dashboard"></use>
+                    </svg> Dashboard
+                </div>
+                <div class="nav-item" data-target="pos">
+                    <svg width="24" height="24">
+                        <use href="#icon-pos"></use>
+                    </svg> Kasir (POS)
+                </div>
+                <div class="nav-item" data-target="produk">
+                    <svg width="24" height="24">
+                        <use href="#icon-box"></use>
+                    </svg> Produk
+                </div>
+                <div class="nav-item" data-target="riwayat">
+                    <svg width="24" height="24">
+                        <use href="#icon-history"></use>
+                    </svg> Riwayat
+                </div>
+            </div>
+            <div class="sidebar-footer">
+                <button class="btn" style="width:100%; background:var(--bg-color); color:var(--danger-color)"
+                    onclick="app.logout()">
+                    Logout
+                </button>
+            </div>
+        </aside>
 
-    if(navigator.onLine){
-        el.innerText = "ONLINE";
-        el.style.background = "green";
-        el.style.color = "white";
-    }else{
-        el.innerText = "OFFLINE";
-        el.style.background = "red";
-        el.style.color = "white";
-    }
-}
+        <!-- MAIN CONTENT -->
+        <main class="main-content">
+            <!-- TOPBAR -->
+            <header class="topbar">
+                <div style="font-weight:600;" id="topbar-title">Dashboard</div>
+                <div style="display:flex; align-items:center; gap:15px;">
+                    <div id="status-indicator" style="font-size:0.8rem; font-weight:600; color:var(--warning-color);">
+                        Online</div>
+                    <button class="theme-toggle" onclick="app.toggleTheme()">
+                        <svg width="24" height="24">
+                            <use href="#icon-moon"></use>
+                        </svg>
+                    </button>
+                </div>
+            </header>
 
-window.addEventListener('online', ()=>{
-    status();
-    sync();
-});
+            <!-- 1. DASHBOARD PAGE -->
+            <section id="dashboard" class="page active">
+                <h3 style="margin-bottom: 20px;">Ringkasan Hari Ini</h3>
+                <div class="grid-cards">
+                    <div class="card stat-card">
+                        <div class="stat-icon"><svg width="24" height="24">
+                                <use href="#icon-pos"></use>
+                            </svg></div>
+                        <div class="stat-info">
+                            <p>Penjualan Hari Ini</p>
+                            <h3 id="dash-revenue">Rp 0</h3>
+                        </div>
+                    </div>
+                    <div class="card stat-card">
+                        <div class="stat-icon" style="background:rgba(245, 158, 11, 0.1); color:var(--warning-color)">
+                            <svg width="24" height="24">
+                                <use href="#icon-history"></use>
+                            </svg></div>
+                        <div class="stat-info">
+                            <p>Total Transaksi</p>
+                            <h3 id="dash-count">0</h3>
+                        </div>
+                    </div>
+                </div>
 
-window.addEventListener('offline', status);
-status();
+                <div class="card" style="margin-top:20px; flex:1;">
+                    <h3 style="margin-bottom: 15px;">Petunjuk Penggunaan</h3>
+                    <ul style="padding-left:20px; color:var(--text-muted); line-height:2;">
+                        <li>Buka menu <b>Produk</b> untuk menambahkan daftar barang/inventaris Anda.</li>
+                        <li>Buka menu <b>Kasir (POS)</b> untuk memulai transaksi. Klik produk untuk menambah ke
+                            keranjang.</li>
+                        <li>Buka menu <b>Riwayat</b> untuk melihat data transaksi dan mengekspor ke CSV.</li>
+                    </ul>
+                </div>
+            </section>
 
-// SYNC
-async function sync(){
-    if(!navigator.onLine){
-        alert('Offline!');
-        return;
-    }
+            <!-- 2. KASIR POS PAGE -->
+            <section id="pos" class="page">
+                <div class="pos-container">
+                    <!-- Left: Product Catalog -->
+                    <div class="pos-products">
+                        <input type="text" id="pos-search" placeholder="Cari produk..." style="margin-bottom:15px;">
+                        <div class="product-grid" id="pos-grid">
+                            <!-- Render via JS -->
+                        </div>
+                    </div>
 
-    alert('Sync sukses!');
-}
+                    <!-- Right: Cart -->
+                    <div class="pos-cart">
+                        <div class="cart-header">Keranjang Belanja</div>
+                        <div class="cart-items" id="cart-items">
+                            <!-- Render via JS -->
+                            <div style="text-align:center; color:var(--text-muted); padding-top:20px;">Keranjang kosong
+                            </div>
+                        </div>
+                        <div class="cart-footer">
+                            <div class="cart-total-row">
+                                <span>Total:</span>
+                                <span id="cart-total" style="color:var(--primary-color)">Rp 0</span>
+                            </div>
+                            <button class="btn primary" style="width:100%; padding:15px; font-size:1.1rem;"
+                                onclick="app.showCheckoutModal()">
+                                Proses Bayar
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-// SERVICE WORKER
-if('serviceWorker' in navigator){
-    navigator.serviceWorker.register('sw.js');
-}
-</script>
+            <!-- 3. PRODUK PAGE -->
+            <section id="produk" class="page">
+                <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                    <h3>Master Data Produk</h3>
+                    <button class="btn primary" onclick="app.showProductModal()">+ Tambah Produk</button>
+                </div>
+                <div class="card" style="overflow-x:auto;">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>Nama Produk</th>
+                                <th>Harga</th>
+                                <th>Stok/Kategori</th>
+                                <th style="text-align:right;">Aksi</th>
+                            </tr>
+                        </thead>
+                        <tbody id="product-table-body">
+                            <!-- Render via JS -->
+                        </tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- 4. RIWAYAT PAGE -->
+            <section id="riwayat" class="page">
+                <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
+                    <h3>Riwayat Transaksi</h3>
+                    <button class="btn"
+                        style="background:var(--card-bg); border:1px solid var(--border-color); color:var(--text-main)"
+                        onclick="app.exportCSV()">
+                        Export CSV
+                    </button>
+                </div>
+                <div id="history-list">
+                    <!-- Render via JS -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- MODALS -->
+
+    <!-- Product Modal -->
+    <div class="modal-overlay" id="modal-product">
+        <div class="modal-content">
+            <h3 id="product-modal-title" style="margin-bottom:20px;">Tambah Produk</h3>
+            <input type="hidden" id="product-id">
+            <div class="form-group">
+                <label>Nama Produk</label>
+                <input type="text" id="product-name" autocomplete="off">
+            </div>
+            <div class="form-group">
+                <label>Harga (Rp)</label>
+                <input type="number" id="product-price">
+            </div>
+            <div style="display:flex; gap:10px; margin-top:20px;">
+                <button class="btn primary" style="flex:1;" onclick="app.saveProduct()">Simpan</button>
+                <button class="btn" style="background:var(--border-color); color:var(--text-main);"
+                    onclick="app.hideModal('modal-product')">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Checkout Modal -->
+    <div class="modal-overlay" id="modal-checkout">
+        <div class="modal-content">
+            <h3 style="margin-bottom:20px;">Pembayaran</h3>
+            <div style="text-align:center; margin-bottom:20px;">
+                <div style="color:var(--text-muted)">Total Tagihan</div>
+                <div style="font-size:2.5rem; font-weight:700; color:var(--primary-color)" id="checkout-total">Rp 0
+                </div>
+            </div>
+            <div class="form-group">
+                <label>Uang Diterima (Rp)</label>
+                <input type="number" id="checkout-pay" oninput="app.calculateChange()">
+            </div>
+            <div class="form-group" style="margin-bottom:25px;">
+                <label>Kembalian</label>
+                <div id="checkout-change" style="font-size:1.5rem; font-weight:600; color:var(--warning-color)">Rp 0
+                </div>
+            </div>
+            <div style="display:flex; gap:10px;">
+                <button class="btn primary" style="flex:1;" onclick="app.processCheckout()">Bayar & Simpan</button>
+                <button class="btn" style="background:var(--border-color); color:var(--text-main);"
+                    onclick="app.hideModal('modal-checkout')">Batal</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PRINT SECTION (Hidden in UI, only visible in @media print) -->
+    <div id="printSection" class="no-print">
+        <div class="receipt">
+            <div class="receipt-header">
+                <h3>KASIR PRO</h3>
+                <p style="font-size:12px; margin-top:5px;" id="receipt-date"></p>
+            </div>
+            <div id="receipt-items"></div>
+            <div class="receipt-total">
+                <div class="receipt-item"><span>Total</span><span id="receipt-total-amt"></span></div>
+                <div class="receipt-item"><span>Tunai</span><span id="receipt-pay-amt"></span></div>
+                <div class="receipt-item"><span>Kembali</span><span id="receipt-change-amt"></span></div>
+            </div>
+            <div style="text-align:center; margin-top:20px; font-size:12px;">
+                Terima kasih atas kunjungan Anda
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
 
 </body>
+
 </html>
