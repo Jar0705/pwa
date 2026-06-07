@@ -5,14 +5,16 @@
 
 const DB_PRODUCTS = 'kasir_products';
 const DB_HISTORY = 'kasir_history';
+const DB_MUTATIONS = 'kasir_mutations';
 const USER = "admin";
 const PASS = "12345";
 
 // Main App Object to avoid global scope pollution
-const app = {
+const     app = {
     cart: [],
     products: [],
     history: [],
+    mutations: [],
     settings: {
         storeName: 'STARBUCKS COFFEE',
         storeAddress: 'Jl. Raya Protokol No. 123',
@@ -53,6 +55,7 @@ const app = {
         
         this.settings = JSON.parse(localStorage.getItem('kasir_settings')) || this.settings;
         this.history = JSON.parse(localStorage.getItem(DB_HISTORY)) || [];
+        this.mutations = JSON.parse(localStorage.getItem(DB_MUTATIONS)) || [];
         
         // Load Theme
         this.theme = localStorage.getItem('theme') || 'light';
@@ -174,7 +177,7 @@ const app = {
         // Call specific render functions
         if(target === 'dashboard') this.renderDashboard();
         if(target === 'pos') this.renderPOS();
-        if(target === 'produk') this.renderProducts();
+        if(target === 'produk') { this.renderProducts(); this.renderMutasiLog(); }
         if(target === 'riwayat') this.renderHistory();
         if(target === 'pengaturan') this.renderSettings();
     },
@@ -342,8 +345,9 @@ const app = {
                 <td style="color:var(--primary-color); font-weight:600;">${this.formatRupiah(p.price)}</td>
                 <td><span class="badge ${stockBadge}">Stok: ${stock}</span></td>
                 <td style="text-align:right;">
-                    <button class="btn" style="padding:6px 12px; background:var(--warning-color); color:white; font-size:0.8rem;" onclick="app.editProduct(${p.id})">Edit</button>
-                    <button class="btn danger" style="padding:6px 12px; font-size:0.8rem;" onclick="app.deleteProduct(${p.id})">Hapus</button>
+                    <button class="btn" style="padding:6px 10px; background:rgba(0,98,65,0.1); color:var(--primary-color); font-size:0.75rem; border:1px solid rgba(0,98,65,0.2);" onclick="app.showMutasiModal(${p.id})">Stok</button>
+                    <button class="btn" style="padding:6px 10px; background:var(--warning-color); color:white; font-size:0.75rem;" onclick="app.editProduct(${p.id})">Edit</button>
+                    <button class="btn danger" style="padding:6px 10px; font-size:0.75rem;" onclick="app.deleteProduct(${p.id})">Hapus</button>
                 </td>
             </tr>
             `;
@@ -408,6 +412,93 @@ const app = {
             this.renderProducts();
             this.renderPOS();
         }
+    },
+
+    // --- MUTASI STOK ---
+    showMutasiModal(id) {
+        const p = this.products.find(x => x.id === id);
+        if(!p) return;
+        document.getElementById('mutasi-product-id').value = p.id;
+        document.getElementById('mutasi-product-name').value = p.name;
+        document.getElementById('mutasi-current-stock').value = p.stock || 0;
+        document.getElementById('mutasi-qty').value = '';
+        document.getElementById('mutasi-type').value = 'in';
+        document.getElementById('mutasi-note').value = '';
+        this.showModal('modal-mutasi');
+    },
+
+    saveMutasi() {
+        const id = parseInt(document.getElementById('mutasi-product-id').value);
+        const qty = parseInt(document.getElementById('mutasi-qty').value);
+        const type = document.getElementById('mutasi-type').value;
+        const note = document.getElementById('mutasi-note').value.trim();
+
+        if(!qty || qty <= 0) {
+            this.showToast('Isi jumlah mutasi!', true);
+            return;
+        }
+
+        const product = this.products.find(x => x.id === id);
+        if(!product) return;
+
+        if(type === 'out' && qty > (product.stock || 0)) {
+            this.showToast('Stok tidak mencukupi!', true);
+            return;
+        }
+
+        // Update stock
+        product.stock = (product.stock || 0) + (type === 'in' ? qty : -qty);
+        localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
+
+        // Save mutation record
+        const mutation = {
+            id: 'MUT-' + Date.now(),
+            timestamp: Date.now(),
+            productId: id,
+            productName: product.name,
+            type: type,
+            qty: qty,
+            note: note || (type === 'in' ? 'Restock' : 'Penjualan'),
+            stockAfter: product.stock
+        };
+
+        this.mutations.unshift(mutation);
+        localStorage.setItem(DB_MUTATIONS, JSON.stringify(this.mutations));
+
+        this.hideModal('modal-mutasi');
+        this.showToast('Mutasi berhasil');
+        this.renderProducts();
+        this.renderMutasiLog();
+    },
+
+    renderMutasiLog() {
+        const container = document.getElementById('mutasi-log');
+        const countEl = document.getElementById('mutasi-count');
+        if(!container) return;
+
+        if(countEl) countEl.innerText = this.mutations.length;
+
+        if(this.mutations.length === 0) {
+            container.innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:10px;">Belum ada mutasi</div>';
+            return;
+        }
+
+        container.innerHTML = this.mutations.slice(0, 20).map(m => {
+            const isIn = m.type === 'in';
+            const date = new Date(m.timestamp).toLocaleDateString('id-ID', {day:'numeric', month:'short', hour:'2-digit', minute:'2-digit'});
+            return `
+            <div style="display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid var(--border-color);">
+                <div>
+                    <div style="font-weight:500;font-size:0.85rem;">${m.productName}</div>
+                    <div style="font-size:0.7rem;color:var(--text-muted);">${date} · ${m.note || ''}</div>
+                </div>
+                <div style="text-align:right;">
+                    <span style="font-weight:700;font-size:0.9rem;color:${isIn ? 'var(--primary-color)' : 'var(--danger-color)'};">${isIn ? '+' : '-'}${m.qty}</span>
+                    <div style="font-size:0.65rem;color:var(--text-muted);">sisa ${m.stockAfter}</div>
+                </div>
+            </div>
+            `;
+        }).join('');
     },
 
     // --- POS & CART ---
