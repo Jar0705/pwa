@@ -47,7 +47,8 @@
     <!-- LOGIN PAGE -->
     <section id="loginPage">
         <div class="login-box">
-            <img src="Starbucks.jpeg" alt="Starbucks" style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 15px; box-shadow: var(--shadow);">
+            <img src="Starbucks.jpeg" alt="Starbucks"
+                style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 15px; box-shadow: var(--shadow);">
             <h2 style="color:var(--primary-color);">Starbucks POS</h2>
             <p style="color:var(--text-muted); margin-bottom:30px; font-weight:600;">Point of Sale System</p>
 
@@ -129,7 +130,8 @@
                         <div class="stat-icon" style="background:rgba(245, 158, 11, 0.1); color:var(--warning-color)">
                             <svg width="24" height="24">
                                 <use href="#icon-history"></use>
-                            </svg></div>
+                            </svg>
+                        </div>
                         <div class="stat-info">
                             <p>Total Transaksi</p>
                             <h3 id="dash-count">0</h3>
@@ -139,7 +141,8 @@
                         <div class="stat-icon" style="background:rgba(46, 204, 113, 0.1); color:#27ae60">
                             <svg width="24" height="24">
                                 <use href="#icon-box"></use>
-                            </svg></div>
+                            </svg>
+                        </div>
                         <div class="stat-info">
                             <p>Item Terjual</p>
                             <h3 id="dash-items">0</h3>
@@ -147,7 +150,8 @@
                     </div>
                 </div>
 
-                <div class="dashboard-charts" style="margin-top: 20px; display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
+                <div class="dashboard-charts"
+                    style="margin-top: 20px; display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
                     <div class="card" style="margin-bottom:0;">
                         <h4 style="margin-bottom: 15px; color: var(--text-main);">Tren Pendapatan (7 Hari Terakhir)</h4>
                         <div style="position: relative; height: 250px; width: 100%;">
@@ -181,7 +185,8 @@
                         <div style="display:flex; gap:10px; margin-bottom:15px;">
                             <input type="text" id="pos-search" placeholder="Cari produk..." style="flex:1;">
                         </div>
-                        <div class="category-tabs" id="pos-categories" style="display:flex; gap:10px; overflow-x:auto; margin-bottom:15px; padding-bottom:5px;">
+                        <div class="category-tabs" id="pos-categories"
+                            style="display:flex; gap:10px; overflow-x:auto; margin-bottom:15px; padding-bottom:5px;">
                             <!-- Render via JS -->
                         </div>
                         <div class="product-grid" id="pos-grid">
@@ -221,7 +226,8 @@
                 <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
                     <h3>Master Data Produk</h3>
                     <div style="display:flex; gap:10px;">
-                        <input type="text" id="product-search" placeholder="Cari produk..." style="width:200px; padding:8px 12px;">
+                        <input type="text" id="product-search" placeholder="Cari produk..."
+                            style="width:200px; padding:8px 12px;">
                         <button class="btn primary" onclick="app.showProductModal()">+ Tambah</button>
                     </div>
                 </div>
@@ -247,7 +253,8 @@
                 <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
                     <h3>Riwayat Transaksi</h3>
                     <div style="display:flex; gap:10px;">
-                        <input type="text" id="history-search" placeholder="Cari ID/Tanggal..." style="width:200px; padding:8px 12px;">
+                        <input type="text" id="history-search" placeholder="Cari ID/Tanggal..."
+                            style="width:200px; padding:8px 12px;">
                         <button class="btn"
                             style="background:var(--card-bg); border:1px solid var(--border-color); color:var(--text-main)"
                             onclick="app.exportCSV()">
@@ -265,7 +272,9 @@
                 <h3 style="margin-bottom:20px;">Pengaturan Sistem</h3>
                 <div class="dashboard-charts" style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
                     <div class="card">
-                        <h4 style="margin-bottom:15px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">Profil Toko</h4>
+                        <h4
+                            style="margin-bottom:15px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
+                            Profil Toko</h4>
                         <div class="form-group">
                             <label>Nama Toko</label>
                             <input type="text" id="setting-store-name" value="STARBUCKS COFFEE">
@@ -279,15 +288,19 @@
                             <input type="text" id="setting-store-npwp" value="01.234.567.8-901.000">
                         </div>
                     </div>
-                    
+
                     <div class="card">
-                        <h4 style="margin-bottom:15px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">Preferensi Sistem</h4>
+                        <h4
+                            style="margin-bottom:15px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
+                            Preferensi Sistem</h4>
                         <div class="form-group">
                             <label>Pajak Tambahan (PB1 / PPN %)</label>
                             <input type="number" id="setting-tax-rate" value="10" min="0" max="100">
-                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:5px;">Persentase pajak yang akan ditambahkan ke subtotal. Isi 0 jika tidak ada pajak.</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:5px;">Persentase pajak
+                                yang akan ditambahkan ke subtotal. Isi 0 jika tidak ada pajak.</div>
                         </div>
-                        <button class="btn primary" style="width:100%; margin-top:20px; padding:12px;" onclick="app.saveSettings()">Simpan Pengaturan</button>
+                        <button class="btn primary" style="width:100%; margin-top:20px; padding:12px;"
+                            onclick="app.saveSettings()">Simpan Pengaturan</button>
                     </div>
                 </div>
             </section>
@@ -349,7 +362,7 @@
                     <option value="QRIS">QRIS</option>
                 </select>
             </div>
-            
+
             <!-- Cash Input -->
             <div id="cash-payment-section">
                 <div class="form-group">
@@ -358,14 +371,17 @@
                 </div>
                 <div class="form-group" style="margin-bottom:25px;">
                     <label>Kembalian</label>
-                    <div id="checkout-change" style="font-size:1.5rem; font-weight:600; color:var(--warning-color)">Rp 0</div>
+                    <div id="checkout-change" style="font-size:1.5rem; font-weight:600; color:var(--warning-color)">Rp 0
+                    </div>
                 </div>
             </div>
 
             <!-- QRIS Display -->
             <div id="qris-payment-section" style="display:none; text-align:center; margin-bottom:25px;">
-                <div style="background: white; padding: 15px; border-radius: 10px; display:inline-block; border:1px solid #ccc;">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=STARBUCKS_QRIS" alt="QRIS" style="width:150px; height:150px;">
+                <div
+                    style="background: white; padding: 15px; border-radius: 10px; display:inline-block; border:1px solid #ccc;">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=STARBUCKS_QRIS" alt="QRIS"
+                        style="width:150px; height:150px;">
                 </div>
                 <div style="margin-top:10px; font-weight:600;">Scan QRIS untuk membayar</div>
             </div>
@@ -381,8 +397,10 @@
     <!-- PRINT SECTION (Hidden in UI, only visible in @media print) -->
     <div id="printSection">
         <div class="receipt">
-            <div class="receipt-header" style="text-align:center; margin-bottom:15px; padding-bottom:15px; border-bottom:2px dashed #000;">
-                <img src="Starbucks.jpeg" alt="Starbucks" style="width: 60px; height: 60px; border-radius: 50%; filter: grayscale(100%); margin-bottom:5px;">
+            <div class="receipt-header"
+                style="text-align:center; margin-bottom:15px; padding-bottom:15px; border-bottom:2px dashed #000;">
+                <img src="Starbucks.jpeg" alt="Starbucks"
+                    style="width: 60px; height: 60px; border-radius: 50%; filter: grayscale(100%); margin-bottom:5px;">
                 <h3 style="margin:0; font-family:sans-serif; letter-spacing:1px;">STARBUCKS COFFEE</h3>
                 <p style="margin:2px 0; font-size:11px;">Jl. Raya Protokol No. 123</p>
                 <p style="margin:2px 0; font-size:11px;">NPWP: 01.234.567.8-901.000</p>
@@ -397,14 +415,21 @@
                     <div id="receipt-method"></div>
                 </div>
             </div>
-            <div id="receipt-items" style="border-top:1px solid #000; border-bottom:1px solid #000; padding:10px 0; margin-bottom:15px;"></div>
+            <div id="receipt-items"
+                style="border-top:1px solid #000; border-bottom:1px solid #000; padding:10px 0; margin-bottom:15px;">
+            </div>
             <div class="receipt-total" style="font-size:12px;">
-                <div class="receipt-item" style="font-weight:bold;"><span>SUBTOTAL</span><span id="receipt-total-amt"></span></div>
-                <div class="receipt-item" style="color:#555;"><span>PB1 (10%)</span><span id="receipt-tax">Inc.</span></div>
-                <div class="receipt-item" style="margin-top:5px; border-top:1px dashed #000; padding-top:5px;"><span>TUNAI/BAYAR</span><span id="receipt-pay-amt"></span></div>
+                <div class="receipt-item" style="font-weight:bold;"><span>SUBTOTAL</span><span
+                        id="receipt-total-amt"></span></div>
+                <div class="receipt-item" style="color:#555;"><span>PB1 (10%)</span><span id="receipt-tax">Inc.</span>
+                </div>
+                <div class="receipt-item" style="margin-top:5px; border-top:1px dashed #000; padding-top:5px;">
+                    <span>TUNAI/BAYAR</span><span id="receipt-pay-amt"></span>
+                </div>
                 <div class="receipt-item"><span>KEMBALI</span><span id="receipt-change-amt"></span></div>
             </div>
-            <div style="text-align:center; margin-top:20px; font-size:11px; padding-top:15px; border-top:2px dashed #000;">
+            <div
+                style="text-align:center; margin-top:20px; font-size:11px; padding-top:15px; border-top:2px dashed #000;">
                 <div>Terima Kasih</div>
                 <div>Layanan Konsumen: 1500-123</div>
                 <div style="margin-top:10px; font-style:italic;">* Harga sudah termasuk Pajak</div>
