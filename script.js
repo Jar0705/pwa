@@ -786,7 +786,7 @@ const     app = {
         const headerEl = document.querySelector('.receipt-header');
         if(headerEl) {
             headerEl.innerHTML = `
-                <img src="Starbucks.jpeg" alt="Logo" style="width: 60px; height: 60px; border-radius: 50%; filter: grayscale(100%); margin-bottom:5px;">
+                <img src="assets/image/Starbucks.jpeg" alt="Logo" style="width: 60px; height: 60px; border-radius: 50%; filter: grayscale(100%); margin-bottom:5px;">
                 <h3 style="margin:0; font-family:sans-serif; letter-spacing:1px; text-transform:uppercase;">${this.settings.storeName}</h3>
                 <p style="margin:2px 0; font-size:11px;">${this.settings.storeAddress}</p>
                 <p style="margin:2px 0; font-size:11px;">NPWP: ${this.settings.storeNpwp}</p>
