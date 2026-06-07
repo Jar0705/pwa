@@ -339,9 +339,10 @@ input:focus, select:focus {
     gap: 6px;
     margin-bottom: 14px;
     overflow-x: auto;
-    padding: 0 8px 8px;
+    padding: 0 16px 8px;
     scrollbar-width: thin;
     -webkit-overflow-scrolling: touch;
+    scroll-padding-left: 16px;
 }
 
 .category-tabs::-webkit-scrollbar {
