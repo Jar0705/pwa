@@ -6,8 +6,7 @@
 const DB_PRODUCTS = 'kasir_products';
 const DB_HISTORY = 'kasir_history';
 const DB_MUTATIONS = 'kasir_mutations';
-const USER = "admin";
-const PASS = "12345";
+const DB_USERS = 'kasir_users';
 
 // Main App Object to avoid global scope pollution
 const     app = {
@@ -15,13 +14,13 @@ const     app = {
     products: [],
     history: [],
     mutations: [],
+    users: [],
     settings: {
         storeName: 'STARBUCKS COFFEE',
         storeAddress: '1912 Pike Pl, Seattle, WA 98101',
         storeNpwp: '98-7654321',
         taxRate: 10.25
     },
-    theme: 'light',
 
     init() {
         // Load Data
@@ -88,9 +87,14 @@ const     app = {
         this.history = JSON.parse(localStorage.getItem(DB_HISTORY)) || [];
         this.mutations = JSON.parse(localStorage.getItem(DB_MUTATIONS)) || [];
         
-        // Load Theme
-        this.theme = localStorage.getItem('theme') || 'light';
-        document.documentElement.setAttribute('data-theme', this.theme);
+        // Load Users
+        const defaultUsers = [{ id: 1, username: 'admin', password: '12345', role: 'Administrator' }];
+        this.users = JSON.parse(localStorage.getItem(DB_USERS)) || defaultUsers;
+        if(this.users.length === 0) this.users = defaultUsers;
+        localStorage.setItem(DB_USERS, JSON.stringify(this.users));
+        
+        // Force Light Theme
+        document.documentElement.setAttribute('data-theme', 'light');
 
         this.checkLogin();
         this.setupListeners();
@@ -133,13 +137,6 @@ const     app = {
         }, 3000);
     },
 
-    toggleTheme() {
-        this.theme = this.theme === 'light' ? 'dark' : 'light';
-        document.documentElement.setAttribute('data-theme', this.theme);
-        localStorage.setItem('theme', this.theme);
-        this.showToast(this.theme === 'light' ? 'Light Mode' : 'Dark Mode');
-    },
-
     showModal(id) {
         document.getElementById(id).classList.add('show');
     },
@@ -173,13 +170,25 @@ const     app = {
     login() {
         const user = document.getElementById("username").value;
         const pass = document.getElementById("password").value;
-        if(user === USER && pass === PASS){
+        const validUser = this.users.find(u => u.username === user && u.password === pass);
+        if(validUser){
             localStorage.setItem("login", "true");
+            localStorage.setItem("logged_user", validUser.username);
             this.checkLogin();
-            this.showToast('Welcome!');
+            this.showToast(`Welcome, ${validUser.username}!`);
         } else {
             this.showToast("Wrong Username / Password!", true);
         }
+    },
+    
+    forgotPassword() {
+        Swal.fire({
+            title: 'Forgot Password?',
+            html: '<p style="margin-bottom:15px; font-size:1rem; color:#555;">Please contact the Starbucks IT Service Desk to securely reset your credentials.</p><strong>Email:</strong> support@starbucks.com<br><strong>Phone:</strong> 1-800-STARBUC',
+            icon: 'info',
+            confirmButtonText: 'Understood',
+            confirmButtonColor: '#006241'
+        });
     },
     logout() {
         localStorage.removeItem("login");
@@ -238,7 +247,8 @@ const     app = {
             'pos': 'POS',
             'produk': 'Product Master Data',
             'riwayat': 'Transaction History',
-            'pengaturan': 'System Settings'
+            'pengaturan': 'System Settings',
+            'users': 'Employee Management'
         };
         document.getElementById('topbar-title').innerText = titles[target];
 
@@ -248,6 +258,7 @@ const     app = {
         if(target === 'produk') this.renderProducts();
         if(target === 'riwayat') { this.renderHistory(); this.renderMutasiLog(); }
         if(target === 'pengaturan') this.renderSettings();
+        if(target === 'users') this.renderUsers();
     },
 
     updateStatus() {
@@ -1005,6 +1016,97 @@ const     app = {
             this.renderMutasiLog();
             this.renderDashboard();
             this.showToast('All transaction history wiped completely', true);
+        });
+    },
+
+    // --- USER MANAGEMENT ---
+    renderUsers() {
+        const tbody = document.getElementById('user-table-body');
+        if (!tbody) return;
+        tbody.innerHTML = '';
+        this.users.forEach(u => {
+            const tr = document.createElement('tr');
+            tr.innerHTML = `
+                <td>${u.id}</td>
+                <td><strong>${u.username}</strong></td>
+                <td><span class="badge ${u.role === 'Administrator' ? 'low' : ''}" style="background: ${u.role === 'Administrator' ? 'var(--danger-color)' : 'var(--primary-color)'}; color: white;">${u.role}</span></td>
+                <td>
+                    <button class="btn" style="padding:6px 10px; background:var(--warning-color); color:white; font-size:0.75rem;" onclick="app.openUserModal(${u.id})">Edit</button>
+                    ${u.id !== 1 ? `<button class="btn danger" style="padding:6px 10px; font-size:0.75rem;" onclick="app.deleteUser(${u.id})">Delete</button>` : ''}
+                </td>
+            `;
+            tbody.appendChild(tr);
+        });
+    },
+    openUserModal(id = null) {
+        const title = document.getElementById('user-modal-title');
+        const idInput = document.getElementById('user-id');
+        const usernameInput = document.getElementById('user-username');
+        const passwordInput = document.getElementById('user-password');
+        const roleInput = document.getElementById('user-role');
+        
+        if (id) {
+            const u = this.users.find(x => x.id === id);
+            title.innerText = 'Edit Employee';
+            idInput.value = u.id;
+            usernameInput.value = u.username;
+            passwordInput.value = u.password;
+            roleInput.value = u.role;
+            if (u.id === 1) {
+                usernameInput.disabled = true;
+                roleInput.disabled = true;
+            } else {
+                usernameInput.disabled = false;
+                roleInput.disabled = false;
+            }
+        } else {
+            title.innerText = 'Add Employee';
+            idInput.value = '';
+            usernameInput.value = '';
+            passwordInput.value = '';
+            roleInput.value = 'Cashier';
+            usernameInput.disabled = false;
+            roleInput.disabled = false;
+        }
+        this.showModal('modal-user');
+    },
+    saveUser(e) {
+        e.preventDefault();
+        const id = document.getElementById('user-id').value;
+        const username = document.getElementById('user-username').value;
+        const password = document.getElementById('user-password').value;
+        const role = document.getElementById('user-role').value;
+        
+        if (!username || !password) return this.showToast('Username and Password required', true);
+        
+        if (id) {
+            // Edit
+            const u = this.users.find(x => x.id == id);
+            if (u.id !== 1) {
+                u.username = username;
+                u.role = role;
+            }
+            u.password = password;
+            this.showToast('Employee updated');
+        } else {
+            // Add
+            if (this.users.find(x => x.username === username)) return this.showToast('Username already exists', true);
+            const newId = this.users.length > 0 ? Math.max(...this.users.map(user => user.id)) + 1 : 1;
+            this.users.push({ id: newId, username, password, role });
+            this.showToast('Employee added');
+        }
+        
+        localStorage.setItem(DB_USERS, JSON.stringify(this.users));
+        this.hideModal('modal-user');
+        this.renderUsers();
+    },
+    deleteUser(id) {
+        if (id === 1) return this.showToast('Cannot delete main admin', true);
+        this.showConfirm('Are you sure you want to delete this employee?', () => {
+            this.users = this.users.filter(u => u.id !== id);
+            localStorage.setItem(DB_USERS, JSON.stringify(this.users));
+            this.renderUsers();
+            this.showToast('Employee deleted');
         });
     }
 };
