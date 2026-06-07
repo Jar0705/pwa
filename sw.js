@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kasir-pro-v9-login-bg';
+const CACHE_NAME = 'kasir-pro-v10-real-photo';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
