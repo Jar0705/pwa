@@ -17,9 +17,9 @@ const     app = {
     mutations: [],
     settings: {
         storeName: 'STARBUCKS COFFEE',
-        storeAddress: 'Jl. Raya Protokol No. 123',
-        storeNpwp: '01.234.567.8-901.000',
-        taxRate: 10
+        storeAddress: '1912 Pike Pl, Seattle, WA 98101',
+        storeNpwp: '98-7654321',
+        taxRate: 10.25
     },
     theme: 'light',
 
@@ -27,44 +27,60 @@ const     app = {
         // Load Data
         const defaultProducts = [
             // Coffee
-            { id: 1, name: 'Caffe Latte', price: 45000, category: 'Coffee', stock: 50, image: 'assets/image/caffe_latte.jpg' },
-            { id: 2, name: 'Americano', price: 35000, category: 'Coffee', stock: 100, image: 'assets/image/americano.jpg' },
-            { id: 3, name: 'Caramel Macchiato', price: 55000, category: 'Coffee', stock: 40, image: 'assets/image/caramel_macchiato.jpg' },
-            { id: 4, name: 'Espresso', price: 30000, category: 'Coffee', stock: 80, image: 'assets/image/espresso.jpg' },
-            { id: 5, name: 'Mocha Frappuccino', price: 60000, category: 'Coffee', stock: 35, image: 'assets/image/mocha_frappuccino.jpg' },
-            { id: 6, name: 'Vanilla Latte', price: 50000, category: 'Coffee', stock: 45, image: 'assets/image/vanilla_latte.jpg' },
+            { id: 1, name: 'Caffe Latte', price: 4.50, category: 'Coffee', stock: 50, image: 'assets/image/caffe_latte.jpg' },
+            { id: 2, name: 'Americano', price: 3.50, category: 'Coffee', stock: 100, image: 'assets/image/americano.jpg' },
+            { id: 3, name: 'Caramel Macchiato', price: 5.50, category: 'Coffee', stock: 40, image: 'assets/image/caramel_macchiato.jpg' },
+            { id: 4, name: 'Espresso', price: 3.00, category: 'Coffee', stock: 80, image: 'assets/image/espresso.jpg' },
+            { id: 5, name: 'Mocha Frappuccino', price: 6.00, category: 'Coffee', stock: 35, image: 'assets/image/mocha_frappuccino.jpg' },
+            { id: 6, name: 'Vanilla Latte', price: 5.00, category: 'Coffee', stock: 45, image: 'assets/image/vanilla_latte.jpg' },
             
             // Non-Coffee
-            { id: 7, name: 'Matcha Green Tea', price: 55000, category: 'Non-Coffee', stock: 30, image: 'assets/image/matcha.jpg' },
-            { id: 8, name: 'Signature Chocolate', price: 50000, category: 'Non-Coffee', stock: 40, image: 'assets/image/signature_chocolate.jpg' },
-            { id: 9, name: 'Teavana Earl Grey', price: 40000, category: 'Non-Coffee', stock: 60, image: 'assets/image/earl_grey.jpg' },
-            { id: 10, name: 'Iced Shaken Lemon Tea', price: 45000, category: 'Non-Coffee', stock: 55, image: 'assets/image/lemon_tea.jpg' },
+            { id: 7, name: 'Matcha Green Tea', price: 5.50, category: 'Non-Coffee', stock: 30, image: 'assets/image/matcha.jpg' },
+            { id: 8, name: 'Signature Chocolate', price: 5.00, category: 'Non-Coffee', stock: 40, image: 'assets/image/signature_chocolate.jpg' },
+            { id: 9, name: 'Teavana Earl Grey', price: 4.00, category: 'Non-Coffee', stock: 60, image: 'assets/image/earl_grey.jpg' },
+            { id: 10, name: 'Iced Shaken Lemon Tea', price: 4.50, category: 'Non-Coffee', stock: 55, image: 'assets/image/lemon_tea.jpg' },
             
-            // Makanan
-            { id: 11, name: 'Butter Croissant', price: 25000, category: 'Makanan', stock: 20, image: 'assets/image/butter_croissant.jpg' },
-            { id: 12, name: 'Almond Croissant', price: 35000, category: 'Makanan', stock: 15, image: 'assets/image/croissant.jpg' },
-            { id: 13, name: 'Beef Sausage & Cheese', price: 45000, category: 'Makanan', stock: 10, image: 'assets/image/beef_sausage.jpg' },
-            { id: 14, name: 'New York Cheesecake', price: 40000, category: 'Makanan', stock: 8, image: 'assets/image/cheesecake.jpg' },
-            { id: 15, name: 'Tuna Puff', price: 35000, category: 'Makanan', stock: 12, image: 'assets/image/tuna_puff.jpg' },
+            // Food
+            { id: 11, name: 'Butter Croissant', price: 2.50, category: 'Food', stock: 20, image: 'assets/image/butter_croissant.jpg' },
+            { id: 12, name: 'Almond Croissant', price: 3.50, category: 'Food', stock: 15, image: 'assets/image/croissant.jpg' },
+            { id: 13, name: 'Beef Sausage & Cheese', price: 4.50, category: 'Food', stock: 10, image: 'assets/image/beef_sausage.jpg' },
+            { id: 14, name: 'New York Cheesecake', price: 4.00, category: 'Food', stock: 8, image: 'assets/image/cheesecake.jpg' },
+            { id: 15, name: 'Tuna Puff', price: 3.50, category: 'Food', stock: 12, image: 'assets/image/tuna_puff.jpg' },
             
             // Merchandise
-            { id: 16, name: 'Starbucks Tumbler', price: 250000, category: 'Merchandise', stock: 5, image: 'assets/image/tumbler.jpg' },
-            { id: 17, name: 'Coffee Beans 250g', price: 120000, category: 'Merchandise', stock: 15, image: 'assets/image/coffee_beans.jpg' },
-            { id: 18, name: 'Starbucks Mug', price: 150000, category: 'Merchandise', stock: 10, image: 'assets/image/Starbucks.jpeg' }
+            { id: 16, name: 'Starbucks Tumbler', price: 25.00, category: 'Merchandise', stock: 5, image: 'assets/image/tumbler.jpg' },
+            { id: 17, name: 'Coffee Beans 250g', price: 12.00, category: 'Merchandise', stock: 15, image: 'assets/image/coffee_beans.jpg' },
+            { id: 18, name: 'Starbucks Mug', price: 15.00, category: 'Merchandise', stock: 10, image: 'assets/image/Starbucks.jpeg' }
         ];
 
         let savedProducts = JSON.parse(localStorage.getItem(DB_PRODUCTS));
+        // Force wipe logic via check for old IDR prices or user request
+        if(localStorage.getItem('force_reset_v2') !== 'true') {
+            localStorage.removeItem(DB_PRODUCTS);
+            localStorage.removeItem(DB_HISTORY);
+            localStorage.removeItem(DB_MUTATIONS);
+            localStorage.removeItem('kasir_settings');
+            localStorage.setItem('force_reset_v2', 'true');
+            savedProducts = null;
+        }
+
         if(!savedProducts || savedProducts.length === 0) {
             this.products = defaultProducts;
         } else {
-            // Force update placeholder images to fix broken URLs
-            this.products = savedProducts.map(p => {
-                const defaultP = defaultProducts.find(dp => dp.id === p.id);
-                if(defaultP && ([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18].includes(p.id) || !p.image || p.image.includes('images.unsplash.com'))) {
-                    p.image = defaultP.image;
-                }
-                return p;
-            });
+            // Check if user still has the old Rupiah prices and reset their DB if needed
+            if (savedProducts[0] && savedProducts[0].price > 1000) {
+                this.products = defaultProducts;
+            } else {
+                this.products = savedProducts.map(p => {
+                    const defaultP = defaultProducts.find(dp => dp.id === p.id);
+                    if(defaultP && ([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18].includes(p.id) || !p.image || p.image.includes('images.unsplash.com'))) {
+                        p.image = defaultP.image;
+                    }
+                    // Migrate category 'Makanan' to 'Food'
+                    if (p.category === 'Makanan') p.category = 'Food';
+                    return p;
+                });
+            }
         }
         localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
         
@@ -92,8 +108,8 @@ const     app = {
         }, 1000);
     },
 
-    formatRupiah(number) {
-        return `Rp ${number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
+    formatCurrency(number) {
+        return `$${parseFloat(number).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
     },
 
     debounce(fn, delay = 300) {
@@ -121,7 +137,7 @@ const     app = {
         this.theme = this.theme === 'light' ? 'dark' : 'light';
         document.documentElement.setAttribute('data-theme', this.theme);
         localStorage.setItem('theme', this.theme);
-        this.showToast(this.theme === 'light' ? 'Mode Terang' : 'Mode Gelap');
+        this.showToast(this.theme === 'light' ? 'Light Mode' : 'Dark Mode');
     },
 
     showModal(id) {
@@ -160,15 +176,15 @@ const     app = {
         if(user === USER && pass === PASS){
             localStorage.setItem("login", "true");
             this.checkLogin();
-            this.showToast('Selamat datang!');
+            this.showToast('Welcome!');
         } else {
-            this.showToast("Username / Password salah!", true);
+            this.showToast("Wrong Username / Password!", true);
         }
     },
     logout() {
         localStorage.removeItem("login");
         this.checkLogin();
-        this.showToast('Berhasil logout');
+        this.showToast('Logged out successfully');
     },
 
     // --- NAVIGATION ---
@@ -219,10 +235,10 @@ const     app = {
         // Update Topbar
         const titles = {
             'dashboard': 'Dashboard',
-            'pos': 'Kasir (POS)',
-            'produk': 'Master Data Produk',
-            'riwayat': 'Riwayat Transaksi',
-            'pengaturan': 'Pengaturan Sistem'
+            'pos': 'POS',
+            'produk': 'Product Master Data',
+            'riwayat': 'Transaction History',
+            'pengaturan': 'System Settings'
         };
         document.getElementById('topbar-title').innerText = titles[target];
 
@@ -242,7 +258,7 @@ const     app = {
         } else {
             el.innerText = "Offline";
             el.style.color = "var(--danger-color)";
-            this.showToast("Mode Offline", true);
+            this.showToast("Offline Mode", true);
         }
     },
 
@@ -261,7 +277,7 @@ const     app = {
             }
         });
 
-        document.getElementById('dash-revenue').innerText = this.formatRupiah(todayRevenue);
+        document.getElementById('dash-revenue').innerText = this.formatCurrency(todayRevenue);
         document.getElementById('dash-count').innerText = totalCount;
         
         const elItems = document.getElementById('dash-items');
@@ -272,12 +288,12 @@ const     app = {
         if(lowStockContainer) {
             const lowStockProducts = this.products.filter(p => (p.stock || 0) <= 5);
             if(lowStockProducts.length === 0) {
-                lowStockContainer.innerHTML = '<div style="color:var(--text-muted); font-size:0.9rem;">Semua stok aman.</div>';
+                lowStockContainer.innerHTML = '<div style="color:var(--text-muted); font-size:0.9rem;">All stock levels are safe.</div>';
             } else {
                 lowStockContainer.innerHTML = lowStockProducts.map(p => `
                     <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px dashed var(--border-color);">
-                        <div style="font-weight:500;">${p.name} <span class="badge badge-category" style="margin-left:5px;">${p.category||'Lainnya'}</span></div>
-                        <div style="color:var(--danger-color); font-weight:700;">Sisa: ${p.stock||0}</div>
+                        <div style="font-weight:500;">${p.name} <span class="badge badge-category" style="margin-left:5px;">${p.category||'Other'}</span></div>
+                        <div style="color:var(--danger-color); font-weight:700;">Left: ${p.stock||0}</div>
                     </div>
                 `).join('');
             }
@@ -321,7 +337,7 @@ const     app = {
                 data: {
                     labels: last7Days,
                     datasets: [{
-                        label: 'Pendapatan (Rp)',
+                        label: 'Revenue ($)',
                         data: dataVals,
                         borderColor: '#006241',
                         backgroundColor: 'rgba(0, 98, 65, 0.1)',
@@ -337,7 +353,7 @@ const     app = {
                         legend: { display: false }
                     },
                     scales: {
-                        y: { beginAtZero: true, ticks: { callback: (value) => value >= 1000 ? 'Rp ' + (value/1000).toFixed(1).replace('.0','') + 'k' : 'Rp ' + value } }
+                        y: { beginAtZero: true, ticks: { callback: (value) => value >= 1000 ? '$' + (value/1000).toFixed(1).replace('.0','') + 'k' : '$' + value } }
                     }
                 }
             });
@@ -354,7 +370,7 @@ const     app = {
         const sortedProds = Object.entries(prodCount).sort((a,b) => b[1] - a[1]).slice(0, 5);
         const listEl = document.getElementById('topProductsList');
         if(sortedProds.length === 0) {
-            listEl.innerHTML = '<li style="color:var(--text-muted);">Belum ada data penjualan</li>';
+            listEl.innerHTML = '<li style="color:var(--text-muted);">No sales data yet</li>';
         } else {
             listEl.innerHTML = sortedProds.map((p, index) => `
                 <li style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--border-color);">
@@ -379,12 +395,12 @@ const     app = {
         }
 
         if(filtered.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted)">Produk tidak ditemukan</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted)">Product not found</td></tr>`;
             return;
         }
 
         tbody.innerHTML = filtered.map(p => {
-            const cat = p.category || 'Lainnya';
+            const cat = p.category || 'Other';
             const stock = p.stock || 0;
             const stockBadge = stock <= 5 ? 'badge-stock low' : 'badge-stock';
             const thumb = p.image
@@ -397,12 +413,12 @@ const     app = {
                     ${thumb}${p.name}<br>
                     <span class="badge badge-category" style="margin-top:4px;">${cat}</span>
                 </td>
-                <td style="color:var(--primary-color); font-weight:600;">${this.formatRupiah(p.price)}</td>
-                <td><span class="badge ${stockBadge}">Stok: ${stock}</span></td>
+                <td style="color:var(--primary-color); font-weight:600;">${this.formatCurrency(p.price)}</td>
+                <td><span class="badge ${stockBadge}">Stock: ${stock}</span></td>
                 <td style="text-align:right;">
-                    <button class="btn" style="padding:6px 10px; background:rgba(0,98,65,0.1); color:var(--primary-color); font-size:0.75rem; border:1px solid rgba(0,98,65,0.2);" onclick="app.showMutasiModal(${p.id})">Stok</button>
+                    <button class="btn" style="padding:6px 10px; background:rgba(0,98,65,0.1); color:var(--primary-color); font-size:0.75rem; border:1px solid rgba(0,98,65,0.2);" onclick="app.showMutasiModal(${p.id})">Stock</button>
                     <button class="btn" style="padding:6px 10px; background:var(--warning-color); color:white; font-size:0.75rem;" onclick="app.editProduct(${p.id})">Edit</button>
-                    <button class="btn danger" style="padding:6px 10px; font-size:0.75rem;" onclick="app.deleteProduct(${p.id})">Hapus</button>
+                    <button class="btn danger" style="padding:6px 10px; font-size:0.75rem;" onclick="app.deleteProduct(${p.id})">Delete</button>
                 </td>
             </tr>
             `;
@@ -425,7 +441,7 @@ const     app = {
         document.getElementById('product-stock').value = '0';
         document.getElementById('product-image').value = '';
         document.getElementById('product-image-preview').innerHTML = '';
-        document.getElementById('product-modal-title').innerText = 'Tambah Produk';
+        document.getElementById('product-modal-title').innerText = 'Add Product';
         this.showModal('modal-product');
     },
 
@@ -441,7 +457,7 @@ const     app = {
         document.getElementById('product-image-preview').innerHTML = p.image
             ? `<img src="${p.image}" style="max-width:80px;max-height:80px;border-radius:8px;border:1px solid var(--border-color);">`
             : '';
-        document.getElementById('product-modal-title').innerText = 'Edit Produk';
+        document.getElementById('product-modal-title').innerText = 'Edit Product';
         this.showModal('modal-product');
     },
 
@@ -460,7 +476,7 @@ const     app = {
         }
 
         if(!name || !price) {
-            this.showToast('Isi nama dan harga produk!', true);
+            this.showToast('Fill in product name and price!', true);
             return;
         }
 
@@ -468,11 +484,11 @@ const     app = {
             // Edit
             const idx = this.products.findIndex(x => x.id == id);
             this.products[idx] = { id: parseInt(id), name, price, category, stock, image };
-            this.showToast('Produk diperbarui');
+            this.showToast('Product updated');
         } else {
             // Add
             this.products.push({ id: Date.now(), name, price, category, stock, image });
-            this.showToast('Produk ditambahkan');
+            this.showToast('Product added');
         }
 
         localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
@@ -482,12 +498,12 @@ const     app = {
     },
 
     deleteProduct(id) {
-        this.showConfirm('Yakin hapus produk ini?', () => {
+        this.showConfirm('Are you sure you want to delete this product?', () => {
             this.products = this.products.filter(x => x.id !== id);
             localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
             this.renderProducts();
             this.renderPOS();
-            this.showToast('Produk berhasil dihapus');
+            this.showToast('Product successfully deleted');
         });
     },
 
@@ -511,7 +527,7 @@ const     app = {
         const note = document.getElementById('mutasi-note').value.trim();
 
         if(!qty || qty <= 0) {
-            this.showToast('Isi jumlah mutasi!', true);
+            this.showToast('Fill in adjustment quantity!', true);
             return;
         }
 
@@ -519,7 +535,7 @@ const     app = {
         if(!product) return;
 
         if(type === 'out' && qty > (product.stock || 0)) {
-            this.showToast('Stok tidak mencukupi!', true);
+            this.showToast('Insufficient stock!', true);
             return;
         }
 
@@ -535,7 +551,7 @@ const     app = {
             productName: product.name,
             type: type,
             qty: qty,
-            note: note || (type === 'in' ? 'Restock' : 'Penjualan'),
+            note: note || (type === 'in' ? 'Restock' : 'Sales'),
             stockAfter: product.stock
         };
 
@@ -543,7 +559,7 @@ const     app = {
         localStorage.setItem(DB_MUTATIONS, JSON.stringify(this.mutations));
 
         this.hideModal('modal-mutasi');
-        this.showToast('Mutasi berhasil');
+        this.showToast('Adjustment successful');
         this.renderProducts();
         this.renderMutasiLog();
     },
@@ -556,7 +572,7 @@ const     app = {
         if(countEl) countEl.innerText = this.mutations.length;
 
         if(this.mutations.length === 0) {
-            container.innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:10px;">Belum ada mutasi</div>';
+            container.innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:10px;">No adjustments yet</div>';
             return;
         }
 
@@ -571,7 +587,7 @@ const     app = {
                 </div>
                 <div style="text-align:right;">
                     <span style="font-weight:700;font-size:0.9rem;color:${isIn ? 'var(--primary-color)' : 'var(--danger-color)'};">${isIn ? '+' : '-'}${m.qty}</span>
-                    <div style="font-size:0.65rem;color:var(--text-muted);">sisa ${m.stockAfter}</div>
+                    <div style="font-size:0.65rem;color:var(--text-muted);">left ${m.stockAfter}</div>
                 </div>
             </div>
             `;
@@ -579,7 +595,7 @@ const     app = {
     },
 
     // --- POS & CART ---
-    currentPosCategory: 'Semua',
+    currentPosCategory: 'All',
 
     setPosCategory(cat) {
         this.currentPosCategory = cat;
@@ -591,8 +607,8 @@ const     app = {
         const catContainer = document.getElementById('pos-categories');
         
         // Render Categories — dynamic from product data
-        const catSet = new Set(this.products.map(p => p.category || 'Lainnya'));
-        const categories = ['Semua', ...Array.from(catSet).sort()];
+        const catSet = new Set(this.products.map(p => p.category || 'Other'));
+        const categories = ['All', ...Array.from(catSet).sort()];
         if(catContainer) {
             catContainer.innerHTML = categories.map(c => `
                 <div class="category-tab ${this.currentPosCategory === c ? 'active' : ''}" onclick="app.setPosCategory('${c}')">
@@ -603,8 +619,8 @@ const     app = {
 
         let filtered = this.products;
         
-        if(this.currentPosCategory !== 'Semua') {
-            filtered = filtered.filter(p => (p.category || 'Lainnya') === this.currentPosCategory);
+        if(this.currentPosCategory !== 'All') {
+            filtered = filtered.filter(p => (p.category || 'Other') === this.currentPosCategory);
         }
 
         if(search) {
@@ -612,7 +628,7 @@ const     app = {
         }
 
         if(filtered.length === 0) {
-            grid.innerHTML = `<div style="grid-column: 1/-1; color:var(--text-muted); padding:20px; text-align:center;">Produk tidak ditemukan</div>`;
+            grid.innerHTML = `<div style="grid-column: 1/-1; color:var(--text-muted); padding:20px; text-align:center;">Product not found</div>`;
             return;
         }
 
@@ -627,8 +643,8 @@ const     app = {
                 <div class="product-card-avatar">${avatar}</div>
                 <div class="product-card-body">
                     <div class="product-name">${p.name}</div>
-                    <div class="product-price">${this.formatRupiah(p.price)}</div>
-                    <div class="product-stock-badge ${lowStock ? 'low' : ''}">Stok: ${p.stock || 0}</div>
+                    <div class="product-price">${this.formatCurrency(p.price)}</div>
+                    <div class="product-stock-badge ${lowStock ? 'low' : ''}">Stock: ${p.stock || 0}</div>
                 </div>
             </div>
             `;
@@ -645,7 +661,7 @@ const     app = {
         const currentQty = existing ? existing.qty : 0;
 
         if(currentQty + 1 > (p.stock || 0)) {
-            this.showToast('Stok tidak mencukupi!', true);
+            this.showToast('Insufficient stock!', true);
             return;
         }
 
@@ -666,10 +682,10 @@ const     app = {
 
     clearCart() {
         if(this.cart.length === 0) return;
-        this.showConfirm('Kosongkan keranjang?', () => {
+        this.showConfirm('Clear cart?', () => {
             this.cart = [];
             this.renderCart();
-            this.showToast('Keranjang dikosongkan');
+            this.showToast('Cart cleared');
         });
     },
 
@@ -686,7 +702,7 @@ const     app = {
 
         const product = this.products.find(p => p.id === id);
         if(delta > 0 && product && newQty > (product.stock || 0)) {
-            this.showToast('Stok tidak mencukupi!', true);
+            this.showToast('Insufficient stock!', true);
             return;
         }
 
@@ -701,7 +717,7 @@ const     app = {
         let grandTotal = 0;
 
         if(this.cart.length === 0) {
-            container.innerHTML = `<div class="cart-empty">Keranjang kosong</div>`;
+            container.innerHTML = `<div class="cart-empty">Cart is empty</div>`;
             if(countEl) countEl.innerText = '0';
         } else {
             container.innerHTML = this.cart.map(c => {
@@ -710,7 +726,7 @@ const     app = {
                 <div class="cart-item">
                     <div class="cart-item-info">
                         <div class="cart-item-title">${c.name}</div>
-                        <div class="cart-item-price">${this.formatRupiah(c.price)}</div>
+                        <div class="cart-item-price">${this.formatCurrency(c.price)}</div>
                     </div>
                     <div class="cart-item-actions">
                         <button class="qty-btn" onclick="app.updateCartQty(${c.id}, -1)">−</button>
@@ -723,14 +739,14 @@ const     app = {
             if(countEl) countEl.innerText = this.cart.length;
         }
 
-        document.getElementById('cart-total').innerText = this.formatRupiah(grandTotal);
+        document.getElementById('cart-total').innerText = this.formatCurrency(grandTotal);
         this.cartTotal = grandTotal;
     },
 
     // --- CHECKOUT & PRINT ---
     showCheckoutModal() {
         if(this.cart.length === 0) {
-            this.showToast("Keranjang kosong!", true);
+            this.showToast("Cart is empty!", true);
             return;
         }
 
@@ -738,9 +754,9 @@ const     app = {
         this.cartTax = Math.round(this.cartTotal * (this.settings.taxRate / 100));
         this.cartGrandTotal = this.cartTotal + this.cartTax;
 
-        document.getElementById('checkout-total').innerText = this.formatRupiah(this.cartGrandTotal);
+        document.getElementById('checkout-total').innerText = this.formatCurrency(this.cartGrandTotal);
         document.getElementById('checkout-pay').value = '';
-        document.getElementById('checkout-change').innerText = 'Rp 0';
+        document.getElementById('checkout-change').innerText = '$0.00';
         document.getElementById('checkout-change').style.color = 'var(--warning-color)';
         
         const methodEl = document.getElementById('checkout-method');
@@ -772,10 +788,10 @@ const     app = {
         const changeEl = document.getElementById('checkout-change');
         
         if(change < 0) {
-            changeEl.innerText = 'Kurang ' + this.formatRupiah(Math.abs(change));
+            changeEl.innerText = 'Missing ' + this.formatCurrency(Math.abs(change));
             changeEl.style.color = 'var(--danger-color)';
         } else {
-            changeEl.innerText = this.formatRupiah(change);
+            changeEl.innerText = this.formatCurrency(change);
             changeEl.style.color = 'var(--primary-color)';
         }
     },
@@ -789,7 +805,7 @@ const     app = {
         }
 
         if(pay < this.cartGrandTotal) {
-            this.showToast("Uang pembayaran kurang!", true);
+            this.showToast("Insufficient payment amount!", true);
             return;
         }
 
@@ -815,11 +831,11 @@ const     app = {
         for (const cartItem of this.cart) {
             const product = this.products.find(p => p.id === cartItem.id);
             if (!product) {
-                this.showToast(`Produk "${cartItem.name}" tidak ditemukan!`, true);
+                this.showToast(`Product "${cartItem.name}" not found!`, true);
                 return;
             }
             if ((product.stock || 0) < cartItem.qty) {
-                this.showToast(`Stok "${product.name}" tidak mencukupi (tersisa ${product.stock || 0})!`, true);
+                this.showToast(`Insufficient stock for "${product.name}" (${product.stock || 0} left)!`, true);
                 return;
             }
         }
@@ -834,7 +850,7 @@ const     app = {
         localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
 
         this.hideModal('modal-checkout');
-        this.showToast("Transaksi Berhasil!");
+        this.showToast("Transaction Successful!");
 
         // Prepare Print Receipt
         this.printReceipt(transaction);
@@ -863,19 +879,19 @@ const     app = {
         document.getElementById('receipt-items').innerHTML = trx.items.map(i => `
             <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
                 <span>${i.qty}x ${i.name}</span>
-                <span>${this.formatRupiah(i.total)}</span>
+                <span>${this.formatCurrency(i.total)}</span>
             </div>
         `).join('');
 
         // Dynamic tax label
         const taxLabelEl = document.querySelector('.receipt-total .receipt-item:nth-child(2) span:first-child');
-        if(taxLabelEl) taxLabelEl.innerText = `Pajak (${this.settings.taxRate}%)`;
+        if(taxLabelEl) taxLabelEl.innerText = `Tax (${this.settings.taxRate}%)`;
         const taxAmtEl = document.getElementById('receipt-tax');
-        if(taxAmtEl) taxAmtEl.innerText = trx.tax > 0 ? this.formatRupiah(trx.tax) : 'Inc.';
+        if(taxAmtEl) taxAmtEl.innerText = trx.tax > 0 ? this.formatCurrency(trx.tax) : 'Incl.';
 
-        document.getElementById('receipt-total-amt').innerText = this.formatRupiah(trx.subtotal || trx.total);
-        document.getElementById('receipt-pay-amt').innerText = this.formatRupiah(trx.pay);
-        document.getElementById('receipt-change-amt').innerText = this.formatRupiah(trx.change);
+        document.getElementById('receipt-total-amt').innerText = this.formatCurrency(trx.subtotal || trx.total);
+        document.getElementById('receipt-pay-amt').innerText = this.formatCurrency(trx.pay);
+        document.getElementById('receipt-change-amt').innerText = this.formatCurrency(trx.change);
 
         // Call browser print
         window.print();
@@ -899,7 +915,7 @@ const     app = {
         }
 
         if(filtered.length === 0) {
-            container.innerHTML = `<div class="card" style="text-align:center; color:var(--text-muted)">Riwayat tidak ditemukan</div>`;
+            container.innerHTML = `<div class="card" style="text-align:center; color:var(--text-muted)">History not found</div>`;
             return;
         }
 
@@ -908,24 +924,24 @@ const     app = {
                 <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
                     <div>
                         <div style="font-weight:600; color:var(--text-main)">${h.id}</div>
-                        <div style="font-size:0.8rem; color:var(--text-muted)">${new Date(h.timestamp).toLocaleString('id-ID')}</div>
+                        <div style="font-size:0.8rem; color:var(--text-muted)">${new Date(h.timestamp).toLocaleString('en-US')}</div>
                     </div>
                     <div style="text-align:right">
-                        <div style="font-weight:700; font-size:1.1rem; color:var(--primary-color);">${this.formatRupiah(h.total)}</div>
-                        <span class="badge badge-success" style="margin-top:5px;">Lunas</span>
+                        <div style="font-weight:700; font-size:1.1rem; color:var(--primary-color);">${this.formatCurrency(h.total)}</div>
+                        <span class="badge badge-success" style="margin-top:5px;">Paid</span>
                     </div>
                 </div>
                 <div class="history-detail">
-                    <div style="font-weight:600; margin-bottom:10px;">Detail Pesanan:</div>
+                    <div style="font-weight:600; margin-bottom:10px;">Order Details:</div>
                     ${h.items.map(i => `
                         <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:5px;">
                             <span>${i.name} x${i.qty}</span>
-                            <span style="color:var(--text-muted)">${this.formatRupiah(i.total)}</span>
+                            <span style="color:var(--text-muted)">${this.formatCurrency(i.total)}</span>
                         </div>
                     `).join('')}
                     <div style="border-top:1px dashed var(--border-color); margin-top:10px; padding-top:10px; display:flex; justify-content:space-between; font-size:0.85rem;">
-                        <span>Tunai: ${this.formatRupiah(h.pay)}</span>
-                        <span>Kembali: ${this.formatRupiah(h.change)}</span>
+                        <span>Cash: ${this.formatCurrency(h.pay)}</span>
+                        <span>Change: ${this.formatCurrency(h.change)}</span>
                     </div>
                 </div>
             </div>
@@ -934,15 +950,15 @@ const     app = {
 
     exportCSV() {
         if(this.history.length === 0) {
-            this.showToast('Belum ada data untuk diexport!', true);
+            this.showToast('No data to export!', true);
             return;
         }
         
         let csvContent = "data:text/csv;charset=utf-8,";
-        csvContent += "ID,Tanggal,Total Tagihan,Metode,Item\n";
+        csvContent += "ID,Date,Total Amount,Method,Items\n";
         
         this.history.forEach(h => {
-            const dateStr = new Date(h.timestamp).toLocaleString('id-ID').replace(/,/g, '');
+            const dateStr = new Date(h.timestamp).toLocaleString('en-US').replace(/,/g, '');
             const itemStr = h.items.map(i => `${i.qty}x ${i.name}`).join('; ');
             csvContent += `${h.id},${dateStr},${h.total},${h.method||'Cash'},"${itemStr}"\n`;
         });
@@ -950,12 +966,12 @@ const     app = {
         const encodedUri = encodeURI(csvContent);
         const link = document.createElement("a");
         link.setAttribute("href", encodedUri);
-        link.setAttribute("download", `Laporan_Kasir_${new Date().toLocaleDateString('id-ID')}.csv`);
+        link.setAttribute("download", `POS_Report_${new Date().toLocaleDateString('en-US')}.csv`);
         document.body.appendChild(link);
         link.click();
         document.body.removeChild(link);
         
-        this.showToast("Berhasil didownload");
+        this.showToast("Downloaded successfully");
     },
 
     // --- SETTINGS ---
@@ -973,7 +989,23 @@ const     app = {
         this.settings.taxRate = parseFloat(document.getElementById('setting-tax-rate').value) || 0;
         
         localStorage.setItem('kasir_settings', JSON.stringify(this.settings));
-        this.showToast('Pengaturan berhasil disimpan!');
+        this.showToast('Settings successfully saved!');
+    },
+
+    resetHistory() {
+        this.showConfirm('Are you absolutely sure you want to wipe all transaction history and stock adjustments? This action CANNOT be undone.', () => {
+            // Clear history and mutations
+            this.history = [];
+            this.mutations = [];
+            localStorage.removeItem(DB_HISTORY);
+            localStorage.removeItem(DB_MUTATIONS);
+            
+            // Re-render everything
+            this.renderHistory();
+            this.renderMutasiLog();
+            this.renderDashboard();
+            this.showToast('All transaction history wiped completely', true);
+        });
     }
 };
 
@@ -986,7 +1018,7 @@ document.addEventListener('DOMContentLoaded', () => {
 if('serviceWorker' in navigator){
     window.addEventListener('load', () => {
         navigator.serviceWorker.register('sw.js')
-            .then(reg => console.log('SW terdaftar!'))
+            .then(reg => console.log('SW registered!'))
             .catch(err => console.log('SW error', err));
     });
 }

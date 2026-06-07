@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kasir-pro-v7-ai-images';
+const CACHE_NAME = 'kasir-pro-v8-english-us';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',

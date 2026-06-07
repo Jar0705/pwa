@@ -54,14 +54,14 @@
 
             <div class="form-group" style="text-align: left;">
                 <label>Username</label>
-                <input type="text" id="username" placeholder="Masukkan admin" autocomplete="off">
+                <input type="text" id="username" placeholder="Enter admin" autocomplete="off">
             </div>
             <div class="form-group" style="text-align: left;">
                 <label>Password</label>
-                <input type="password" id="password" placeholder="Masukkan 12345">
+                <input type="password" id="password" placeholder="Enter 12345">
             </div>
 
-            <button class="btn primary" style="width:100%; margin-top:10px;" onclick="app.login()">Masuk</button>
+            <button class="btn primary" style="width:100%; margin-top:10px;" onclick="app.login()">Login</button>
         </div>
     </section>
 
@@ -80,16 +80,16 @@
                     Dashboard
                 </div>
                 <div class="nav-item" data-target="pos">
-                    Kasir
+                    POS
                 </div>
                 <div class="nav-item" data-target="produk">
-                    Produk
+                    Products
                 </div>
                 <div class="nav-item" data-target="riwayat">
-                    Riwayat
+                    History
                 </div>
                 <div class="nav-item" data-target="pengaturan">
-                    Pengaturan
+                    Settings
                 </div>
             </div>
 
@@ -115,15 +115,15 @@
 
             <!-- 1. DASHBOARD PAGE -->
             <section id="dashboard" class="page active">
-                <h3 style="margin-bottom: 20px;">Ringkasan Hari Ini</h3>
+                <h3 style="margin-bottom: 20px;">Today's Summary</h3>
                 <div class="grid-cards">
                     <div class="card stat-card">
                         <div class="stat-icon"><svg width="24" height="24">
                                 <use href="#icon-pos"></use>
                             </svg></div>
                         <div class="stat-info">
-                            <p>Penjualan Hari Ini</p>
-                            <h3 id="dash-revenue">Rp 0</h3>
+                            <p>Today's Revenue</p>
+                            <h3 id="dash-revenue">$0.00</h3>
                         </div>
                     </div>
                     <div class="card stat-card">
@@ -133,7 +133,7 @@
                             </svg>
                         </div>
                         <div class="stat-info">
-                            <p>Total Transaksi</p>
+                            <p>Total Transactions</p>
                             <h3 id="dash-count">0</h3>
                         </div>
                     </div>
@@ -144,7 +144,7 @@
                             </svg>
                         </div>
                         <div class="stat-info">
-                            <p>Item Terjual</p>
+                            <p>Items Sold</p>
                             <h3 id="dash-items">0</h3>
                         </div>
                     </div>
@@ -153,13 +153,13 @@
                 <div class="dashboard-charts"
                     style="margin-top: 20px; display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
                     <div class="card" style="margin-bottom:0;">
-                        <h4 style="margin-bottom: 15px; color: var(--text-main);">Tren Pendapatan (7 Hari Terakhir)</h4>
+                        <h4 style="margin-bottom: 15px; color: var(--text-main);">Revenue Trend (Last 7 Days)</h4>
                         <div style="position: relative; height: 250px; width: 100%;">
                             <canvas id="revenueChart"></canvas>
                         </div>
                     </div>
                     <div class="card" style="margin-bottom:0;">
-                        <h4 style="margin-bottom: 15px; color: var(--text-main);">Produk Terlaris</h4>
+                        <h4 style="margin-bottom: 15px; color: var(--text-main);">Top Selling Products</h4>
                         <ul id="topProductsList" style="list-style: none; padding: 0;">
                             <!-- rendered via js -->
                         </ul>
@@ -168,8 +168,8 @@
 
                 <div class="card" style="margin-top:20px;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                        <h4 style="color: var(--danger-color);">Peringatan Stok Menipis</h4>
-                        <span class="badge badge-stock low" style="font-size:0.7rem;">&lt;= 5 Item</span>
+                        <h4 style="color: var(--danger-color);">Low Stock Alerts</h4>
+                        <span class="badge badge-stock low" style="font-size:0.7rem;">&lt;= 5 Items</span>
                     </div>
                     <div id="dash-low-stock">
                         <!-- Rendered via JS -->
@@ -182,27 +182,27 @@
                 <div class="pos-container">
                     <div class="pos-products">
                         <div class="pos-search-wrap">
-                            <input type="text" id="pos-search" placeholder="Cari produk..." class="pos-search-input">
+                            <input type="text" id="pos-search" placeholder="Search products..." class="pos-search-input">
                         </div>
                         <div class="category-tabs" id="pos-categories"></div>
                         <div class="product-grid" id="pos-grid"></div>
                     </div>
                     <div class="pos-cart">
                         <div class="cart-header">
-                            <span>Keranjang</span>
+                            <span>Cart</span>
                             <span class="cart-count" id="cart-count">0</span>
                         </div>
                         <div class="cart-items" id="cart-items">
-                            <div class="cart-empty">Keranjang kosong</div>
+                            <div class="cart-empty">Cart is empty</div>
                         </div>
                         <div class="cart-footer">
                             <div class="cart-total-row">
                                 <span>Total</span>
-                                <span id="cart-total">Rp 0</span>
+                                <span id="cart-total">$0.00</span>
                             </div>
                             <div class="cart-actions">
-                                <button class="btn btn-outline" onclick="app.clearCart()">Kosongkan</button>
-                                <button class="btn btn-bayar" onclick="app.showCheckoutModal()">Bayar</button>
+                                <button class="btn btn-outline" onclick="app.clearCart()">Clear</button>
+                                <button class="btn btn-bayar" onclick="app.showCheckoutModal()">Checkout</button>
                             </div>
                         </div>
                     </div>
@@ -212,21 +212,21 @@
             <!-- 3. PRODUK PAGE -->
             <section id="produk" class="page">
                 <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                    <h3>Master Data Produk</h3>
+                    <h3>Product Master Data</h3>
                     <div style="display:flex; gap:10px;">
-                        <input type="text" id="product-search" placeholder="Cari produk..."
+                        <input type="text" id="product-search" placeholder="Search products..."
                             style="width:200px; padding:8px 12px;">
-                        <button class="btn primary" onclick="app.showProductModal()">+ Tambah</button>
+                        <button class="btn primary" onclick="app.showProductModal()">+ Add New</button>
                     </div>
                 </div>
                 <div class="card" style="overflow-x:auto;">
                     <table>
                         <thead>
                             <tr>
-                                <th>Nama Produk</th>
-                                <th>Harga</th>
-                                <th>Stok/Kategori</th>
-                                <th style="text-align:right;">Aksi</th>
+                                <th>Product Name</th>
+                                <th>Price</th>
+                                <th>Stock/Category</th>
+                                <th style="text-align:right;">Actions</th>
                             </tr>
                         </thead>
                         <tbody id="product-table-body">
@@ -239,9 +239,9 @@
             <!-- 4. RIWAYAT PAGE -->
             <section id="riwayat" class="page">
                 <div style="display:flex; justify-content:space-between; margin-bottom:20px;">
-                    <h3>Riwayat Transaksi</h3>
+                    <h3>Transaction History</h3>
                     <div style="display:flex; gap:10px;">
-                        <input type="text" id="history-search" placeholder="Cari ID/Tanggal..."
+                        <input type="text" id="history-search" placeholder="Search ID/Date..."
                             style="width:200px; padding:8px 12px;">
                         <button class="btn"
                             style="background:var(--card-bg); border:1px solid var(--border-color); color:var(--text-main)"
@@ -256,12 +256,12 @@
 
                 <div style="margin-top:24px;padding-top:20px;border-top:2px solid var(--border-color);">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                        <span style="font-weight:700;font-size:1.1rem;">Log Mutasi Stok</span>
+                        <span style="font-weight:700;font-size:1.1rem;">Stock Adjustment Logs</span>
                         <span class="badge badge-stock" id="mutasi-count" style="font-size:0.7rem;">0</span>
                     </div>
                     <div class="card" style="padding:16px;">
                         <div id="mutasi-log" style="max-height:300px;overflow-y:auto;font-size:0.85rem;">
-                            <div style="color:var(--text-muted);text-align:center;padding:20px;">Belum ada mutasi</div>
+                            <div style="color:var(--text-muted);text-align:center;padding:20px;">No adjustments yet</div>
                         </div>
                     </div>
                 </div>
@@ -269,38 +269,47 @@
 
             <!-- 5. PENGATURAN PAGE -->
             <section id="pengaturan" class="page">
-                <h3 style="margin-bottom:20px;">Pengaturan Sistem</h3>
+                <h3 style="margin-bottom:20px;">System Settings</h3>
                 <div class="dashboard-charts" style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
                     <div class="card">
                         <h4
                             style="margin-bottom:15px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
-                            Profil Toko</h4>
+                            Store Profile</h4>
                         <div class="form-group">
-                            <label>Nama Toko</label>
+                            <label>Store Name</label>
                             <input type="text" id="setting-store-name" value="STARBUCKS COFFEE">
                         </div>
                         <div class="form-group">
-                            <label>Alamat</label>
-                            <input type="text" id="setting-store-address" value="Jl. Raya Protokol No. 123">
+                            <label>Address</label>
+                            <input type="text" id="setting-store-address" value="1912 Pike Pl, Seattle, WA 98101">
                         </div>
                         <div class="form-group">
-                            <label>NPWP</label>
-                            <input type="text" id="setting-store-npwp" value="01.234.567.8-901.000">
+                            <label>Tax ID / EIN</label>
+                            <input type="text" id="setting-store-npwp" value="98-7654321">
                         </div>
                     </div>
 
                     <div class="card">
                         <h4
                             style="margin-bottom:15px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
-                            Preferensi Sistem</h4>
+                            System Preferences</h4>
                         <div class="form-group">
-                            <label>Pajak Tambahan (PB1 / PPN %)</label>
-                            <input type="number" id="setting-tax-rate" value="10" min="0" max="100">
-                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:5px;">Persentase pajak
-                                yang akan ditambahkan ke subtotal. Isi 0 jika tidak ada pajak.</div>
+                            <label>State Tax Rate (%)</label>
+                            <input type="number" id="setting-tax-rate" value="10.25" min="0" max="100" step="0.01">
+                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:5px;">Percentage added to subtotal (e.g. Seattle 10.25%).</div>
                         </div>
                         <button class="btn primary" style="width:100%; margin-top:20px; padding:12px;"
-                            onclick="app.saveSettings()">Simpan Pengaturan</button>
+                            onclick="app.saveSettings()">Save Preferences</button>
+                    </div>
+
+                    <div class="card" style="border: 1px solid var(--danger-color); background: rgba(231, 76, 60, 0.05);">
+                        <h4 style="margin-bottom:15px; border-bottom:1px solid var(--danger-color); padding-bottom:10px; color: var(--danger-color);">
+                            Danger Zone</h4>
+                        <p style="font-size:0.85rem; color:var(--text-main); margin-bottom: 15px;">
+                            Permanently erase all transaction history, stock adjustments, and reset the POS back to a clean state. This action cannot be undone.
+                        </p>
+                        <button class="btn danger" style="width:100%; padding:12px;"
+                            onclick="app.resetHistory()">Wipe Transaction History</button>
                     </div>
                 </div>
             </section>
@@ -312,44 +321,44 @@
     <!-- Product Modal -->
     <div class="modal-overlay" id="modal-product">
         <div class="modal-content">
-            <h3 id="product-modal-title" style="margin-bottom:20px;">Tambah Produk</h3>
+            <h3 id="product-modal-title" style="margin-bottom:20px;">Add Product</h3>
             <input type="hidden" id="product-id">
             <div class="form-group">
-                <label>Nama Produk</label>
+                <label>Product Name</label>
                 <input type="text" id="product-name" autocomplete="off">
             </div>
             <div class="form-group">
-                <label>Harga (Rp)</label>
+                <label>Price ($)</label>
                 <input type="number" id="product-price">
             </div>
             <div style="display:flex; gap:15px;">
                 <div class="form-group" style="flex:1;">
-                    <label>Kategori</label>
+                    <label>Category</label>
                     <select id="product-category">
                         <option value="Coffee">Coffee</option>
                         <option value="Non-Coffee">Non-Coffee</option>
-                        <option value="Makanan">Makanan</option>
+                        <option value="Food">Food</option>
                         <option value="Merchandise">Merchandise</option>
-                        <option value="Lainnya">Lainnya</option>
+                        <option value="Other">Other</option>
                     </select>
                 </div>
                 <div class="form-group" style="flex:1;">
-                    <label>Stok Barang</label>
+                    <label>Stock</label>
                     <input type="number" id="product-stock" value="0">
                 </div>
             </div>
             <div class="form-group">
-                <label>Gambar Produk</label>
+                <label>Product Image</label>
                 <div style="display:flex; gap:10px; align-items:center;">
                     <input type="file" id="product-image" accept="image/*" style="flex:1; padding:8px; border:1px solid var(--border-color); border-radius:6px; background:var(--bg-color); color:var(--text-main); font-family:inherit; font-size:0.85rem;">
-                    <button class="btn" style="padding:6px 10px; font-size:0.75rem; background:var(--border-color); color:var(--text-muted);" onclick="event.preventDefault(); document.getElementById('product-image').value=''; document.getElementById('product-image-preview').innerHTML='';">Hapus</button>
+                    <button class="btn" style="padding:6px 10px; font-size:0.75rem; background:var(--border-color); color:var(--text-muted);" onclick="event.preventDefault(); document.getElementById('product-image').value=''; document.getElementById('product-image-preview').innerHTML='';">Clear</button>
                 </div>
                 <div id="product-image-preview" style="margin-top:8px;"></div>
             </div>
             <div style="display:flex; gap:10px; margin-top:10px;">
-                <button class="btn primary" style="flex:1;" onclick="app.saveProduct()">Simpan</button>
+                <button class="btn primary" style="flex:1;" onclick="app.saveProduct()">Save</button>
                 <button class="btn" style="background:var(--border-color); color:var(--text-main);"
-                    onclick="app.hideModal('modal-product')">Batal</button>
+                    onclick="app.hideModal('modal-product')">Cancel</button>
             </div>
         </div>
     </div>
@@ -357,36 +366,36 @@
     <!-- Mutation Modal -->
     <div class="modal-overlay" id="modal-mutasi">
         <div class="modal-content">
-            <h3 style="margin-bottom:16px;">Mutasi Stok</h3>
+            <h3 style="margin-bottom:16px;">Stock Adjustment</h3>
             <input type="hidden" id="mutasi-product-id">
             <div class="form-group">
-                <label>Produk</label>
+                <label>Product</label>
                 <input type="text" id="mutasi-product-name" readonly style="background:var(--border-color);">
             </div>
             <div style="display:flex;gap:12px;">
                 <div class="form-group" style="flex:1;">
-                    <label>Stok Saat Ini</label>
+                    <label>Current Stock</label>
                     <input type="text" id="mutasi-current-stock" readonly style="background:var(--border-color);">
                 </div>
                 <div class="form-group" style="flex:1;">
-                    <label>Tipe</label>
+                    <label>Type</label>
                     <select id="mutasi-type">
-                        <option value="in">Barang Masuk</option>
-                        <option value="out">Barang Keluar</option>
+                        <option value="in">Stock In</option>
+                        <option value="out">Stock Out</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label>Jumlah</label>
+                <label>Quantity</label>
                 <input type="number" id="mutasi-qty" placeholder="0" min="1">
             </div>
             <div class="form-group">
-                <label>Keterangan <span style="color:var(--text-muted);font-weight:400;">(opsional)</span></label>
-                <input type="text" id="mutasi-note" placeholder="Misal: Restock, Retur, Rusak...">
+                <label>Note <span style="color:var(--text-muted);font-weight:400;">(optional)</span></label>
+                <input type="text" id="mutasi-note" placeholder="e.g. Restock, Return, Damaged...">
             </div>
             <div style="display:flex;gap:10px;margin-top:8px;">
-                <button class="btn primary" style="flex:1;" onclick="app.saveMutasi()">Simpan</button>
-                <button class="btn" style="background:var(--border-color);color:var(--text-main);flex:1;" onclick="app.hideModal('modal-mutasi')">Batal</button>
+                <button class="btn primary" style="flex:1;" onclick="app.saveMutasi()">Save</button>
+                <button class="btn" style="background:var(--border-color);color:var(--text-main);flex:1;" onclick="app.hideModal('modal-mutasi')">Cancel</button>
             </div>
         </div>
     </div>
@@ -394,29 +403,29 @@
     <!-- Checkout Modal -->
     <div class="modal-overlay" id="modal-checkout">
         <div class="modal-content">
-            <h3 style="margin-bottom:20px;">Pembayaran</h3>
+            <h3 style="margin-bottom:20px;">Payment</h3>
             <div style="text-align:center; margin-bottom:20px;">
-                <div style="color:var(--text-muted)">Total Tagihan</div>
-                <div style="font-size:2.5rem; font-weight:700; color:var(--primary-color)" id="checkout-total">Rp 0
+                <div style="color:var(--text-muted)">Total Amount</div>
+                <div style="font-size:2.5rem; font-weight:700; color:var(--primary-color)" id="checkout-total">$0.00
                 </div>
             </div>
             <div class="form-group" style="margin-bottom:15px;">
-                <label>Metode Pembayaran</label>
+                <label>Payment Method</label>
                 <select id="checkout-method" onchange="app.handlePaymentMethod()">
-                    <option value="Cash">Cash (Tunai)</option>
-                    <option value="QRIS">QRIS</option>
+                    <option value="Cash">Cash</option>
+                    <option value="QRIS">QRIS / Mobile</option>
                 </select>
             </div>
 
             <!-- Cash Input -->
             <div id="cash-payment-section">
                 <div class="form-group">
-                    <label>Uang Diterima (Rp)</label>
+                    <label>Amount Received ($)</label>
                     <input type="number" id="checkout-pay" oninput="app.calculateChange()">
                 </div>
                 <div class="form-group" style="margin-bottom:25px;">
-                    <label>Kembalian</label>
-                    <div id="checkout-change" style="font-size:1.5rem; font-weight:600; color:var(--warning-color)">Rp 0
+                    <label>Change Due</label>
+                    <div id="checkout-change" style="font-size:1.5rem; font-weight:600; color:var(--warning-color)">$0.00
                     </div>
                 </div>
             </div>
@@ -428,13 +437,13 @@
                     <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=STARBUCKS_QRIS" alt="QRIS"
                         style="width:150px; height:150px;">
                 </div>
-                <div style="margin-top:10px; font-weight:600;">Scan QRIS untuk membayar</div>
+                <div style="margin-top:10px; font-weight:600;">Scan QR to Pay</div>
             </div>
 
             <div style="display:flex; gap:10px;">
-                <button class="btn primary" style="flex:1;" onclick="app.processCheckout()">Bayar & Simpan</button>
+                <button class="btn primary" style="flex:1;" onclick="app.processCheckout()">Pay & Save</button>
                 <button class="btn" style="background:var(--border-color); color:var(--text-main);"
-                    onclick="app.hideModal('modal-checkout')">Batal</button>
+                    onclick="app.hideModal('modal-checkout')">Cancel</button>
             </div>
         </div>
     </div>
@@ -445,8 +454,8 @@
             <div class="confirm-icon">!</div>
             <p id="confirm-message" style="font-size:1rem; margin-bottom:20px; color:var(--text-main); line-height:1.5;"></p>
             <div style="display:flex; gap:10px;">
-                <button class="btn danger" style="flex:1;" id="confirm-yes">Ya</button>
-                <button class="btn" style="flex:1; background:var(--border-color); color:var(--text-main);" id="confirm-no">Tidak</button>
+                <button class="btn danger" style="flex:1;" id="confirm-yes">Yes</button>
+                <button class="btn" style="flex:1; background:var(--border-color); color:var(--text-main);" id="confirm-no">No</button>
             </div>
         </div>
     </div>
