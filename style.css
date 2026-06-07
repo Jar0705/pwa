@@ -900,17 +900,24 @@ tr:hover {
     .nav-links {
         width: 100%;
         order: 3;
-        justify-content: space-between;
+        display: flex;
+        flex-wrap: nowrap;
         overflow-x: auto;
-        padding: 4px 0 2px;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        justify-content: flex-start;
+        padding: 4px 0 8px;
         gap: 0;
+    }
+    .nav-links::-webkit-scrollbar {
+        display: none;
     }
 
     .nav-item {
-        padding: 6px 8px;
-        font-size: 0.75rem;
-        flex-direction: column;
-        gap: 1px;
+        flex: 0 0 auto;
+        padding: 8px 12px;
+        font-size: 0.85rem;
+        flex-direction: row;
         border-bottom: none !important;
         color: var(--text-muted);
         height: auto;
