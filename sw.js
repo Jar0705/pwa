@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kasir-pro-v10-real-photo';
+const CACHE_NAME = 'kasir-pro-v11-bg-cache-bust';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
@@ -24,7 +24,7 @@ const ASSETS_TO_CACHE = [
     '/assets/image/matcha.jpg',
     '/assets/image/earl_grey.jpg',
     '/assets/image/croissant.jpg',
-    '/assets/image/login_bg.png',
+    '/assets/image/login_bg_v2.png',
     '/assets/image/Starbucks.jpeg',
     'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap',
     'https://cdn.jsdelivr.net/npm/chart.js'
