@@ -282,7 +282,7 @@ const app = {
                         legend: { display: false }
                     },
                     scales: {
-                        y: { beginAtZero: true, ticks: { callback: (value) => 'Rp ' + (value/1000) + 'k' } }
+                        y: { beginAtZero: true, ticks: { callback: (value) => value >= 1000 ? 'Rp ' + (value/1000).toFixed(1).replace('.0','') + 'k' : 'Rp ' + value } }
                     }
                 }
             });
