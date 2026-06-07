@@ -80,6 +80,14 @@ const     app = {
     formatRupiah(number) {
         return `Rp ${number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
     },
+
+    debounce(fn, delay = 300) {
+        let timer;
+        return (...args) => {
+            clearTimeout(timer);
+            timer = setTimeout(() => fn(...args), delay);
+        };
+    },
     
     showToast(message, isError = false) {
         document.querySelectorAll('.toast').forEach(t => t.remove());
@@ -144,9 +152,9 @@ const     app = {
         });
 
         // Search Product POS
-        document.getElementById('pos-search').addEventListener('input', (e) => {
+        document.getElementById('pos-search').addEventListener('input', this.debounce((e) => {
             this.renderPOS(e.target.value);
-        });
+        }, 200));
         document.getElementById('product-search').addEventListener('input', () => this.renderProducts());
         document.getElementById('history-search').addEventListener('input', () => this.renderHistory());
 
@@ -513,8 +521,9 @@ const     app = {
         const grid = document.getElementById('pos-grid');
         const catContainer = document.getElementById('pos-categories');
         
-        // Render Categories
-        const categories = ['Semua', 'Coffee', 'Non-Coffee', 'Makanan', 'Merchandise', 'Lainnya'];
+        // Render Categories — dynamic from product data
+        const catSet = new Set(this.products.map(p => p.category || 'Lainnya'));
+        const categories = ['Semua', ...Array.from(catSet).sort()];
         if(catContainer) {
             catContainer.innerHTML = categories.map(c => `
                 <div class="category-tab ${this.currentPosCategory === c ? 'active' : ''}" onclick="app.setPosCategory('${c}')">
@@ -595,13 +604,22 @@ const     app = {
     updateCartQty(id, delta) {
         const item = this.cart.find(x => x.id === id);
         if(!item) return;
-        
-        item.qty += delta;
-        if(item.qty <= 0) {
+
+        const newQty = item.qty + delta;
+        if(newQty <= 0) {
             this.cart = this.cart.filter(x => x.id !== id);
-        } else {
-            item.total = item.qty * item.price;
+            this.renderCart();
+            return;
         }
+
+        const product = this.products.find(p => p.id === id);
+        if(delta > 0 && product && newQty > (product.stock || 0)) {
+            this.showToast('Stok tidak mencukupi!', true);
+            return;
+        }
+
+        item.qty = newQty;
+        item.total = item.qty * item.price;
         this.renderCart();
     },
 
@@ -721,11 +739,24 @@ const     app = {
         this.history.unshift(transaction);
         localStorage.setItem(DB_HISTORY, JSON.stringify(this.history));
 
+        // Re-validate stock before deducting
+        for (const cartItem of this.cart) {
+            const product = this.products.find(p => p.id === cartItem.id);
+            if (!product) {
+                this.showToast(`Produk "${cartItem.name}" tidak ditemukan!`, true);
+                return;
+            }
+            if ((product.stock || 0) < cartItem.qty) {
+                this.showToast(`Stok "${product.name}" tidak mencukupi (tersisa ${product.stock || 0})!`, true);
+                return;
+            }
+        }
+
         // Deduct Stock
         this.cart.forEach(cartItem => {
             const product = this.products.find(p => p.id === cartItem.id);
             if(product) {
-                product.stock = Math.max(0, (product.stock || 0) - cartItem.qty);
+                product.stock -= cartItem.qty;
             }
         });
         localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));

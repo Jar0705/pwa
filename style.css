@@ -390,7 +390,7 @@ input:focus, select:focus {
     grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
     gap: 12px;
     overflow-y: auto;
-    padding: 2px;
+    padding: 2px 16px;
 }
 
 .product-card {
@@ -784,28 +784,6 @@ tr:hover {
 .toast.show {
     transform: translateX(-50%) translateY(0);
     opacity: 1;
-}
-
-/* Advanced Features CSS */
-.category-tab {
-    padding: 8px 16px;
-    background: var(--bg-color);
-    border: 1px solid var(--border-color);
-    border-radius: 20px;
-    font-size: 0.85rem;
-    font-weight: 500;
-    cursor: pointer;
-    white-space: nowrap;
-    transition: var(--transition);
-}
-.category-tab:hover {
-    border-color: var(--primary-color);
-    color: var(--primary-color);
-}
-.category-tab.active {
-    background: var(--primary-color);
-    color: white;
-    border-color: var(--primary-color);
 }
 
 .badge {
