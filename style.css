@@ -906,10 +906,18 @@ tr:hover td {
 
     .header-actions {
         width: 100%;
-        justify-content: space-between;
+        justify-content: center;
         padding-top: 8px;
         border-top: 1px solid var(--border);
-        gap: 8px;
+        gap: 10px;
+        flex-wrap: wrap;
+    }
+
+    #realtime-clock {
+        font-size: 0.72rem;
+        width: 100%;
+        text-align: center;
+        order: -1;
     }
 
     .page {
@@ -968,7 +976,4 @@ tr:hover td {
         width: 100%;
     }
 
-    #realtime-clock {
-        font-size: 0.72rem;
-    }
 }
