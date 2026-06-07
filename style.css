@@ -318,9 +318,13 @@ input:focus, select:focus {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding-bottom: 15px;
-    margin-bottom: 15px;
-    border-bottom: 1px dashed var(--border-color);
+    padding: 12px 0;
+    border-bottom: 1px solid var(--border-color);
+    animation: slideIn 0.3s ease forwards;
+}
+@keyframes slideIn {
+    from { opacity: 0; transform: translateX(20px); }
+    to { opacity: 1; transform: translateX(0); }
 }
 .cart-item-info { flex: 1; }
 .cart-item-title { font-weight: 600; font-size: 0.95rem; }
@@ -404,26 +408,40 @@ tr:hover td {
 .login-box h2 { color: var(--primary-color); font-size: 2.2rem; margin-bottom: 10px; font-weight: 700; }
 .login-box p { color: var(--text-muted); margin-bottom: 30px; }
 
-/* Modal */
+/* Modals with Glassmorphism */
 .modal-overlay {
     position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(26, 18, 11, 0.6);
-    display: none;
-    align-items: center;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.4);
+    backdrop-filter: blur(5px);
+    display: flex;
     justify-content: center;
-    z-index: 2000;
-    backdrop-filter: blur(4px);
+    align-items: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: var(--transition);
 }
-.modal-overlay.show { display: flex; }
+.modal-overlay.show {
+    opacity: 1;
+    visibility: visible;
+}
 .modal-content {
     background: var(--card-bg);
-    padding: 30px;
+    width: 90%;
+    max-width: 400px;
+    padding: 25px;
     border-radius: var(--border-radius);
-    width: 100%;
-    max-width: 500px;
-    box-shadow: var(--shadow-lg);
-    animation: fadeIn 0.3s;
+    box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+    transform: translateY(20px);
+    transition: var(--transition);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+.modal-overlay.show .modal-content {
+    transform: translateY(0);
 }
 
 /* Toast */
@@ -446,6 +464,79 @@ tr:hover td {
 .toast.show {
     transform: translateX(-50%) translateY(0);
     opacity: 1;
+}
+
+/* Advanced Features CSS */
+.category-tab {
+    padding: 8px 16px;
+    background: var(--bg-color);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transition);
+}
+.category-tab:hover {
+    border-color: var(--primary-color);
+    color: var(--primary-color);
+}
+.category-tab.active {
+    background: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+.badge {
+    padding: 4px 8px;
+    border-radius: 6px;
+    font-size: 0.75rem;
+    font-weight: 600;
+    display: inline-block;
+}
+.badge-category {
+    background: rgba(0, 98, 65, 0.1);
+    color: var(--primary-color);
+    border: 1px solid rgba(0, 98, 65, 0.2);
+}
+.badge-stock {
+    background: var(--bg-color);
+    color: var(--text-muted);
+    border: 1px solid var(--border-color);
+}
+.badge-stock.low {
+    background: rgba(209, 32, 39, 0.1);
+    color: var(--danger-color);
+    border-color: rgba(209, 32, 39, 0.2);
+}
+.badge-success {
+    background: rgba(46, 204, 113, 0.1);
+    color: #27ae60;
+}
+
+.history-item {
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    padding: 15px 20px;
+    margin-bottom: 15px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+.history-item:hover {
+    box-shadow: var(--shadow);
+    border-color: var(--primary-color);
+}
+.history-detail {
+    display: none;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px dashed var(--border-color);
+    animation: fadeIn 0.3s;
+}
+.history-item.open .history-detail {
+    display: block;
 }
 
 /* Mobile Responsiveness */

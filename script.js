@@ -13,15 +13,45 @@ const app = {
     cart: [],
     products: [],
     history: [],
+    settings: {
+        storeName: 'STARBUCKS COFFEE',
+        storeAddress: 'Jl. Raya Protokol No. 123',
+        storeNpwp: '01.234.567.8-901.000',
+        taxRate: 10
+    },
     theme: 'light',
 
     init() {
         // Load Data
         this.products = JSON.parse(localStorage.getItem(DB_PRODUCTS)) || [
-            { id: 1, name: 'Kopi Susu', price: 15000 },
-            { id: 2, name: 'Indomie Goreng', price: 10000 },
-            { id: 3, name: 'Es Teh Manis', price: 5000 }
-        ];
+                // Coffee
+                { id: 1, name: 'Caffe Latte', price: 45000, category: 'Coffee', stock: 50 },
+                { id: 2, name: 'Americano', price: 35000, category: 'Coffee', stock: 100 },
+                { id: 3, name: 'Caramel Macchiato', price: 55000, category: 'Coffee', stock: 40 },
+                { id: 4, name: 'Espresso', price: 30000, category: 'Coffee', stock: 80 },
+                { id: 5, name: 'Mocha Frappuccino', price: 60000, category: 'Coffee', stock: 35 },
+                { id: 6, name: 'Vanilla Latte', price: 50000, category: 'Coffee', stock: 45 },
+                
+                // Non-Coffee
+                { id: 7, name: 'Matcha Green Tea', price: 55000, category: 'Non-Coffee', stock: 30 },
+                { id: 8, name: 'Signature Chocolate', price: 50000, category: 'Non-Coffee', stock: 40 },
+                { id: 9, name: 'Teavana Earl Grey', price: 40000, category: 'Non-Coffee', stock: 60 },
+                { id: 10, name: 'Iced Shaken Lemon Tea', price: 45000, category: 'Non-Coffee', stock: 55 },
+                
+                // Makanan
+                { id: 11, name: 'Butter Croissant', price: 25000, category: 'Makanan', stock: 20 },
+                { id: 12, name: 'Almond Croissant', price: 35000, category: 'Makanan', stock: 15 },
+                { id: 13, name: 'Beef Sausage & Cheese', price: 45000, category: 'Makanan', stock: 10 },
+                { id: 14, name: 'New York Cheesecake', price: 40000, category: 'Makanan', stock: 8 },
+                { id: 15, name: 'Tuna Puff', price: 35000, category: 'Makanan', stock: 12 },
+                
+                // Merchandise
+                { id: 16, name: 'Starbucks Tumbler', price: 250000, category: 'Merchandise', stock: 5 },
+                { id: 17, name: 'Coffee Beans 250g', price: 120000, category: 'Merchandise', stock: 15 },
+                { id: 18, name: 'Starbucks Mug', price: 150000, category: 'Merchandise', stock: 10 }
+            ];
+        
+        this.settings = JSON.parse(localStorage.getItem('kasir_settings')) || this.settings;
         this.history = JSON.parse(localStorage.getItem(DB_HISTORY)) || [];
         
         // Load Theme
@@ -114,6 +144,8 @@ const app = {
         document.getElementById('pos-search').addEventListener('input', (e) => {
             this.renderPOS(e.target.value);
         });
+        document.getElementById('product-search').addEventListener('input', () => this.renderProducts());
+        document.getElementById('history-search').addEventListener('input', () => this.renderHistory());
 
         // Network status
         window.addEventListener('online', () => this.updateStatus());
@@ -134,7 +166,8 @@ const app = {
             'dashboard': 'Dashboard',
             'pos': 'Kasir (POS)',
             'produk': 'Master Data Produk',
-            'riwayat': 'Riwayat Transaksi'
+            'riwayat': 'Riwayat Transaksi',
+            'pengaturan': 'Pengaturan Sistem'
         };
         document.getElementById('topbar-title').innerText = titles[target];
 
@@ -143,6 +176,7 @@ const app = {
         if(target === 'pos') this.renderPOS();
         if(target === 'produk') this.renderProducts();
         if(target === 'riwayat') this.renderHistory();
+        if(target === 'pengaturan') this.renderSettings();
     },
 
     updateStatus() {
@@ -162,16 +196,38 @@ const app = {
         const todayStr = new Date().toLocaleDateString('id-ID');
         let todayRevenue = 0;
         let totalCount = this.history.length;
+        let todayItemsSold = 0;
 
         this.history.forEach(h => {
             const hDate = new Date(h.timestamp).toLocaleDateString('id-ID');
             if(hDate === todayStr) {
                 todayRevenue += h.total;
+                h.items.forEach(i => { todayItemsSold += i.qty; });
             }
         });
 
         document.getElementById('dash-revenue').innerText = this.formatRupiah(todayRevenue);
         document.getElementById('dash-count').innerText = totalCount;
+        
+        const elItems = document.getElementById('dash-items');
+        if(elItems) elItems.innerText = todayItemsSold;
+
+        // Render low stock alerts
+        const lowStockContainer = document.getElementById('dash-low-stock');
+        if(lowStockContainer) {
+            const lowStockProducts = this.products.filter(p => (p.stock || 0) <= 5);
+            if(lowStockProducts.length === 0) {
+                lowStockContainer.innerHTML = '<div style="color:var(--text-muted); font-size:0.9rem;">Semua stok aman.</div>';
+            } else {
+                lowStockContainer.innerHTML = lowStockProducts.map(p => `
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px dashed var(--border-color);">
+                        <div style="font-weight:500;">${p.name} <span class="badge badge-category" style="margin-left:5px;">${p.category||'Lainnya'}</span></div>
+                        <div style="color:var(--danger-color); font-weight:700;">Sisa: ${p.stock||0}</div>
+                    </div>
+                `).join('');
+            }
+        }
+
         this.renderCharts();
     },
 
@@ -260,28 +316,46 @@ const app = {
     // --- PRODUCT MANAGEMENT ---
     renderProducts() {
         const tbody = document.getElementById('product-table-body');
-        if(this.products.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted)">Belum ada data produk</td></tr>`;
+        const search = (document.getElementById('product-search').value || '').toLowerCase();
+        
+        let filtered = this.products;
+        if(search) {
+            filtered = this.products.filter(p => p.name.toLowerCase().includes(search));
+        }
+
+        if(filtered.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted)">Produk tidak ditemukan</td></tr>`;
             return;
         }
 
-        tbody.innerHTML = this.products.map(p => `
+        tbody.innerHTML = filtered.map(p => {
+            const cat = p.category || 'Lainnya';
+            const stock = p.stock || 0;
+            const stockBadge = stock <= 5 ? 'badge-stock low' : 'badge-stock';
+            
+            return `
             <tr>
-                <td style="font-weight:500">${p.name}</td>
+                <td style="font-weight:500">
+                    ${p.name}<br>
+                    <span class="badge badge-category" style="margin-top:4px;">${cat}</span>
+                </td>
                 <td style="color:var(--primary-color); font-weight:600;">${this.formatRupiah(p.price)}</td>
-                <td>-</td>
+                <td><span class="badge ${stockBadge}">Stok: ${stock}</span></td>
                 <td style="text-align:right;">
                     <button class="btn" style="padding:6px 12px; background:var(--warning-color); color:white; font-size:0.8rem;" onclick="app.editProduct(${p.id})">Edit</button>
                     <button class="btn danger" style="padding:6px 12px; font-size:0.8rem;" onclick="app.deleteProduct(${p.id})">Hapus</button>
                 </td>
             </tr>
-        `).join('');
+            `;
+        }).join('');
     },
 
     showProductModal() {
         document.getElementById('product-id').value = '';
         document.getElementById('product-name').value = '';
         document.getElementById('product-price').value = '';
+        document.getElementById('product-category').value = 'Coffee';
+        document.getElementById('product-stock').value = '0';
         document.getElementById('product-modal-title').innerText = 'Tambah Produk';
         this.showModal('modal-product');
     },
@@ -292,6 +366,8 @@ const app = {
         document.getElementById('product-id').value = p.id;
         document.getElementById('product-name').value = p.name;
         document.getElementById('product-price').value = p.price;
+        document.getElementById('product-category').value = p.category || 'Coffee';
+        document.getElementById('product-stock').value = p.stock || 0;
         document.getElementById('product-modal-title').innerText = 'Edit Produk';
         this.showModal('modal-product');
     },
@@ -300,6 +376,8 @@ const app = {
         const id = document.getElementById('product-id').value;
         const name = document.getElementById('product-name').value.trim();
         const price = parseInt(document.getElementById('product-price').value);
+        const category = document.getElementById('product-category').value;
+        const stock = parseInt(document.getElementById('product-stock').value) || 0;
 
         if(!name || !price) {
             this.showToast('Isi nama dan harga produk!', true);
@@ -309,11 +387,11 @@ const app = {
         if(id) {
             // Edit
             const idx = this.products.findIndex(x => x.id == id);
-            this.products[idx] = { id: parseInt(id), name, price };
+            this.products[idx] = { id: parseInt(id), name, price, category, stock };
             this.showToast('Produk diperbarui');
         } else {
             // Add
-            this.products.push({ id: Date.now(), name, price });
+            this.products.push({ id: Date.now(), name, price, category, stock });
             this.showToast('Produk ditambahkan');
         }
 
@@ -333,12 +411,35 @@ const app = {
     },
 
     // --- POS & CART ---
+    currentPosCategory: 'Semua',
+
+    setPosCategory(cat) {
+        this.currentPosCategory = cat;
+        this.renderPOS(document.getElementById('pos-search').value);
+    },
+
     renderPOS(search = '') {
         const grid = document.getElementById('pos-grid');
+        const catContainer = document.getElementById('pos-categories');
         
+        // Render Categories
+        const categories = ['Semua', 'Coffee', 'Non-Coffee', 'Makanan', 'Merchandise', 'Lainnya'];
+        if(catContainer) {
+            catContainer.innerHTML = categories.map(c => `
+                <div class="category-tab ${this.currentPosCategory === c ? 'active' : ''}" onclick="app.setPosCategory('${c}')">
+                    ${c}
+                </div>
+            `).join('');
+        }
+
         let filtered = this.products;
+        
+        if(this.currentPosCategory !== 'Semua') {
+            filtered = filtered.filter(p => (p.category || 'Lainnya') === this.currentPosCategory);
+        }
+
         if(search) {
-            filtered = this.products.filter(p => p.name.toLowerCase().includes(search.toLowerCase()));
+            filtered = filtered.filter(p => p.name.toLowerCase().includes(search.toLowerCase()));
         }
 
         if(filtered.length === 0) {
@@ -346,12 +447,20 @@ const app = {
             return;
         }
 
-        grid.innerHTML = filtered.map(p => `
+        grid.innerHTML = filtered.map(p => {
+            const stockBadge = (p.stock || 0) <= 5 ? 'color:var(--danger-color);' : 'color:var(--text-muted);';
+            const initial = p.name.charAt(0).toUpperCase();
+            return `
             <div class="product-card" onclick="app.addToCart(${p.id})">
+                <div style="width:50px; height:50px; border-radius:50%; background:rgba(0, 98, 65, 0.1); color:var(--primary-color); display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:bold; margin:0 auto 10px auto;">
+                    ${initial}
+                </div>
                 <div class="product-name">${p.name}</div>
                 <div class="product-price">${this.formatRupiah(p.price)}</div>
+                <div style="font-size:0.75rem; margin-top:5px; font-weight:600; ${stockBadge}">Sisa Stok: ${p.stock || 0}</div>
             </div>
-        `).join('');
+            `;
+        }).join('');
 
         this.renderCart();
     },
@@ -361,6 +470,13 @@ const app = {
         if(!p) return;
 
         const existing = this.cart.find(x => x.id === id);
+        const currentQty = existing ? existing.qty : 0;
+
+        if(currentQty + 1 > (p.stock || 0)) {
+            this.showToast('Stok tidak mencukupi!', true);
+            return;
+        }
+
         if(existing) {
             existing.qty += 1;
             existing.total = existing.qty * existing.price;
@@ -433,17 +549,42 @@ const app = {
             this.showToast("Keranjang kosong!", true);
             return;
         }
-        document.getElementById('checkout-total').innerText = this.formatRupiah(this.cartTotal);
+
+        // Calculate Tax
+        this.cartTax = Math.round(this.cartTotal * (this.settings.taxRate / 100));
+        this.cartGrandTotal = this.cartTotal + this.cartTax;
+
+        document.getElementById('checkout-total').innerText = this.formatRupiah(this.cartGrandTotal);
         document.getElementById('checkout-pay').value = '';
         document.getElementById('checkout-change').innerText = 'Rp 0';
         document.getElementById('checkout-change').style.color = 'var(--warning-color)';
+        
+        const methodEl = document.getElementById('checkout-method');
+        if(methodEl) methodEl.value = 'Cash';
+        this.handlePaymentMethod();
+
         this.showModal('modal-checkout');
         setTimeout(() => document.getElementById('checkout-pay').focus(), 100);
     },
 
+    handlePaymentMethod() {
+        const method = document.getElementById('checkout-method').value;
+        if(method === 'QRIS') {
+            document.getElementById('cash-payment-section').style.display = 'none';
+            document.getElementById('qris-payment-section').style.display = 'block';
+            document.getElementById('checkout-pay').value = this.cartGrandTotal;
+            this.calculateChange();
+        } else {
+            document.getElementById('cash-payment-section').style.display = 'block';
+            document.getElementById('qris-payment-section').style.display = 'none';
+            document.getElementById('checkout-pay').value = '';
+            this.calculateChange();
+        }
+    },
+
     calculateChange() {
         const pay = parseInt(document.getElementById('checkout-pay').value) || 0;
-        const change = pay - this.cartTotal;
+        const change = pay - this.cartGrandTotal;
         const changeEl = document.getElementById('checkout-change');
         
         if(change < 0) {
@@ -456,26 +597,44 @@ const app = {
     },
 
     processCheckout() {
-        const pay = parseInt(document.getElementById('checkout-pay').value) || 0;
-        if(pay < this.cartTotal) {
+        let pay = parseInt(document.getElementById('checkout-pay').value) || 0;
+        const method = document.getElementById('checkout-method').value;
+
+        if(method === 'QRIS') {
+            pay = this.cartGrandTotal;
+        }
+
+        if(pay < this.cartGrandTotal) {
             this.showToast("Uang pembayaran kurang!", true);
             return;
         }
 
-        const change = pay - this.cartTotal;
+        const change = pay - this.cartGrandTotal;
         
         // Save to History
         const transaction = {
             id: 'TRX-' + Date.now(),
             timestamp: Date.now(),
             items: [...this.cart],
-            total: this.cartTotal,
+            subtotal: this.cartTotal,
+            tax: this.cartTax,
+            total: this.cartGrandTotal,
             pay: pay,
-            change: change
+            change: change,
+            method: method
         };
         
         this.history.unshift(transaction);
         localStorage.setItem(DB_HISTORY, JSON.stringify(this.history));
+
+        // Deduct Stock
+        this.cart.forEach(cartItem => {
+            const product = this.products.find(p => p.id === cartItem.id);
+            if(product) {
+                product.stock = Math.max(0, (product.stock || 0) - cartItem.qty);
+            }
+        });
+        localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
 
         this.hideModal('modal-checkout');
         this.showToast("Transaksi Berhasil!");
@@ -489,16 +648,35 @@ const app = {
     },
 
     printReceipt(trx) {
+        // Update Store Profile dynamically
+        const headerEl = document.querySelector('.receipt-header');
+        if(headerEl) {
+            headerEl.innerHTML = `
+                <img src="Starbucks.jpeg" alt="Logo" style="width: 60px; height: 60px; border-radius: 50%; filter: grayscale(100%); margin-bottom:5px;">
+                <h3 style="margin:0; font-family:sans-serif; letter-spacing:1px; text-transform:uppercase;">${this.settings.storeName}</h3>
+                <p style="margin:2px 0; font-size:11px;">${this.settings.storeAddress}</p>
+                <p style="margin:2px 0; font-size:11px;">NPWP: ${this.settings.storeNpwp}</p>
+            `;
+        }
+
         document.getElementById('receipt-date').innerText = new Date(trx.timestamp).toLocaleString('id-ID');
+        document.getElementById('receipt-id').innerText = trx.id;
+        document.getElementById('receipt-method').innerText = (trx.method || 'Cash').toUpperCase();
         
         document.getElementById('receipt-items').innerHTML = trx.items.map(i => `
-            <div class="receipt-item">
-                <span>${i.name} (x${i.qty})</span>
+            <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
+                <span>${i.qty}x ${i.name}</span>
                 <span>${this.formatRupiah(i.total)}</span>
             </div>
         `).join('');
 
-        document.getElementById('receipt-total-amt').innerText = this.formatRupiah(trx.total);
+        // Dynamic tax label
+        const taxLabelEl = document.querySelector('.receipt-total .receipt-item:nth-child(2) span:first-child');
+        if(taxLabelEl) taxLabelEl.innerText = `Pajak (${this.settings.taxRate}%)`;
+        const taxAmtEl = document.getElementById('receipt-tax');
+        if(taxAmtEl) taxAmtEl.innerText = trx.tax > 0 ? this.formatRupiah(trx.tax) : 'Inc.';
+
+        document.getElementById('receipt-total-amt').innerText = this.formatRupiah(trx.subtotal || trx.total);
         document.getElementById('receipt-pay-amt').innerText = this.formatRupiah(trx.pay);
         document.getElementById('receipt-change-amt').innerText = this.formatRupiah(trx.change);
 
@@ -507,26 +685,51 @@ const app = {
     },
 
     // --- HISTORY & EXPORT ---
+    toggleHistoryDetail(id) {
+        const el = document.getElementById('history-item-' + id);
+        if(el) {
+            el.classList.toggle('open');
+        }
+    },
+
     renderHistory() {
         const container = document.getElementById('history-list');
-        if(this.history.length === 0) {
-            container.innerHTML = `<div class="card" style="text-align:center; color:var(--text-muted)">Belum ada transaksi</div>`;
+        const search = (document.getElementById('history-search').value || '').toLowerCase();
+        
+        let filtered = this.history;
+        if(search) {
+            filtered = this.history.filter(h => h.id.toLowerCase().includes(search) || new Date(h.timestamp).toLocaleDateString('id-ID').includes(search));
+        }
+
+        if(filtered.length === 0) {
+            container.innerHTML = `<div class="card" style="text-align:center; color:var(--text-muted)">Riwayat tidak ditemukan</div>`;
             return;
         }
 
-        container.innerHTML = this.history.map(h => `
-            <div class="card" style="margin-bottom:15px; padding:15px;">
-                <div style="display:flex; justify-content:space-between; margin-bottom:10px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
+        container.innerHTML = filtered.map(h => `
+            <div class="history-item" id="history-item-${h.id}" onclick="app.toggleHistoryDetail('${h.id}')">
+                <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
                     <div>
-                        <div style="font-weight:600; color:var(--primary-color)">${h.id}</div>
+                        <div style="font-weight:600; color:var(--text-main)">${h.id}</div>
                         <div style="font-size:0.8rem; color:var(--text-muted)">${new Date(h.timestamp).toLocaleString('id-ID')}</div>
                     </div>
                     <div style="text-align:right">
-                        <div style="font-weight:700; font-size:1.1rem;">${this.formatRupiah(h.total)}</div>
+                        <div style="font-weight:700; font-size:1.1rem; color:var(--primary-color);">${this.formatRupiah(h.total)}</div>
+                        <span class="badge badge-success" style="margin-top:5px;">Lunas</span>
                     </div>
                 </div>
-                <div style="font-size:0.85rem; color:var(--text-muted)">
-                    ${h.items.map(i => `${i.qty}x ${i.name}`).join(', ')}
+                <div class="history-detail">
+                    <div style="font-weight:600; margin-bottom:10px;">Detail Pesanan:</div>
+                    ${h.items.map(i => `
+                        <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:5px;">
+                            <span>${i.name} x${i.qty}</span>
+                            <span style="color:var(--text-muted)">${this.formatRupiah(i.total)}</span>
+                        </div>
+                    `).join('')}
+                    <div style="border-top:1px dashed var(--border-color); margin-top:10px; padding-top:10px; display:flex; justify-content:space-between; font-size:0.85rem;">
+                        <span>Tunai: ${this.formatRupiah(h.pay)}</span>
+                        <span>Kembali: ${this.formatRupiah(h.change)}</span>
+                    </div>
                 </div>
             </div>
         `).join('');
@@ -534,19 +737,17 @@ const app = {
 
     exportCSV() {
         if(this.history.length === 0) {
-            this.showToast("Tidak ada data untuk diexport", true);
+            this.showToast('Belum ada data untuk diexport!', true);
             return;
         }
-
+        
         let csvContent = "data:text/csv;charset=utf-8,";
-        csvContent += "ID Transaksi,Tanggal,Item Pembelian,Total,Bayar,Kembali\n";
-
-        this.history.forEach(row => {
-            const date = new Date(row.timestamp).toLocaleString('id-ID');
-            // Ganti koma dalam string item dengan spasi agar CSV tidak rusak
-            const items = row.items.map(i => `${i.qty}x ${i.name}`).join(' | ');
-            const csvRow = `${row.id},"${date}","${items}",${row.total},${row.pay},${row.change}`;
-            csvContent += csvRow + "\n";
+        csvContent += "ID,Tanggal,Total Tagihan,Metode,Item\n";
+        
+        this.history.forEach(h => {
+            const dateStr = new Date(h.timestamp).toLocaleString('id-ID').replace(/,/g, '');
+            const itemStr = h.items.map(i => `${i.qty}x ${i.name}`).join('; ');
+            csvContent += `${h.id},${dateStr},${h.total},${h.method||'Cash'},"${itemStr}"\n`;
         });
 
         const encodedUri = encodeURI(csvContent);
@@ -558,6 +759,24 @@ const app = {
         document.body.removeChild(link);
         
         this.showToast("Berhasil didownload");
+    },
+
+    // --- SETTINGS ---
+    renderSettings() {
+        document.getElementById('setting-store-name').value = this.settings.storeName;
+        document.getElementById('setting-store-address').value = this.settings.storeAddress;
+        document.getElementById('setting-store-npwp').value = this.settings.storeNpwp;
+        document.getElementById('setting-tax-rate').value = this.settings.taxRate;
+    },
+
+    saveSettings() {
+        this.settings.storeName = document.getElementById('setting-store-name').value;
+        this.settings.storeAddress = document.getElementById('setting-store-address').value;
+        this.settings.storeNpwp = document.getElementById('setting-store-npwp').value;
+        this.settings.taxRate = parseFloat(document.getElementById('setting-tax-rate').value) || 0;
+        
+        localStorage.setItem('kasir_settings', JSON.stringify(this.settings));
+        this.showToast('Pengaturan berhasil disimpan!');
     }
 };
 
