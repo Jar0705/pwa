@@ -44,45 +44,6 @@ const app = {
         }, 1000);
     },
 
-    playBeep() {
-        try {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if(audioCtx.state === 'suspended') audioCtx.resume();
-            const oscillator = audioCtx.createOscillator();
-            const gainNode = audioCtx.createGain();
-            oscillator.connect(gainNode);
-            gainNode.connect(audioCtx.destination);
-            oscillator.type = 'sine';
-            oscillator.frequency.value = 800;
-            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
-            oscillator.start(audioCtx.currentTime);
-        } catch(e) { console.log('Audio error', e); }
-    },
-
-    playSuccessSound() {
-        try {
-            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
-            if(audioCtx.state === 'suspended') audioCtx.resume();
-            
-            const playTone = (freq, startTime, duration) => {
-                const oscillator = audioCtx.createOscillator();
-                const gainNode = audioCtx.createGain();
-                oscillator.connect(gainNode);
-                gainNode.connect(audioCtx.destination);
-                oscillator.type = 'sine';
-                oscillator.frequency.value = freq;
-                gainNode.gain.setValueAtTime(0.1, startTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
-                oscillator.start(startTime);
-                oscillator.stop(startTime + duration);
-            };
-            
-            // Cha-ching style double beep
-            playTone(880, audioCtx.currentTime, 0.1);      // A5
-            playTone(1760, audioCtx.currentTime + 0.1, 0.3); // A6
-        } catch(e) { console.log('Audio error', e); }
-    },
-
     formatRupiah(number) {
         return `Rp ${number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
     },
@@ -313,7 +274,6 @@ const app = {
     },
 
     addToCart(id) {
-        this.playBeep();
         const p = this.products.find(x => x.id === id);
         if(!p) return;
 
@@ -436,16 +396,13 @@ const app = {
 
         this.hideModal('modal-checkout');
         this.showToast("Transaksi Berhasil!");
-        this.playSuccessSound();
 
-        // Reset Cart immediately so UI updates
+        // Prepare Print Receipt
+        this.printReceipt(transaction);
+
+        // Reset Cart
         this.cart = [];
         this.renderCart();
-
-        // Delay print dialog to prevent blocking the Web Audio API thread (which causes the sound to get stuck)
-        setTimeout(() => {
-            this.printReceipt(transaction);
-        }, 600);
     },
 
     printReceipt(trx) {
