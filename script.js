@@ -106,6 +106,7 @@ const     app = {
         this.theme = this.theme === 'light' ? 'dark' : 'light';
         document.documentElement.setAttribute('data-theme', this.theme);
         localStorage.setItem('theme', this.theme);
+        this.showToast(this.theme === 'light' ? 'Mode Terang' : 'Mode Gelap');
     },
 
     showModal(id) {
@@ -132,6 +133,7 @@ const     app = {
         if(user === USER && pass === PASS){
             localStorage.setItem("login", "true");
             this.checkLogin();
+            this.showToast('Selamat datang!');
         } else {
             this.showToast("Username / Password salah!", true);
         }
@@ -139,6 +141,7 @@ const     app = {
     logout() {
         localStorage.removeItem("login");
         this.checkLogin();
+        this.showToast('Berhasil logout');
     },
 
     // --- NAVIGATION ---
@@ -457,6 +460,7 @@ const     app = {
             localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
             this.renderProducts();
             this.renderPOS();
+            this.showToast('Produk berhasil dihapus');
         }
     },
 
