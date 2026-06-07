@@ -459,6 +459,10 @@ th { background: var(--bg-color); font-weight: 600; }
     .pos-cart { flex: none; height: 350px; }
 }
 
+#printSection {
+    display: none;
+}
+
 /* Print Styles */
 @media print {
     body * { visibility: hidden; }
@@ -466,6 +470,7 @@ th { background: var(--bg-color); font-weight: 600; }
         visibility: visible;
     }
     #printSection {
+        display: block !important;
         position: absolute;
         left: 0;
         top: 0;

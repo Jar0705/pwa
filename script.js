@@ -56,7 +56,30 @@ const app = {
             oscillator.frequency.value = 800;
             gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
             oscillator.start(audioCtx.currentTime);
-            oscillator.stop(audioCtx.currentTime + 0.1);
+        } catch(e) { console.log('Audio error', e); }
+    },
+
+    playSuccessSound() {
+        try {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            
+            const playTone = (freq, startTime, duration) => {
+                const oscillator = audioCtx.createOscillator();
+                const gainNode = audioCtx.createGain();
+                oscillator.connect(gainNode);
+                gainNode.connect(audioCtx.destination);
+                oscillator.type = 'sine';
+                oscillator.frequency.value = freq;
+                gainNode.gain.setValueAtTime(0.1, startTime);
+                gainNode.gain.exponentialRampToValueAtTime(0.01, startTime + duration);
+                oscillator.start(startTime);
+                oscillator.stop(startTime + duration);
+            };
+            
+            // Cha-ching style double beep
+            playTone(880, audioCtx.currentTime, 0.1);      // A5
+            playTone(1760, audioCtx.currentTime + 0.1, 0.3); // A6
         } catch(e) { console.log('Audio error', e); }
     },
 
@@ -413,6 +436,7 @@ const app = {
 
         this.hideModal('modal-checkout');
         this.showToast("Transaksi Berhasil!");
+        this.playSuccessSound();
 
         // Prepare Print Receipt
         this.printReceipt(transaction);
