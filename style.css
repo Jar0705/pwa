@@ -352,24 +352,22 @@ input:focus, select:focus {
     user-select: none;
     position: relative;
     overflow: hidden;
-    animation: cardPop 0.3s ease forwards;
-    opacity: 0;
 }
 
-.product-card:nth-child(1) { animation-delay: 0s; }
-.product-card:nth-child(2) { animation-delay: 0.03s; }
-.product-card:nth-child(3) { animation-delay: 0.06s; }
-.product-card:nth-child(4) { animation-delay: 0.09s; }
-.product-card:nth-child(5) { animation-delay: 0.12s; }
-.product-card:nth-child(6) { animation-delay: 0.15s; }
-.product-card:nth-child(7) { animation-delay: 0.18s; }
-.product-card:nth-child(8) { animation-delay: 0.21s; }
-.product-card:nth-child(9) { animation-delay: 0.24s; }
-.product-card:nth-child(n+10) { animation-delay: 0.27s; }
+.product-card:nth-child(1) { animation: cardPop 0.3s ease forwards; }
+.product-card:nth-child(2) { animation: cardPop 0.3s ease 0.03s forwards; }
+.product-card:nth-child(3) { animation: cardPop 0.3s ease 0.06s forwards; }
+.product-card:nth-child(4) { animation: cardPop 0.3s ease 0.09s forwards; }
+.product-card:nth-child(5) { animation: cardPop 0.3s ease 0.12s forwards; }
+.product-card:nth-child(6) { animation: cardPop 0.3s ease 0.15s forwards; }
+.product-card:nth-child(7) { animation: cardPop 0.3s ease 0.18s forwards; }
+.product-card:nth-child(8) { animation: cardPop 0.3s ease 0.21s forwards; }
+.product-card:nth-child(9) { animation: cardPop 0.3s ease 0.24s forwards; }
+.product-card:nth-child(n+10) { animation: cardPop 0.3s ease 0.27s forwards; }
 
 @keyframes cardPop {
-    from { opacity: 0; transform: translateY(10px) scale(0.95); }
-    to { opacity: 1; transform: translateY(0) scale(1); }
+    from { transform: translateY(10px) scale(0.95); }
+    to { transform: translateY(0) scale(1); }
 }
 
 .product-card::before {
@@ -723,6 +721,7 @@ tr:hover {
     .pos-container { flex-direction: column; height: auto; }
     .dashboard-charts { grid-template-columns: 1fr !important; }
     .pos-products { flex: none; overflow-y: visible; }
+    .product-grid { overflow-y: visible; max-height: none; }
     .pos-cart { flex: none; height: auto; min-height: 350px; margin-top: 10px;}
     .product-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
     .login-box { margin: 16px; padding: 30px 20px; }
