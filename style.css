@@ -388,8 +388,8 @@ input:focus, select:focus {
     box-shadow: var(--shadow-lg);
 }
 .product-card:active { transform: translateY(0) scale(0.97); }
-.product-name { font-weight: 600; margin-bottom: 8px; font-size: 1rem; }
-.product-price { color: var(--primary-color); font-weight: 700; font-size: 0.95rem; }
+.product-name { font-weight: 600; margin-bottom: 8px; font-size: 1rem; color: var(--text-main); display: block; }
+.product-price { color: var(--primary-color); font-weight: 700; font-size: 0.95rem; display: block; }
 
 /* Cart Layout */
 .cart-header {
