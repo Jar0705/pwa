@@ -339,7 +339,7 @@ input:focus, select:focus {
     gap: 6px;
     margin-bottom: 14px;
     overflow-x: auto;
-    padding-bottom: 4px;
+    padding: 0 2px 8px;
     scrollbar-width: none;
 }
 
@@ -348,11 +348,11 @@ input:focus, select:focus {
 }
 
 .category-tab {
-    padding: 7px 16px;
+    padding: 8px 18px;
     background: var(--bg-color);
     border: 1.5px solid var(--border-color);
     border-radius: 20px;
-    font-size: 0.82rem;
+    font-size: 0.85rem;
     font-weight: 500;
     cursor: pointer;
     white-space: nowrap;
