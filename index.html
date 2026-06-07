@@ -180,41 +180,29 @@
             <!-- 2. KASIR POS PAGE -->
             <section id="pos" class="page">
                 <div class="pos-container">
-                    <!-- Left: Product Catalog -->
                     <div class="pos-products">
-                        <div style="display:flex; gap:10px; margin-bottom:15px;">
-                            <input type="text" id="pos-search" placeholder="Cari produk..." style="flex:1;">
+                        <div class="pos-search-wrap">
+                            <input type="text" id="pos-search" placeholder="Cari produk..." class="pos-search-input">
                         </div>
-                        <div class="category-tabs" id="pos-categories"
-                            style="display:flex; gap:10px; overflow-x:auto; margin-bottom:15px; padding-bottom:5px;">
-                            <!-- Render via JS -->
-                        </div>
-                        <div class="product-grid" id="pos-grid">
-                            <!-- Render via JS -->
-                        </div>
+                        <div class="category-tabs" id="pos-categories"></div>
+                        <div class="product-grid" id="pos-grid"></div>
                     </div>
-
-                    <!-- Right: Cart -->
                     <div class="pos-cart">
-                        <div class="cart-header">Keranjang Belanja</div>
+                        <div class="cart-header">
+                            <span>Keranjang</span>
+                            <span class="cart-count" id="cart-count">0</span>
+                        </div>
                         <div class="cart-items" id="cart-items">
-                            <!-- Render via JS -->
-                            <div style="text-align:center; color:var(--text-muted); padding-top:20px;">Keranjang kosong
-                            </div>
+                            <div class="cart-empty">Keranjang kosong</div>
                         </div>
                         <div class="cart-footer">
                             <div class="cart-total-row">
-                                <span>Total:</span>
-                                <span id="cart-total" style="color:var(--primary-color)">Rp 0</span>
+                                <span>Total</span>
+                                <span id="cart-total">Rp 0</span>
                             </div>
-                            <div style="display: flex; gap: 10px;">
-                                <button class="btn danger" style="padding:15px; flex: 1;" onclick="app.clearCart()">
-                                    Kosongkan
-                                </button>
-                                <button class="btn primary" style="padding:15px; flex: 2; font-size:1.1rem;"
-                                    onclick="app.showCheckoutModal()">
-                                    Proses Bayar
-                                </button>
+                            <div class="cart-actions">
+                                <button class="btn btn-outline" onclick="app.clearCart()">Kosongkan</button>
+                                <button class="btn btn-bayar" onclick="app.showCheckoutModal()">Bayar</button>
                             </div>
                         </div>
                     </div>

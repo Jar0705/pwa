@@ -448,16 +448,16 @@ const app = {
         }
 
         grid.innerHTML = filtered.map(p => {
-            const stockBadge = (p.stock || 0) <= 5 ? 'color:var(--danger-color);' : 'color:var(--text-muted);';
+            const lowStock = (p.stock || 0) <= 5;
             const initial = p.name.charAt(0).toUpperCase();
             return `
             <div class="product-card" onclick="app.addToCart(${p.id})">
-                <div style="width:50px; height:50px; border-radius:50%; background:rgba(0, 98, 65, 0.1); color:var(--primary-color); display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:bold; margin:0 auto 10px auto;">
-                    ${initial}
+                <div class="product-card-avatar"><span>${initial}</span></div>
+                <div class="product-card-body">
+                    <div class="product-name">${p.name}</div>
+                    <div class="product-price">${this.formatRupiah(p.price)}</div>
+                    <div class="product-stock-badge ${lowStock ? 'low' : ''}">Stok: ${p.stock || 0}</div>
                 </div>
-                <div class="product-name">${p.name}</div>
-                <div class="product-price">${this.formatRupiah(p.price)}</div>
-                <div style="font-size:0.75rem; margin-top:5px; font-weight:600; ${stockBadge}">Sisa Stok: ${p.stock || 0}</div>
             </div>
             `;
         }).join('');
@@ -516,10 +516,12 @@ const app = {
 
     renderCart() {
         const container = document.getElementById('cart-items');
+        const countEl = document.getElementById('cart-count');
         let grandTotal = 0;
 
         if(this.cart.length === 0) {
-            container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding-top:20px;">Keranjang kosong</div>`;
+            container.innerHTML = `<div class="cart-empty">Keranjang kosong</div>`;
+            if(countEl) countEl.innerText = '0';
         } else {
             container.innerHTML = this.cart.map(c => {
                 grandTotal += c.total;
@@ -530,17 +532,18 @@ const app = {
                         <div class="cart-item-price">${this.formatRupiah(c.price)}</div>
                     </div>
                     <div class="cart-item-actions">
-                        <button class="qty-btn" onclick="app.updateCartQty(${c.id}, -1)">-</button>
-                        <span style="font-weight:600; font-size:0.9rem; min-width:15px; text-align:center;">${c.qty}</span>
+                        <button class="qty-btn" onclick="app.updateCartQty(${c.id}, -1)">−</button>
+                        <span class="cart-qty">${c.qty}</span>
                         <button class="qty-btn" onclick="app.updateCartQty(${c.id}, 1)">+</button>
                     </div>
                 </div>
                 `;
             }).join('');
+            if(countEl) countEl.innerText = this.cart.length;
         }
 
         document.getElementById('cart-total').innerText = this.formatRupiah(grandTotal);
-        this.cartTotal = grandTotal; // store globally for checkout
+        this.cartTotal = grandTotal;
     },
 
     // --- CHECKOUT & PRINT ---
