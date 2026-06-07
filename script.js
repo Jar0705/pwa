@@ -35,7 +35,7 @@ const     app = {
             { id: 6, name: 'Vanilla Latte', price: 50000, category: 'Coffee', stock: 45, image: 'https://images.unsplash.com/photo-1585494156145-1c60a4fe952b?w=200&q=80' },
             
             // Non-Coffee
-            { id: 7, name: 'Matcha Green Tea', price: 55000, category: 'Non-Coffee', stock: 30, image: 'https://images.unsplash.com/photo-1536584754829-1221efa6d8a4?w=200&q=80' },
+            { id: 7, name: 'Matcha Green Tea', price: 55000, category: 'Non-Coffee', stock: 30, image: 'assets/image/matcha.jpg' },
             { id: 8, name: 'Signature Chocolate', price: 50000, category: 'Non-Coffee', stock: 40, image: 'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=200&q=80' },
             { id: 9, name: 'Teavana Earl Grey', price: 40000, category: 'Non-Coffee', stock: 60, image: 'assets/image/earl_grey.jpg' },
             { id: 10, name: 'Iced Shaken Lemon Tea', price: 45000, category: 'Non-Coffee', stock: 55, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=200&q=80' },
@@ -59,9 +59,9 @@ const     app = {
         } else {
             // Force update placeholder images to fix broken URLs
             this.products = savedProducts.map(p => {
-                if(!p.image || p.image.includes('images.unsplash.com')) {
-                    const defaultP = defaultProducts.find(dp => dp.id === p.id);
-                    if(defaultP) p.image = defaultP.image;
+                const defaultP = defaultProducts.find(dp => dp.id === p.id);
+                if(defaultP && ([7, 9, 12].includes(p.id) || !p.image || p.image.includes('images.unsplash.com'))) {
+                    p.image = defaultP.image;
                 }
                 return p;
             });

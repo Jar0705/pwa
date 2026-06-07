@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kasir-pro-v5-fixed';
+const CACHE_NAME = 'kasir-pro-v6-fixed';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
@@ -7,6 +7,7 @@ const ASSETS_TO_CACHE = [
     '/manifest.json',
     '/favicon-192.png',
     '/favicon-512.png',
+    '/assets/image/matcha.jpg',
     '/assets/image/earl_grey.jpg',
     '/assets/image/croissant.jpg',
     '/assets/image/background-login.jpg',
