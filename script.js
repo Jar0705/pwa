@@ -172,6 +172,89 @@ const app = {
 
         document.getElementById('dash-revenue').innerText = this.formatRupiah(todayRevenue);
         document.getElementById('dash-count').innerText = totalCount;
+        this.renderCharts();
+    },
+
+    renderCharts() {
+        // 1. Chart
+        const ctx = document.getElementById('revenueChart');
+        if(!ctx) return;
+        
+        // aggregate last 7 days
+        const last7Days = [];
+        const dataMap = {};
+        for(let i=6; i>=0; i--) {
+            const d = new Date();
+            d.setDate(d.getDate() - i);
+            const dateStr = d.toLocaleDateString('id-ID', {day: 'numeric', month: 'short'});
+            last7Days.push(dateStr);
+            dataMap[dateStr] = 0;
+        }
+
+        this.history.forEach(h => {
+            const dStr = new Date(h.timestamp).toLocaleDateString('id-ID', {day: 'numeric', month: 'short'});
+            if(dataMap[dStr] !== undefined) {
+                dataMap[dStr] += h.total;
+            }
+        });
+
+        const dataVals = last7Days.map(d => dataMap[d]);
+
+        if(this.revenueChartInstance) {
+            this.revenueChartInstance.destroy();
+        }
+
+        try {
+            this.revenueChartInstance = new Chart(ctx, {
+                type: 'line',
+                data: {
+                    labels: last7Days,
+                    datasets: [{
+                        label: 'Pendapatan (Rp)',
+                        data: dataVals,
+                        borderColor: '#006241',
+                        backgroundColor: 'rgba(0, 98, 65, 0.1)',
+                        borderWidth: 2,
+                        fill: true,
+                        tension: 0.4
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false }
+                    },
+                    scales: {
+                        y: { beginAtZero: true, ticks: { callback: (value) => 'Rp ' + (value/1000) + 'k' } }
+                    }
+                }
+            });
+        } catch(e) { console.log("Chart.js not loaded yet or offline", e); }
+
+        // 2. Top Products
+        const prodCount = {};
+        this.history.forEach(h => {
+            h.items.forEach(item => {
+                prodCount[item.name] = (prodCount[item.name] || 0) + item.qty;
+            });
+        });
+        
+        const sortedProds = Object.entries(prodCount).sort((a,b) => b[1] - a[1]).slice(0, 5);
+        const listEl = document.getElementById('topProductsList');
+        if(sortedProds.length === 0) {
+            listEl.innerHTML = '<li style="color:var(--text-muted);">Belum ada data penjualan</li>';
+        } else {
+            listEl.innerHTML = sortedProds.map((p, index) => `
+                <li style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--border-color);">
+                    <div style="display:flex; align-items:center; gap:10px;">
+                        <span style="background:var(--primary-color); color:white; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:bold;">${index+1}</span>
+                        <span style="font-weight:500;">${p[0]}</span>
+                    </div>
+                    <span style="font-weight:bold; color:var(--primary-color);">${p[1]}x</span>
+                </li>
+            `).join('');
+        }
     },
 
     // --- PRODUCT MANAGEMENT ---

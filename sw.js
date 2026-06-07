@@ -7,7 +7,8 @@ const ASSETS_TO_CACHE = [
     '/manifest.json',
     '/favicon-192.png',
     '/favicon-512.png',
-    'https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap'
+    'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap',
+    'https://cdn.jsdelivr.net/npm/chart.js'
 ];
 
 self.addEventListener('install', event => {

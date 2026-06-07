@@ -481,6 +481,7 @@ tr:hover td {
     }
     .page { padding: 15px; }
     .pos-container { flex-direction: column; }
+    .dashboard-charts { grid-template-columns: 1fr !important; }
     .pos-products { flex: 1; overflow-y: auto; }
     .pos-cart { flex: none; height: 400px; margin-top: 10px;}
     .login-box { margin: 20px; padding: 40px 20px; }
