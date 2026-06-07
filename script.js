@@ -438,12 +438,14 @@ const app = {
         this.showToast("Transaksi Berhasil!");
         this.playSuccessSound();
 
-        // Prepare Print Receipt
-        this.printReceipt(transaction);
-
-        // Reset Cart
+        // Reset Cart immediately so UI updates
         this.cart = [];
         this.renderCart();
+
+        // Delay print dialog to prevent blocking the Web Audio API thread (which causes the sound to get stuck)
+        setTimeout(() => {
+            this.printReceipt(transaction);
+        }, 600);
     },
 
     printReceipt(trx) {
