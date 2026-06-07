@@ -153,12 +153,25 @@ const app = {
     },
 
     nav(target) {
+        // Update Active class
         document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
         document.querySelector(`.nav-item[data-target="${target}"]`).classList.add('active');
-
+        
+        // Update Pages
         document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
         document.getElementById(target).classList.add('active');
 
+        // Update Topbar
+        const titles = {
+            'dashboard': 'Dashboard',
+            'pos': 'Kasir (POS)',
+            'produk': 'Master Data Produk',
+            'riwayat': 'Riwayat Transaksi',
+            'pengaturan': 'Pengaturan Sistem'
+        };
+        document.getElementById('topbar-title').innerText = titles[target];
+
+        // Call specific render functions
         if(target === 'dashboard') this.renderDashboard();
         if(target === 'pos') this.renderPOS();
         if(target === 'produk') this.renderProducts();
@@ -170,10 +183,10 @@ const app = {
         const el = document.getElementById('status-indicator');
         if(navigator.onLine){
             el.innerText = "Online";
-            el.style.color = "var(--primary)";
+            el.style.color = "var(--primary-color)";
         } else {
             el.innerText = "Offline";
-            el.style.color = "var(--danger)";
+            el.style.color = "var(--danger-color)";
             this.showToast("Mode Offline", true);
         }
     },
@@ -204,12 +217,12 @@ const app = {
         if(lowStockContainer) {
             const lowStockProducts = this.products.filter(p => (p.stock || 0) <= 5);
             if(lowStockProducts.length === 0) {
-                lowStockContainer.innerHTML = '<div style="color:var(--text-secondary); font-size:0.9rem;">Semua stok aman.</div>';
+                lowStockContainer.innerHTML = '<div style="color:var(--text-muted); font-size:0.9rem;">Semua stok aman.</div>';
             } else {
                 lowStockContainer.innerHTML = lowStockProducts.map(p => `
-                    <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px dashed var(--border);">
+                    <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px dashed var(--border-color);">
                         <div style="font-weight:500;">${p.name} <span class="badge badge-category" style="margin-left:5px;">${p.category||'Lainnya'}</span></div>
-                        <div style="color:var(--danger); font-weight:700;">Sisa: ${p.stock||0}</div>
+                        <div style="color:var(--danger-color); font-weight:700;">Sisa: ${p.stock||0}</div>
                     </div>
                 `).join('');
             }
@@ -286,15 +299,15 @@ const app = {
         const sortedProds = Object.entries(prodCount).sort((a,b) => b[1] - a[1]).slice(0, 5);
         const listEl = document.getElementById('topProductsList');
         if(sortedProds.length === 0) {
-            listEl.innerHTML = '<li style="color:var(--text-secondary);">Belum ada data penjualan</li>';
+            listEl.innerHTML = '<li style="color:var(--text-muted);">Belum ada data penjualan</li>';
         } else {
             listEl.innerHTML = sortedProds.map((p, index) => `
-                <li style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--border);">
+                <li style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--border-color);">
                     <div style="display:flex; align-items:center; gap:10px;">
-                        <span style="background:var(--primary); color:white; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:bold;">${index+1}</span>
+                        <span style="background:var(--primary-color); color:white; width:24px; height:24px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:0.8rem; font-weight:bold;">${index+1}</span>
                         <span style="font-weight:500;">${p[0]}</span>
                     </div>
-                    <span style="font-weight:bold; color:var(--primary);">${p[1]}x</span>
+                    <span style="font-weight:bold; color:var(--primary-color);">${p[1]}x</span>
                 </li>
             `).join('');
         }
@@ -311,7 +324,7 @@ const app = {
         }
 
         if(filtered.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-secondary)">Produk tidak ditemukan</td></tr>`;
+            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted)">Produk tidak ditemukan</td></tr>`;
             return;
         }
 
@@ -326,10 +339,10 @@ const app = {
                     ${p.name}<br>
                     <span class="badge badge-category" style="margin-top:4px;">${cat}</span>
                 </td>
-                <td style="color:var(--primary); font-weight:600;">${this.formatRupiah(p.price)}</td>
+                <td style="color:var(--primary-color); font-weight:600;">${this.formatRupiah(p.price)}</td>
                 <td><span class="badge ${stockBadge}">Stok: ${stock}</span></td>
                 <td style="text-align:right;">
-                    <button class="btn" style="padding:6px 12px; background:var(--warning); color:white; font-size:0.8rem;" onclick="app.editProduct(${p.id})">Edit</button>
+                    <button class="btn" style="padding:6px 12px; background:var(--warning-color); color:white; font-size:0.8rem;" onclick="app.editProduct(${p.id})">Edit</button>
                     <button class="btn danger" style="padding:6px 12px; font-size:0.8rem;" onclick="app.deleteProduct(${p.id})">Hapus</button>
                 </td>
             </tr>
@@ -430,19 +443,21 @@ const app = {
         }
 
         if(filtered.length === 0) {
-            grid.innerHTML = `<div style="grid-column: 1/-1; color:var(--text-secondary); padding:20px; text-align:center;">Produk tidak ditemukan</div>`;
+            grid.innerHTML = `<div style="grid-column: 1/-1; color:var(--text-muted); padding:20px; text-align:center;">Produk tidak ditemukan</div>`;
             return;
         }
 
         grid.innerHTML = filtered.map(p => {
-            const lowStock = (p.stock || 0) <= 5;
+            const stockBadge = (p.stock || 0) <= 5 ? 'color:var(--danger-color);' : 'color:var(--text-muted);';
             const initial = p.name.charAt(0).toUpperCase();
             return `
             <div class="product-card" onclick="app.addToCart(${p.id})">
-                <div class="product-avatar">${initial}</div>
+                <div style="width:50px; height:50px; border-radius:50%; background:rgba(0, 98, 65, 0.1); color:var(--primary-color); display:flex; align-items:center; justify-content:center; font-size:1.5rem; font-weight:bold; margin:0 auto 10px auto;">
+                    ${initial}
+                </div>
                 <div class="product-name">${p.name}</div>
                 <div class="product-price">${this.formatRupiah(p.price)}</div>
-                <div class="product-stock" style="color:${lowStock ? 'var(--danger)' : 'var(--text-secondary)'};">Sisa Stok: ${p.stock || 0}</div>
+                <div style="font-size:0.75rem; margin-top:5px; font-weight:600; ${stockBadge}">Sisa Stok: ${p.stock || 0}</div>
             </div>
             `;
         }).join('');
@@ -504,7 +519,7 @@ const app = {
         let grandTotal = 0;
 
         if(this.cart.length === 0) {
-            container.innerHTML = `<div style="text-align:center;color:var(--text-secondary);padding-top:20px;">Keranjang kosong</div>`;
+            container.innerHTML = `<div style="text-align:center; color:var(--text-muted); padding-top:20px;">Keranjang kosong</div>`;
         } else {
             container.innerHTML = this.cart.map(c => {
                 grandTotal += c.total;
@@ -542,7 +557,7 @@ const app = {
         document.getElementById('checkout-total').innerText = this.formatRupiah(this.cartGrandTotal);
         document.getElementById('checkout-pay').value = '';
         document.getElementById('checkout-change').innerText = 'Rp 0';
-        document.getElementById('checkout-change').style.color = 'var(--warning)';
+        document.getElementById('checkout-change').style.color = 'var(--warning-color)';
         
         const methodEl = document.getElementById('checkout-method');
         if(methodEl) methodEl.value = 'Cash';
@@ -574,10 +589,10 @@ const app = {
         
         if(change < 0) {
             changeEl.innerText = 'Kurang ' + this.formatRupiah(Math.abs(change));
-            changeEl.style.color = 'var(--danger)';
+            changeEl.style.color = 'var(--danger-color)';
         } else {
             changeEl.innerText = this.formatRupiah(change);
-            changeEl.style.color = 'var(--primary)';
+            changeEl.style.color = 'var(--primary-color)';
         }
     },
 
@@ -687,7 +702,7 @@ const app = {
         }
 
         if(filtered.length === 0) {
-            container.innerHTML = `<div class="card" style="text-align:center; color:var(--text-secondary)">Riwayat tidak ditemukan</div>`;
+            container.innerHTML = `<div class="card" style="text-align:center; color:var(--text-muted)">Riwayat tidak ditemukan</div>`;
             return;
         }
 
@@ -695,11 +710,11 @@ const app = {
             <div class="history-item" id="history-item-${h.id}" onclick="app.toggleHistoryDetail('${h.id}')">
                 <div style="display:flex; justify-content:space-between; margin-bottom:5px;">
                     <div>
-                        <div style="font-weight:600; color:var(--text)">${h.id}</div>
-                        <div style="font-size:0.8rem; color:var(--text-secondary)">${new Date(h.timestamp).toLocaleString('id-ID')}</div>
+                        <div style="font-weight:600; color:var(--text-main)">${h.id}</div>
+                        <div style="font-size:0.8rem; color:var(--text-muted)">${new Date(h.timestamp).toLocaleString('id-ID')}</div>
                     </div>
                     <div style="text-align:right">
-                        <div style="font-weight:700; font-size:1.1rem; color:var(--primary);">${this.formatRupiah(h.total)}</div>
+                        <div style="font-weight:700; font-size:1.1rem; color:var(--primary-color);">${this.formatRupiah(h.total)}</div>
                         <span class="badge badge-success" style="margin-top:5px;">Lunas</span>
                     </div>
                 </div>
@@ -708,10 +723,10 @@ const app = {
                     ${h.items.map(i => `
                         <div style="display:flex; justify-content:space-between; font-size:0.85rem; margin-bottom:5px;">
                             <span>${i.name} x${i.qty}</span>
-                            <span style="color:var(--text-secondary)">${this.formatRupiah(i.total)}</span>
+                            <span style="color:var(--text-muted)">${this.formatRupiah(i.total)}</span>
                         </div>
                     `).join('')}
-                    <div style="border-top:1px dashed var(--border); margin-top:10px; padding-top:10px; display:flex; justify-content:space-between; font-size:0.85rem;">
+                    <div style="border-top:1px dashed var(--border-color); margin-top:10px; padding-top:10px; display:flex; justify-content:space-between; font-size:0.85rem;">
                         <span>Tunai: ${this.formatRupiah(h.pay)}</span>
                         <span>Kembali: ${this.formatRupiah(h.change)}</span>
                     </div>
