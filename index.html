@@ -46,8 +46,8 @@
     <!-- LOGIN PAGE -->
     <section id="loginPage">
         <div class="login-box">
-            <img src="Indomaret Logo.jpg" alt="Indomaret" style="max-width: 220px; margin-bottom: 15px; border-radius: 8px;">
-            <p style="color:var(--text-muted); margin-bottom:30px; font-weight:600;">Point of Sale</p>
+            <h2>Coffee POS</h2>
+            <p style="color:var(--text-muted); margin-bottom:30px; font-weight:600;">Point of Sale System</p>
 
             <div class="form-group" style="text-align: left;">
                 <label>Username</label>
@@ -65,57 +65,49 @@
     <!-- APP WRAPPER -->
     <div id="appPage" class="app-container" style="display:none;">
 
-        <!-- SIDEBAR NAVIGATION -->
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <img src="Indomaret Logo.jpg" alt="Indomaret" style="max-width: 150px; border-radius: 5px;">
+        <!-- TOP NAVIGATION HEADER -->
+        <header class="header-nav">
+            <div class="header-brand">
+                <svg width="28" height="28">
+                    <use href="#icon-box"></use>
+                </svg>
+                CoffeePOS
             </div>
+
             <div class="nav-links">
                 <div class="nav-item active" data-target="dashboard">
-                    <svg width="24" height="24">
-                        <use href="#icon-dashboard"></use>
-                    </svg> Dashboard
+                    Dashboard
                 </div>
                 <div class="nav-item" data-target="pos">
-                    <svg width="24" height="24">
-                        <use href="#icon-pos"></use>
-                    </svg> Kasir (POS)
+                    Kasir
                 </div>
                 <div class="nav-item" data-target="produk">
-                    <svg width="24" height="24">
-                        <use href="#icon-box"></use>
-                    </svg> Produk
+                    Produk
                 </div>
                 <div class="nav-item" data-target="riwayat">
-                    <svg width="24" height="24">
-                        <use href="#icon-history"></use>
-                    </svg> Riwayat
+                    Riwayat
                 </div>
             </div>
-            <div class="sidebar-footer">
-                <button class="btn" style="width:100%; background:var(--bg-color); color:var(--danger-color)"
-                    onclick="app.logout()">
+
+            <div class="header-actions">
+                <div id="realtime-clock" style="font-weight: 500; font-size: 0.9rem; color:var(--text-muted);"></div>
+                <div id="status-indicator" style="font-size:0.8rem; font-weight:600; color:var(--warning-color);">
+                    Online
+                </div>
+                <button class="theme-toggle" onclick="app.toggleTheme()">
+                    <svg width="24" height="24">
+                        <use href="#icon-moon"></use>
+                    </svg>
+                </button>
+                <button class="btn danger" style="padding: 8px 15px; font-size: 0.85rem;" onclick="app.logout()">
                     Logout
                 </button>
             </div>
-        </aside>
+        </header>
 
         <!-- MAIN CONTENT -->
         <main class="main-content">
-            <!-- TOPBAR -->
-            <header class="topbar">
-                <div style="font-weight:600;" id="topbar-title">Dashboard</div>
-                <div id="realtime-clock" style="margin-left: 20px; font-weight: 500; font-size: 0.9rem; flex: 1;"></div>
-                <div style="display:flex; align-items:center; gap:15px;">
-                    <div id="status-indicator" style="font-size:0.8rem; font-weight:600; color:var(--warning-color);">
-                        Online</div>
-                    <button class="theme-toggle" onclick="app.toggleTheme()">
-                        <svg width="24" height="24">
-                            <use href="#icon-moon"></use>
-                        </svg>
-                    </button>
-                </div>
-            </header>
+            <div id="topbar-title" style="display:none;"></div>
 
             <!-- 1. DASHBOARD PAGE -->
             <section id="dashboard" class="page active">
