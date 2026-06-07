@@ -27,30 +27,30 @@ const     app = {
         // Load Data
         const defaultProducts = [
             // Coffee
-            { id: 1, name: 'Caffe Latte', price: 45000, category: 'Coffee', stock: 50, image: 'https://images.unsplash.com/photo-1570968915860-54d5c301fa9f?w=200&q=80' },
-            { id: 2, name: 'Americano', price: 35000, category: 'Coffee', stock: 100, image: 'https://images.unsplash.com/photo-1551030173-122aabc4489c?w=200&q=80' },
-            { id: 3, name: 'Caramel Macchiato', price: 55000, category: 'Coffee', stock: 40, image: 'https://images.unsplash.com/photo-1485808191679-5f86510681a2?w=200&q=80' },
-            { id: 4, name: 'Espresso', price: 30000, category: 'Coffee', stock: 80, image: 'https://images.unsplash.com/photo-1510591509098-f4fdc6d0ff04?w=200&q=80' },
-            { id: 5, name: 'Mocha Frappuccino', price: 60000, category: 'Coffee', stock: 35, image: 'https://images.unsplash.com/photo-1572490122747-3968b75cc699?w=200&q=80' },
-            { id: 6, name: 'Vanilla Latte', price: 50000, category: 'Coffee', stock: 45, image: 'https://images.unsplash.com/photo-1585494156145-1c60a4fe952b?w=200&q=80' },
+            { id: 1, name: 'Caffe Latte', price: 45000, category: 'Coffee', stock: 50, image: 'assets/image/caffe_latte.jpg' },
+            { id: 2, name: 'Americano', price: 35000, category: 'Coffee', stock: 100, image: 'assets/image/americano.jpg' },
+            { id: 3, name: 'Caramel Macchiato', price: 55000, category: 'Coffee', stock: 40, image: 'assets/image/caramel_macchiato.jpg' },
+            { id: 4, name: 'Espresso', price: 30000, category: 'Coffee', stock: 80, image: 'assets/image/espresso.jpg' },
+            { id: 5, name: 'Mocha Frappuccino', price: 60000, category: 'Coffee', stock: 35, image: 'assets/image/mocha_frappuccino.jpg' },
+            { id: 6, name: 'Vanilla Latte', price: 50000, category: 'Coffee', stock: 45, image: 'assets/image/vanilla_latte.jpg' },
             
             // Non-Coffee
             { id: 7, name: 'Matcha Green Tea', price: 55000, category: 'Non-Coffee', stock: 30, image: 'assets/image/matcha.jpg' },
-            { id: 8, name: 'Signature Chocolate', price: 50000, category: 'Non-Coffee', stock: 40, image: 'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=200&q=80' },
+            { id: 8, name: 'Signature Chocolate', price: 50000, category: 'Non-Coffee', stock: 40, image: 'assets/image/signature_chocolate.jpg' },
             { id: 9, name: 'Teavana Earl Grey', price: 40000, category: 'Non-Coffee', stock: 60, image: 'assets/image/earl_grey.jpg' },
-            { id: 10, name: 'Iced Shaken Lemon Tea', price: 45000, category: 'Non-Coffee', stock: 55, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=200&q=80' },
+            { id: 10, name: 'Iced Shaken Lemon Tea', price: 45000, category: 'Non-Coffee', stock: 55, image: 'assets/image/lemon_tea.jpg' },
             
             // Makanan
-            { id: 11, name: 'Butter Croissant', price: 25000, category: 'Makanan', stock: 20, image: 'https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=200&q=80' },
+            { id: 11, name: 'Butter Croissant', price: 25000, category: 'Makanan', stock: 20, image: 'assets/image/butter_croissant.jpg' },
             { id: 12, name: 'Almond Croissant', price: 35000, category: 'Makanan', stock: 15, image: 'assets/image/croissant.jpg' },
-            { id: 13, name: 'Beef Sausage & Cheese', price: 45000, category: 'Makanan', stock: 10, image: 'https://images.unsplash.com/photo-1534620808146-d33bb39128b2?w=200&q=80' },
-            { id: 14, name: 'New York Cheesecake', price: 40000, category: 'Makanan', stock: 8, image: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=200&q=80' },
-            { id: 15, name: 'Tuna Puff', price: 35000, category: 'Makanan', stock: 12, image: 'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?w=200&q=80' },
+            { id: 13, name: 'Beef Sausage & Cheese', price: 45000, category: 'Makanan', stock: 10, image: 'assets/image/beef_sausage.jpg' },
+            { id: 14, name: 'New York Cheesecake', price: 40000, category: 'Makanan', stock: 8, image: 'assets/image/cheesecake.jpg' },
+            { id: 15, name: 'Tuna Puff', price: 35000, category: 'Makanan', stock: 12, image: 'assets/image/tuna_puff.jpg' },
             
             // Merchandise
-            { id: 16, name: 'Starbucks Tumbler', price: 250000, category: 'Merchandise', stock: 5, image: 'https://images.unsplash.com/photo-1514228742587-6b1558fcca3d?w=200&q=80' },
-            { id: 17, name: 'Coffee Beans 250g', price: 120000, category: 'Merchandise', stock: 15, image: 'https://images.unsplash.com/photo-1559525839-b184a4d698c7?w=200&q=80' },
-            { id: 18, name: 'Starbucks Mug', price: 150000, category: 'Merchandise', stock: 10, image: 'https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?w=200&q=80' }
+            { id: 16, name: 'Starbucks Tumbler', price: 250000, category: 'Merchandise', stock: 5, image: 'assets/image/tumbler.jpg' },
+            { id: 17, name: 'Coffee Beans 250g', price: 120000, category: 'Merchandise', stock: 15, image: 'assets/image/coffee_beans.jpg' },
+            { id: 18, name: 'Starbucks Mug', price: 150000, category: 'Merchandise', stock: 10, image: 'assets/image/Starbucks.jpeg' }
         ];
 
         let savedProducts = JSON.parse(localStorage.getItem(DB_PRODUCTS));
@@ -60,7 +60,7 @@ const     app = {
             // Force update placeholder images to fix broken URLs
             this.products = savedProducts.map(p => {
                 const defaultP = defaultProducts.find(dp => dp.id === p.id);
-                if(defaultP && ([7, 9, 12].includes(p.id) || !p.image || p.image.includes('images.unsplash.com'))) {
+                if(defaultP && ([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18].includes(p.id) || !p.image || p.image.includes('images.unsplash.com'))) {
                     p.image = defaultP.image;
                 }
                 return p;

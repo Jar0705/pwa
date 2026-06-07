@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kasir-pro-v6-fixed';
+const CACHE_NAME = 'kasir-pro-v7-ai-images';
 const ASSETS_TO_CACHE = [
     '/',
     '/index.html',
@@ -7,6 +7,20 @@ const ASSETS_TO_CACHE = [
     '/manifest.json',
     '/favicon-192.png',
     '/favicon-512.png',
+    '/assets/image/caffe_latte.jpg',
+    '/assets/image/americano.jpg',
+    '/assets/image/caramel_macchiato.jpg',
+    '/assets/image/espresso.jpg',
+    '/assets/image/mocha_frappuccino.jpg',
+    '/assets/image/vanilla_latte.jpg',
+    '/assets/image/signature_chocolate.jpg',
+    '/assets/image/lemon_tea.jpg',
+    '/assets/image/butter_croissant.jpg',
+    '/assets/image/beef_sausage.jpg',
+    '/assets/image/cheesecake.jpg',
+    '/assets/image/tuna_puff.jpg',
+    '/assets/image/tumbler.jpg',
+    '/assets/image/coffee_beans.jpg',
     '/assets/image/matcha.jpg',
     '/assets/image/earl_grey.jpg',
     '/assets/image/croissant.jpg',
