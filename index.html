@@ -439,6 +439,18 @@
         </div>
     </div>
 
+    <!-- Confirm Modal -->
+    <div class="modal-overlay" id="modal-confirm">
+        <div class="modal-content" style="max-width:360px; text-align:center;">
+            <div class="confirm-icon">!</div>
+            <p id="confirm-message" style="font-size:1rem; margin-bottom:20px; color:var(--text-main); line-height:1.5;"></p>
+            <div style="display:flex; gap:10px;">
+                <button class="btn danger" style="flex:1;" id="confirm-yes">Ya</button>
+                <button class="btn" style="flex:1; background:var(--border-color); color:var(--text-main);" id="confirm-no">Tidak</button>
+            </div>
+        </div>
+    </div>
+
     <!-- PRINT SECTION (Hidden in UI, only visible in @media print) -->
     <div id="printSection">
         <div class="receipt">

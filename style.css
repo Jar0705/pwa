@@ -773,6 +773,20 @@ tr:hover {
     transform: translateY(0) scale(1);
 }
 
+.confirm-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--danger-color);
+    color: white;
+    font-size: 1.6rem;
+    font-weight: 700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0 auto 12px;
+}
+
 /* Toast */
 .toast {
     position: fixed;

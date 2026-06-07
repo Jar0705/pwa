@@ -116,6 +116,18 @@ const     app = {
         document.getElementById(id).classList.remove('show');
     },
 
+    showConfirm(message, onConfirm) {
+        document.getElementById('confirm-message').innerText = message;
+        document.getElementById('modal-confirm').classList.add('show');
+        document.getElementById('confirm-yes').onclick = () => {
+            this.hideModal('modal-confirm');
+            onConfirm();
+        };
+        document.getElementById('confirm-no').onclick = () => {
+            this.hideModal('modal-confirm');
+        };
+    },
+
     // --- AUTH ---
     checkLogin() {
         if(localStorage.getItem("login") === "true"){
@@ -455,13 +467,13 @@ const     app = {
     },
 
     deleteProduct(id) {
-        if(confirm('Yakin hapus produk ini?')) {
+        this.showConfirm('Yakin hapus produk ini?', () => {
             this.products = this.products.filter(x => x.id !== id);
             localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
             this.renderProducts();
             this.renderPOS();
             this.showToast('Produk berhasil dihapus');
-        }
+        });
     },
 
     // --- MUTASI STOK ---
@@ -639,11 +651,11 @@ const     app = {
 
     clearCart() {
         if(this.cart.length === 0) return;
-        if(confirm('Kosongkan keranjang?')) {
+        this.showConfirm('Kosongkan keranjang?', () => {
             this.cart = [];
             this.renderCart();
             this.showToast('Keranjang dikosongkan');
-        }
+        });
     },
 
     updateCartQty(id, delta) {
