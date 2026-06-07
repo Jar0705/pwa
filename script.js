@@ -31,9 +31,35 @@ const app = {
         this.checkLogin();
         this.setupListeners();
         this.updateStatus();
+        this.startClock();
     },
 
     // --- UTILITIES ---
+    startClock() {
+        setInterval(() => {
+            const now = new Date();
+            const options = { weekday: 'long', year: 'numeric', month: 'short', day: 'numeric', hour: '2-digit', minute: '2-digit', second: '2-digit' };
+            const clockEl = document.getElementById('realtime-clock');
+            if (clockEl) clockEl.innerText = now.toLocaleDateString('id-ID', options).replace(/\./g, ':');
+        }, 1000);
+    },
+
+    playBeep() {
+        try {
+            const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+            if(audioCtx.state === 'suspended') audioCtx.resume();
+            const oscillator = audioCtx.createOscillator();
+            const gainNode = audioCtx.createGain();
+            oscillator.connect(gainNode);
+            gainNode.connect(audioCtx.destination);
+            oscillator.type = 'sine';
+            oscillator.frequency.value = 800;
+            gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+            oscillator.start(audioCtx.currentTime);
+            oscillator.stop(audioCtx.currentTime + 0.1);
+        } catch(e) { console.log('Audio error', e); }
+    },
+
     formatRupiah(number) {
         return `Rp ${number.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")}`;
     },
@@ -264,6 +290,7 @@ const app = {
     },
 
     addToCart(id) {
+        this.playBeep();
         const p = this.products.find(x => x.id === id);
         if(!p) return;
 
@@ -281,6 +308,15 @@ const app = {
             });
         }
         this.renderCart();
+    },
+
+    clearCart() {
+        if(this.cart.length === 0) return;
+        if(confirm('Kosongkan keranjang?')) {
+            this.cart = [];
+            this.renderCart();
+            this.showToast('Keranjang dikosongkan');
+        }
     },
 
     updateCartQty(id, delta) {

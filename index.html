@@ -105,6 +105,7 @@
             <!-- TOPBAR -->
             <header class="topbar">
                 <div style="font-weight:600;" id="topbar-title">Dashboard</div>
+                <div id="realtime-clock" style="margin-left: 20px; font-weight: 500; font-size: 0.9rem; flex: 1;"></div>
                 <div style="display:flex; align-items:center; gap:15px;">
                     <div id="status-indicator" style="font-size:0.8rem; font-weight:600; color:var(--warning-color);">
                         Online</div>
@@ -176,10 +177,15 @@
                                 <span>Total:</span>
                                 <span id="cart-total" style="color:var(--primary-color)">Rp 0</span>
                             </div>
-                            <button class="btn primary" style="width:100%; padding:15px; font-size:1.1rem;"
-                                onclick="app.showCheckoutModal()">
-                                Proses Bayar
-                            </button>
+                            <div style="display: flex; gap: 10px;">
+                                <button class="btn danger" style="padding:15px; flex: 1;" onclick="app.clearCart()">
+                                    Kosongkan
+                                </button>
+                                <button class="btn primary" style="padding:15px; flex: 2; font-size:1.1rem;"
+                                    onclick="app.showCheckoutModal()">
+                                    Proses Bayar
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
