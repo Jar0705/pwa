@@ -234,17 +234,6 @@
                         </tbody>
                     </table>
                 </div>
-
-                <!-- Mutasi Log -->
-                <div class="card" style="margin-top:20px;">
-                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                        <h4 style="font-size:1rem;">Log Mutasi Stok</h4>
-                        <span class="badge badge-stock" id="mutasi-count" style="font-size:0.7rem;">0</span>
-                    </div>
-                    <div id="mutasi-log" style="max-height:200px;overflow-y:auto;font-size:0.85rem;">
-                        <div style="color:var(--text-muted);text-align:center;padding:10px;">Belum ada mutasi</div>
-                    </div>
-                </div>
             </section>
 
             <!-- 4. RIWAYAT PAGE -->
@@ -263,6 +252,18 @@
                 </div>
                 <div id="history-list">
                     <!-- Render via JS -->
+                </div>
+
+                <div style="margin-top:24px;padding-top:20px;border-top:2px solid var(--border-color);">
+                    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
+                        <span style="font-weight:700;font-size:1.1rem;">Log Mutasi Stok</span>
+                        <span class="badge badge-stock" id="mutasi-count" style="font-size:0.7rem;">0</span>
+                    </div>
+                    <div class="card" style="padding:16px;">
+                        <div id="mutasi-log" style="max-height:300px;overflow-y:auto;font-size:0.85rem;">
+                            <div style="color:var(--text-muted);text-align:center;padding:20px;">Belum ada mutasi</div>
+                        </div>
+                    </div>
                 </div>
             </section>
 
