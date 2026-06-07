@@ -158,6 +158,20 @@ const     app = {
         document.getElementById('product-search').addEventListener('input', () => this.renderProducts());
         document.getElementById('history-search').addEventListener('input', () => this.renderHistory());
 
+        // Image preview on file select
+        document.getElementById('product-image').addEventListener('change', (e) => {
+            const preview = document.getElementById('product-image-preview');
+            if (e.target.files && e.target.files[0]) {
+                const reader = new FileReader();
+                reader.onload = ev => {
+                    preview.innerHTML = `<img src="${ev.target.result}" style="max-width:80px;max-height:80px;border-radius:8px;border:1px solid var(--border-color);">`;
+                };
+                reader.readAsDataURL(e.target.files[0]);
+            } else {
+                preview.innerHTML = '';
+            }
+        });
+
         // Network status
         window.addEventListener('online', () => this.updateStatus());
         window.addEventListener('offline', () => this.updateStatus());
@@ -365,6 +379,14 @@ const     app = {
         }).join('');
     },
 
+    readFileAsBase64(file) {
+        return new Promise(resolve => {
+            const reader = new FileReader();
+            reader.onload = e => resolve(e.target.result);
+            reader.readAsDataURL(file);
+        });
+    },
+
     showProductModal() {
         document.getElementById('product-id').value = '';
         document.getElementById('product-name').value = '';
@@ -372,6 +394,7 @@ const     app = {
         document.getElementById('product-category').value = 'Coffee';
         document.getElementById('product-stock').value = '0';
         document.getElementById('product-image').value = '';
+        document.getElementById('product-image-preview').innerHTML = '';
         document.getElementById('product-modal-title').innerText = 'Tambah Produk';
         this.showModal('modal-product');
     },
@@ -384,18 +407,27 @@ const     app = {
         document.getElementById('product-price').value = p.price;
         document.getElementById('product-category').value = p.category || 'Coffee';
         document.getElementById('product-stock').value = p.stock || 0;
-        document.getElementById('product-image').value = p.image || '';
+        document.getElementById('product-image').value = '';
+        document.getElementById('product-image-preview').innerHTML = p.image
+            ? `<img src="${p.image}" style="max-width:80px;max-height:80px;border-radius:8px;border:1px solid var(--border-color);">`
+            : '';
         document.getElementById('product-modal-title').innerText = 'Edit Produk';
         this.showModal('modal-product');
     },
 
-    saveProduct() {
+    async saveProduct() {
         const id = document.getElementById('product-id').value;
         const name = document.getElementById('product-name').value.trim();
         const price = parseInt(document.getElementById('product-price').value);
         const category = document.getElementById('product-category').value;
         const stock = parseInt(document.getElementById('product-stock').value) || 0;
-        const image = document.getElementById('product-image').value.trim() || '';
+        const fileInput = document.getElementById('product-image');
+        const existingPreview = document.getElementById('product-image-preview').querySelector('img');
+        let image = existingPreview ? existingPreview.src : '';
+
+        if (fileInput.files && fileInput.files[0]) {
+            image = await this.readFileAsBase64(fileInput.files[0]);
+        }
 
         if(!name || !price) {
             this.showToast('Isi nama dan harga produk!', true);
