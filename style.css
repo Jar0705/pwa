@@ -260,6 +260,19 @@ input:focus, select:focus {
     box-shadow: var(--shadow-lg);
 }
 
+.category-tab {
+    padding: 8px 16px;
+    background: var(--card-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: var(--transition);
+}
+.category-tab:hover { background: rgba(0, 98, 65, 0.1); }
+.category-tab.active { background: var(--primary-color); color: white; border-color: var(--primary-color); }
+
 .product-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
@@ -571,10 +584,11 @@ tr:hover td {
         border-top: 1px solid var(--border-color);
     }
     .page { padding: 15px; }
-    .pos-container { flex-direction: column; }
+    .pos-container { flex-direction: column; height: auto; }
     .dashboard-charts { grid-template-columns: 1fr !important; }
-    .pos-products { flex: 1; overflow-y: auto; }
-    .pos-cart { flex: none; height: 400px; margin-top: 10px;}
+    .pos-products { flex: none; overflow-y: visible; }
+    .pos-cart { flex: none; height: auto; min-height: 400px; margin-top: 10px;}
+    .product-grid { grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)); }
     .login-box { margin: 20px; padding: 40px 20px; }
 }
 
