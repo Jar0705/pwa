@@ -343,11 +343,14 @@ const     app = {
             const cat = p.category || 'Lainnya';
             const stock = p.stock || 0;
             const stockBadge = stock <= 5 ? 'badge-stock low' : 'badge-stock';
+            const thumb = p.image
+                ? `<img src="${p.image}" alt="" style="width:36px;height:36px;border-radius:8px;object-fit:cover;vertical-align:middle;margin-right:8px;" onerror="this.style.display='none'">`
+                : '';
             
             return `
             <tr>
                 <td style="font-weight:500">
-                    ${p.name}<br>
+                    ${thumb}${p.name}<br>
                     <span class="badge badge-category" style="margin-top:4px;">${cat}</span>
                 </td>
                 <td style="color:var(--primary-color); font-weight:600;">${this.formatRupiah(p.price)}</td>
@@ -368,6 +371,7 @@ const     app = {
         document.getElementById('product-price').value = '';
         document.getElementById('product-category').value = 'Coffee';
         document.getElementById('product-stock').value = '0';
+        document.getElementById('product-image').value = '';
         document.getElementById('product-modal-title').innerText = 'Tambah Produk';
         this.showModal('modal-product');
     },
@@ -380,6 +384,7 @@ const     app = {
         document.getElementById('product-price').value = p.price;
         document.getElementById('product-category').value = p.category || 'Coffee';
         document.getElementById('product-stock').value = p.stock || 0;
+        document.getElementById('product-image').value = p.image || '';
         document.getElementById('product-modal-title').innerText = 'Edit Produk';
         this.showModal('modal-product');
     },
@@ -390,6 +395,7 @@ const     app = {
         const price = parseInt(document.getElementById('product-price').value);
         const category = document.getElementById('product-category').value;
         const stock = parseInt(document.getElementById('product-stock').value) || 0;
+        const image = document.getElementById('product-image').value.trim() || '';
 
         if(!name || !price) {
             this.showToast('Isi nama dan harga produk!', true);
@@ -399,11 +405,11 @@ const     app = {
         if(id) {
             // Edit
             const idx = this.products.findIndex(x => x.id == id);
-            this.products[idx] = { id: parseInt(id), name, price, category, stock };
+            this.products[idx] = { id: parseInt(id), name, price, category, stock, image };
             this.showToast('Produk diperbarui');
         } else {
             // Add
-            this.products.push({ id: Date.now(), name, price, category, stock });
+            this.products.push({ id: Date.now(), name, price, category, stock, image });
             this.showToast('Produk ditambahkan');
         }
 
@@ -550,9 +556,12 @@ const     app = {
         grid.innerHTML = filtered.map(p => {
             const lowStock = (p.stock || 0) <= 5;
             const initial = p.name.charAt(0).toUpperCase();
+            const avatar = p.image
+                ? `<img src="${p.image}" alt="${p.name}" onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"><span style="display:none;">${initial}</span>`
+                : `<span>${initial}</span>`;
             return `
             <div class="product-card" onclick="app.addToCart(${p.id})">
-                <div class="product-card-avatar"><span>${initial}</span></div>
+                <div class="product-card-avatar">${avatar}</div>
                 <div class="product-card-body">
                     <div class="product-name">${p.name}</div>
                     <div class="product-price">${this.formatRupiah(p.price)}</div>

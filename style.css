@@ -429,6 +429,15 @@ input:focus, select:focus {
     transition: var(--transition);
 }
 
+.product-card-avatar img {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    object-fit: cover;
+    border: 2px solid var(--border-color);
+    transition: var(--transition);
+}
+
 .product-card-body {
     padding: 0 12px 14px;
     text-align: center;
@@ -470,7 +479,8 @@ input:focus, select:focus {
     box-shadow: 0 8px 20px rgba(0, 98, 65, 0.12);
 }
 
-.product-card:hover .product-card-avatar span {
+.product-card:hover .product-card-avatar span,
+.product-card:hover .product-card-avatar img {
     transform: scale(1.1);
 }
 
