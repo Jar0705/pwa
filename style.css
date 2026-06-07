@@ -957,7 +957,11 @@ tr:hover {
     .pos-products { flex: none; overflow-y: visible; }
     .product-grid { overflow-y: visible; max-height: none; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
     .pos-cart { flex: none; max-width: none; min-height: 300px; margin-top: 12px; }
-    .login-box { margin: 16px; padding: 30px 20px; }
+    
+    #loginPage { flex-direction: column; }
+    .login-left { display: none !important; }
+    .login-right { padding: 20px !important; }
+    .login-box { margin: 0; padding: 30px 20px; border-radius: 16px; }
 
     .grid-cards {
         grid-template-columns: 1fr;

@@ -45,23 +45,48 @@
 <body>
 
     <!-- LOGIN PAGE -->
-    <section id="loginPage">
-        <div class="login-box">
-            <img src="assets/image/Starbucks.jpeg" alt="Starbucks"
-                style="width: 100px; height: 100px; border-radius: 50%; margin-bottom: 15px; box-shadow: var(--shadow);">
-            <h2 style="color:var(--primary-color);">Starbucks</h2>
-            <p style="color:var(--text-muted); margin-bottom:30px; font-weight:600;">Point of Sale System</p>
-
-            <div class="form-group" style="text-align: left;">
-                <label>Username</label>
-                <input type="text" id="username" placeholder="Enter admin" autocomplete="off">
-            </div>
-            <div class="form-group" style="text-align: left;">
-                <label>Password</label>
-                <input type="password" id="password" placeholder="Enter 12345">
+    <section id="loginPage" style="display: flex; height: 100vh; width: 100vw; overflow: hidden; background: var(--bg-color);">
+        <!-- Left Side: Image & Branding -->
+        <div class="login-left" style="flex: 1.2; position: relative; display: flex; flex-direction: column; justify-content: space-between; padding: 40px; color: white;">
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: url('assets/image/login_bg.png') center/cover no-repeat; z-index: 0;"></div>
+            <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(to right, rgba(0,0,0,0.8) 0%, rgba(0,0,0,0.3) 100%); z-index: 1;"></div>
+            
+            <div style="position: relative; z-index: 2; display: flex; align-items: center; gap: 15px;">
+                <img src="assets/image/Starbucks.jpeg" alt="Starbucks" style="width: 48px; height: 48px; border-radius: 50%; box-shadow: 0 4px 15px rgba(0,0,0,0.5);">
+                <span style="font-size: 1.5rem; font-weight: 700; letter-spacing: 1px;">STARBUCKS RESERVE&trade;</span>
             </div>
 
-            <button class="btn primary" style="width:100%; margin-top:10px;" onclick="app.login()">Login</button>
+            <div style="position: relative; z-index: 2; max-width: 450px; margin-bottom: 40px;">
+                <h1 style="font-size: 3.5rem; line-height: 1.1; margin-bottom: 20px; font-weight: 700;">Crafting the<br>Perfect Cup.</h1>
+                <p style="font-size: 1.1rem; opacity: 0.9; line-height: 1.6; font-weight: 300;">Welcome to the Starbucks Enterprise Point of Sale system. Please log in to access your dashboard, manage inventory, and serve our customers with excellence.</p>
+            </div>
+        </div>
+
+        <!-- Right Side: Login Form -->
+        <div class="login-right" style="flex: 1; display: flex; align-items: center; justify-content: center; background: var(--card-bg); padding: 40px; box-shadow: -10px 0 30px rgba(0,0,0,0.05); z-index: 5;">
+            <div class="login-box" style="width: 100%; max-width: 400px;">
+                <div style="text-align: center; margin-bottom: 40px;">
+                    <img src="assets/image/Starbucks.jpeg" alt="Starbucks" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 20px; box-shadow: var(--shadow);">
+                    <h2 style="color:var(--primary-color); font-size: 2rem; font-weight: 700;">Welcome Back</h2>
+                    <p style="color:var(--text-muted); font-size: 0.95rem;">Enter your credentials to access the POS</p>
+                </div>
+
+                <div class="form-group" style="text-align: left; margin-bottom: 20px;">
+                    <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-main); margin-bottom: 8px; display: block;">Employee ID / Username</label>
+                    <input type="text" id="username" placeholder="Enter admin" autocomplete="off" style="width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); font-size: 1rem;">
+                </div>
+                
+                <div class="form-group" style="text-align: left; margin-bottom: 30px;">
+                    <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-main); margin-bottom: 8px; display: block;">Secure Password</label>
+                    <input type="password" id="password" placeholder="Enter 12345" style="width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); font-size: 1rem;">
+                </div>
+
+                <button class="btn primary" style="width:100%; padding: 14px; font-size: 1.05rem; font-weight: 600; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 98, 65, 0.3);" onclick="app.login()">Sign In</button>
+                
+                <div style="text-align: center; margin-top: 25px;">
+                    <a href="#" style="color: var(--primary-color); font-size: 0.85rem; font-weight: 500; text-decoration: none;">Forgot Password? Contact IT Support</a>
+                </div>
+            </div>
         </div>
     </section>
 
