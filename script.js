@@ -35,14 +35,14 @@ const     app = {
             { id: 6, name: 'Vanilla Latte', price: 50000, category: 'Coffee', stock: 45, image: 'https://images.unsplash.com/photo-1585494156145-1c60a4fe952b?w=200&q=80' },
             
             // Non-Coffee
-            { id: 7, name: 'Matcha Green Tea', price: 55000, category: 'Non-Coffee', stock: 30, image: 'https://images.unsplash.com/photo-1515823662972-da6a2e4d3002?w=200&q=80' },
+            { id: 7, name: 'Matcha Green Tea', price: 55000, category: 'Non-Coffee', stock: 30, image: 'https://images.unsplash.com/photo-1536584754829-1221efa6d8a4?w=200&q=80' },
             { id: 8, name: 'Signature Chocolate', price: 50000, category: 'Non-Coffee', stock: 40, image: 'https://images.unsplash.com/photo-1542990253-0d0f5be5f0ed?w=200&q=80' },
-            { id: 9, name: 'Teavana Earl Grey', price: 40000, category: 'Non-Coffee', stock: 60, image: 'https://images.unsplash.com/photo-1576092768241-dec231879bfc?w=200&q=80' },
+            { id: 9, name: 'Teavana Earl Grey', price: 40000, category: 'Non-Coffee', stock: 60, image: 'https://images.unsplash.com/photo-1544787219-7f47ccb76574?w=200&q=80' },
             { id: 10, name: 'Iced Shaken Lemon Tea', price: 45000, category: 'Non-Coffee', stock: 55, image: 'https://images.unsplash.com/photo-1556679343-c7306c1976bc?w=200&q=80' },
             
             // Makanan
             { id: 11, name: 'Butter Croissant', price: 25000, category: 'Makanan', stock: 20, image: 'https://images.unsplash.com/photo-1517433670267-08bbd4be890f?w=200&q=80' },
-            { id: 12, name: 'Almond Croissant', price: 35000, category: 'Makanan', stock: 15, image: 'https://images.unsplash.com/photo-1530610476181-d83430b64dcb?w=200&q=80' },
+            { id: 12, name: 'Almond Croissant', price: 35000, category: 'Makanan', stock: 15, image: 'https://images.unsplash.com/photo-1555507036-ab1f40ce88f4?w=200&q=80' },
             { id: 13, name: 'Beef Sausage & Cheese', price: 45000, category: 'Makanan', stock: 10, image: 'https://images.unsplash.com/photo-1534620808146-d33bb39128b2?w=200&q=80' },
             { id: 14, name: 'New York Cheesecake', price: 40000, category: 'Makanan', stock: 8, image: 'https://images.unsplash.com/photo-1533134242443-d4fd215305ad?w=200&q=80' },
             { id: 15, name: 'Tuna Puff', price: 35000, category: 'Makanan', stock: 12, image: 'https://images.unsplash.com/photo-1608198093002-ad4e005484ec?w=200&q=80' },
@@ -57,9 +57,9 @@ const     app = {
         if(!savedProducts || savedProducts.length === 0) {
             this.products = defaultProducts;
         } else {
-            // Inject images to existing products if missing
+            // Force update placeholder images to fix broken URLs
             this.products = savedProducts.map(p => {
-                if(!p.image) {
+                if(!p.image || p.image.includes('images.unsplash.com')) {
                     const defaultP = defaultProducts.find(dp => dp.id === p.id);
                     if(defaultP) p.image = defaultP.image;
                 }
