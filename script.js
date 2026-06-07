@@ -177,8 +177,8 @@ const     app = {
         // Call specific render functions
         if(target === 'dashboard') this.renderDashboard();
         if(target === 'pos') this.renderPOS();
-        if(target === 'produk') this.renderProducts();
-        if(target === 'riwayat') { this.renderHistory(); this.renderMutasiLog(); }
+        if(target === 'produk') { this.renderProducts(); this.renderMutasiLog(); }
+        if(target === 'riwayat') this.renderHistory();
         if(target === 'pengaturan') this.renderSettings();
     },
 
