@@ -32,13 +32,13 @@ const     app = {
             { id: 5, name: 'Mocha Frappuccino', price: 58000, category: 'Coffee', stock: 35, image: 'assets/image/mocha_frappuccino.jpg' },
             { id: 6, name: 'Vanilla Latte', price: 54000, category: 'Coffee', stock: 45, image: 'assets/image/vanilla_latte.jpg' },
             
-            { id: 7, name: 'Matcha Green Tea', price: 58000, category: 'Non-Coffee', stock: 25, image: 'assets/image/matcha_latte.jpg' },
+            { id: 7, name: 'Matcha Green Tea', price: 58000, category: 'Non-Coffee', stock: 25, image: 'assets/image/matcha.jpg' },
             { id: 8, name: 'Signature Chocolate', price: 55000, category: 'Non-Coffee', stock: 40, image: 'assets/image/signature_chocolate.jpg' },
             { id: 9, name: 'Teavana Earl Grey', price: 35000, category: 'Non-Coffee', stock: 60, image: 'assets/image/earl_grey.jpg' },
             { id: 10, name: 'Iced Shaken Lemon', price: 43000, category: 'Non-Coffee', stock: 55, image: 'assets/image/lemon_tea.jpg' },
             
             { id: 11, name: 'Butter Croissant', price: 25000, category: 'Food', stock: 20, image: 'assets/image/butter_croissant.jpg' },
-            { id: 12, name: 'Almond Croissant', price: 38000, category: 'Food', stock: 15, image: 'assets/image/almond_croissant.jpg' },
+            { id: 12, name: 'Almond Croissant', price: 38000, category: 'Food', stock: 15, image: 'assets/image/croissant.jpg' },
             { id: 13, name: 'Beef Sausage Bun', price: 45000, category: 'Food', stock: 10, image: 'assets/image/beef_sausage.jpg' },
             { id: 14, name: 'New York Cheesecake', price: 50000, category: 'Food', stock: 8, image: 'assets/image/cheesecake.jpg' },
             { id: 15, name: 'Tuna Puff', price: 32000, category: 'Food', stock: 12, image: 'assets/image/tuna_puff.jpg' },
