@@ -841,10 +841,22 @@ const     app = {
         localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
 
         this.hideModal('modal-checkout');
-        this.showToast("Transaction Successful!");
-
-        // Prepare Print Receipt
-        this.printReceipt(transaction);
+        
+        Swal.fire({
+            title: 'Payment Successful!',
+            text: 'Do you want to print the receipt?',
+            icon: 'success',
+            showCancelButton: true,
+            confirmButtonText: 'Print Receipt',
+            cancelButtonText: 'No, Thanks',
+            confirmButtonColor: '#006241',
+            cancelButtonColor: '#757575',
+            reverseButtons: true
+        }).then((result) => {
+            if (result.isConfirmed) {
+                this.printReceipt(transaction);
+            }
+        });
 
         // Reset Cart
         this.cart = [];
