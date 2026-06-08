@@ -25,34 +25,31 @@ const     app = {
     init() {
         // Load Data
         const defaultProducts = [
-            // Coffee
-            { id: 1, name: 'Caffe Latte', price: 4.50, category: 'Coffee', stock: 50, image: 'assets/image/caffe_latte.jpg' },
-            { id: 2, name: 'Americano', price: 3.50, category: 'Coffee', stock: 100, image: 'assets/image/americano.jpg' },
-            { id: 3, name: 'Caramel Macchiato', price: 5.50, category: 'Coffee', stock: 40, image: 'assets/image/caramel_macchiato.jpg' },
-            { id: 4, name: 'Espresso', price: 3.00, category: 'Coffee', stock: 80, image: 'assets/image/espresso.jpg' },
-            { id: 5, name: 'Mocha Frappuccino', price: 6.00, category: 'Coffee', stock: 35, image: 'assets/image/mocha_frappuccino.jpg' },
-            { id: 6, name: 'Vanilla Latte', price: 5.00, category: 'Coffee', stock: 45, image: 'assets/image/vanilla_latte.jpg' },
+            { id: 1, name: 'Caffe Americano', price: 38000, category: 'Coffee', stock: 50, image: 'assets/image/americano.jpg' },
+            { id: 2, name: 'Caffe Latte', price: 52000, category: 'Coffee', stock: 40, image: 'assets/image/caffe_latte.jpg' },
+            { id: 3, name: 'Caramel Macchiato', price: 60000, category: 'Coffee', stock: 30, image: 'assets/image/caramel_macchiato.jpg' },
+            { id: 4, name: 'Espresso', price: 29000, category: 'Coffee', stock: 80, image: 'assets/image/espresso.jpg' },
+            { id: 5, name: 'Mocha Frappuccino', price: 58000, category: 'Coffee', stock: 35, image: 'assets/image/mocha_frappuccino.jpg' },
+            { id: 6, name: 'Vanilla Latte', price: 54000, category: 'Coffee', stock: 45, image: 'assets/image/vanilla_latte.jpg' },
             
-            // Non-Coffee
-            { id: 7, name: 'Matcha Green Tea', price: 5.50, category: 'Non-Coffee', stock: 30, image: 'assets/image/matcha.jpg' },
-            { id: 8, name: 'Signature Chocolate', price: 5.00, category: 'Non-Coffee', stock: 40, image: 'assets/image/signature_chocolate.jpg' },
-            { id: 9, name: 'Teavana Earl Grey', price: 4.00, category: 'Non-Coffee', stock: 60, image: 'assets/image/earl_grey.jpg' },
-            { id: 10, name: 'Iced Shaken Lemon Tea', price: 4.50, category: 'Non-Coffee', stock: 55, image: 'assets/image/lemon_tea.jpg' },
+            { id: 7, name: 'Matcha Green Tea', price: 58000, category: 'Non-Coffee', stock: 25, image: 'assets/image/matcha_latte.jpg' },
+            { id: 8, name: 'Signature Chocolate', price: 55000, category: 'Non-Coffee', stock: 40, image: 'assets/image/signature_chocolate.jpg' },
+            { id: 9, name: 'Teavana Earl Grey', price: 35000, category: 'Non-Coffee', stock: 60, image: 'assets/image/earl_grey.jpg' },
+            { id: 10, name: 'Iced Shaken Lemon', price: 43000, category: 'Non-Coffee', stock: 55, image: 'assets/image/lemon_tea.jpg' },
             
-            // Food
-            { id: 11, name: 'Butter Croissant', price: 2.50, category: 'Food', stock: 20, image: 'assets/image/butter_croissant.jpg' },
-            { id: 12, name: 'Almond Croissant', price: 3.50, category: 'Food', stock: 15, image: 'assets/image/croissant.jpg' },
-            { id: 13, name: 'Beef Sausage & Cheese', price: 4.50, category: 'Food', stock: 10, image: 'assets/image/beef_sausage.jpg' },
-            { id: 14, name: 'New York Cheesecake', price: 4.00, category: 'Food', stock: 8, image: 'assets/image/cheesecake.jpg' },
-            { id: 15, name: 'Tuna Puff', price: 3.50, category: 'Food', stock: 12, image: 'assets/image/tuna_puff.jpg' },
+            { id: 11, name: 'Butter Croissant', price: 25000, category: 'Food', stock: 20, image: 'assets/image/butter_croissant.jpg' },
+            { id: 12, name: 'Almond Croissant', price: 38000, category: 'Food', stock: 15, image: 'assets/image/almond_croissant.jpg' },
+            { id: 13, name: 'Beef Sausage Bun', price: 45000, category: 'Food', stock: 10, image: 'assets/image/beef_sausage.jpg' },
+            { id: 14, name: 'New York Cheesecake', price: 50000, category: 'Food', stock: 8, image: 'assets/image/cheesecake.jpg' },
+            { id: 15, name: 'Tuna Puff', price: 32000, category: 'Food', stock: 12, image: 'assets/image/tuna_puff.jpg' },
             
-            // Merchandise
-            { id: 16, name: 'Starbucks Tumbler', price: 25.00, category: 'Merchandise', stock: 5, image: 'assets/image/tumbler.jpg' },
-            { id: 17, name: 'Coffee Beans 250g', price: 12.00, category: 'Merchandise', stock: 15, image: 'assets/image/coffee_beans.jpg' },
-            { id: 18, name: 'Starbucks Mug', price: 15.00, category: 'Merchandise', stock: 10, image: 'assets/image/Starbucks.jpeg' }
+            { id: 16, name: 'Starbucks Tumbler', price: 350000, category: 'Merchandise', stock: 5, image: 'assets/image/tumbler.jpg' },
+            { id: 17, name: 'Coffee Beans 250g', price: 140000, category: 'Merchandise', stock: 15, image: 'assets/image/coffee_beans.jpg' },
+            { id: 18, name: 'Starbucks Mug', price: 250000, category: 'Merchandise', stock: 10, image: 'assets/image/Starbucks.jpeg' }
         ];
 
         let savedProducts = JSON.parse(localStorage.getItem(DB_PRODUCTS));
+        
         // Force wipe logic via check for old IDR prices or user request
         if(localStorage.getItem('force_reset_v2') !== 'true') {
             localStorage.removeItem(DB_PRODUCTS);
@@ -66,20 +63,18 @@ const     app = {
         if(!savedProducts || savedProducts.length === 0) {
             this.products = defaultProducts;
         } else {
-            // Check if user still has the old Rupiah prices and reset their DB if needed
-            if (savedProducts[0] && savedProducts[0].price > 1000) {
-                this.products = defaultProducts;
-            } else {
-                this.products = savedProducts.map(p => {
-                    const defaultP = defaultProducts.find(dp => dp.id === p.id);
-                    if(defaultP && ([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18].includes(p.id) || !p.image || p.image.includes('images.unsplash.com'))) {
+            this.products = savedProducts.map(p => {
+                const defaultP = defaultProducts.find(dp => dp.id === p.id);
+                // Force sync prices and images with default realistic IDR data
+                if(defaultP) {
+                    p.price = defaultP.price;
+                    if([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18].includes(p.id) || !p.image || p.image.includes('images.unsplash.com')) {
                         p.image = defaultP.image;
                     }
-                    // Migrate category 'Makanan' to 'Food'
-                    if (p.category === 'Makanan') p.category = 'Food';
-                    return p;
-                });
-            }
+                }
+                if (p.category === 'Makanan') p.category = 'Food';
+                return p;
+            });
         }
         localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
         
@@ -113,7 +108,12 @@ const     app = {
     },
 
     formatCurrency(number) {
-        return `$${parseFloat(number).toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}`;
+        return new Intl.NumberFormat('id-ID', {
+            style: 'currency',
+            currency: 'IDR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(number);
     },
 
     debounce(fn, delay = 300) {
@@ -767,7 +767,7 @@ const     app = {
 
         document.getElementById('checkout-total').innerText = this.formatCurrency(this.cartGrandTotal);
         document.getElementById('checkout-pay').value = '';
-        document.getElementById('checkout-change').innerText = '$0.00';
+        document.getElementById('checkout-change').innerText = 'Rp 0';
         document.getElementById('checkout-change').style.color = 'var(--warning-color)';
         document.getElementById('checkout-method').value = 'Cash';
 
