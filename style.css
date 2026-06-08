@@ -982,13 +982,19 @@ tr:hover {
 
 #printSection { display: none; }
 @media print {
-    body * { visibility: hidden; }
-    #printSection, #printSection * { visibility: visible; }
+    @page { margin: 0; } /* Menghilangkan header/footer bawaan browser */
+    html, body {
+        margin: 0;
+        padding: 0;
+        height: auto !important; /* Mencegah halaman kosong akibat 100vh */
+        background-color: white;
+    }
+    body * { display: none !important; }
+    #printSection, #printSection * { display: block !important; visibility: visible; }
     #printSection {
-        display: block !important;
-        position: absolute;
+        position: relative; /* relative lebih baik daripada absolute untuk print */
         left: 0; top: 0; width: 100%;
-        color: black; background: white; padding: 0; margin: 0;
+        color: black; background: white; padding: 20px; margin: 0;
     }
 }
 .receipt {
