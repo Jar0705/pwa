@@ -241,11 +241,11 @@ const     app = {
 
         const titles = {
             'dashboard': 'Dashboard',
-            'pos': 'POS',
-            'produk': 'Product Master Data',
-            'riwayat': 'Transaction History',
-            'pengaturan': 'System Settings',
-            'users': 'Employee Management'
+            'pos': 'Cashier',
+            'produk': 'Product',
+            'riwayat': 'History',
+            'pengaturan': 'Settings',
+            'users': 'Manage Users'
         };
         document.getElementById('topbar-title').innerText = titles[target];
 

@@ -122,7 +122,7 @@
 
             <!-- 1. DASHBOARD PAGE -->
             <section id="dashboard" class="page active">
-                <h3 style="margin-bottom: 20px;">Ringkasan Hari Ini</h3>
+                <h3 style="margin-bottom: 20px;">Today's Summary</h3>
                 <div class="grid-cards">
                     <div class="card stat-card">
                         <div class="stat-icon"><svg width="24" height="24">
@@ -160,13 +160,13 @@
                 <div class="dashboard-charts"
                     style="margin-top: 20px; display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
                     <div class="card" style="margin-bottom:0;">
-                        <h4 style="margin-bottom: 15px; color: var(--text-main);">Tren Pendapatan (7 Hari Terakhir)</h4>
+                        <h4 style="margin-bottom: 15px; color: var(--text-main);">Revenue Trend (Last 7 Days)</h4>
                         <div style="position: relative; height: 250px; width: 100%;">
                             <canvas id="revenueChart"></canvas>
                         </div>
                     </div>
                     <div class="card" style="margin-bottom:0;">
-                        <h4 style="margin-bottom: 15px; color: var(--text-main);">Produk Terlaris</h4>
+                        <h4 style="margin-bottom: 15px; color: var(--text-main);">Top Selling Products</h4>
                         <ul id="topProductsList" style="list-style: none; padding: 0;">
                             <!-- rendered via js -->
                         </ul>
@@ -175,7 +175,7 @@
 
                 <div class="card" style="margin-top:20px;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                        <h4 style="color: var(--danger-color);">Peringatan Stok Rendah</h4>
+                        <h4 style="color: var(--danger-color);">Low Stock Alerts</h4>
                         <span class="badge badge-stock low" style="font-size:0.7rem;">&lt;= 5 Barang</span>
                     </div>
                     <div id="dash-low-stock">
@@ -219,7 +219,7 @@
             <!-- 3. PRODUK PAGE -->
             <section id="produk" class="page">
                 <div style="display:flex; flex-wrap:wrap; gap:15px; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                    <h3 style="margin:0;">Data Master Produk</h3>
+                    <h3 style="margin:0;">Product Master Data</h3>
                     <div style="display:flex; flex-wrap:wrap; gap:10px;">
                         <input type="text" id="product-search" placeholder="Cari produk..."
                             style="width:200px; padding:8px 12px; flex: 1; min-width: 140px;">
@@ -246,7 +246,7 @@
             <!-- 4. RIWAYAT PAGE -->
             <section id="riwayat" class="page">
                 <div style="display:flex; flex-wrap:wrap; gap:15px; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                    <h3 style="margin:0;">Riwayat Transaksi</h3>
+                    <h3 style="margin:0;">Transaction History</h3>
                     <div style="display:flex; flex-wrap:wrap; gap:10px;">
                         <input type="text" id="history-search" placeholder="Cari ID/Tanggal..."
                             style="width:200px; padding:8px 12px; flex: 1; min-width: 140px;">
@@ -273,12 +273,12 @@
 
             <!-- 5. PENGATURAN PAGE -->
             <section id="pengaturan" class="page">
-                <h3 style="margin-bottom:20px;">Pengaturan Sistem</h3>
+                <h3 style="margin-bottom:20px;">System Settings</h3>
                 <div class="dashboard-charts" style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
                     <div class="card">
                         <h4
                             style="margin-bottom:15px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
-                            Profil Toko</h4>
+                            Store Profile</h4>
                         <div class="form-group">
                             <label>Nama Toko</label>
                             <input type="text" id="setting-store-name" value="STARBUCKS COFFEE">
@@ -296,7 +296,7 @@
                     <div class="card">
                         <h4
                             style="margin-bottom:15px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
-                            Preferensi Sistem</h4>
+                            System Preferences</h4>
                         <div class="form-group">
                             <label>Pajak Pertambahan Nilai (%)</label>
                             <input type="number" id="setting-tax-rate" value="10.25" min="0" max="100" step="0.01">
@@ -308,7 +308,7 @@
 
                     <div class="card" style="border: 1px solid var(--danger-color); background: rgba(231, 76, 60, 0.05);">
                         <h4 style="margin-bottom:15px; border-bottom:1px solid var(--danger-color); padding-bottom:10px; color: var(--danger-color);">
-                            Zona Bahaya</h4>
+                            Danger Zone</h4>
                         <p style="font-size:0.85rem; color:var(--text-main); margin-bottom: 15px;">
                             Hapus semua riwayat transaksi, mutasi stok, dan kembalikan Kasir ke kondisi awal. Tindakan ini tidak dapat dibatalkan.
                         </p>
@@ -321,7 +321,7 @@
             <!-- 6. USERS (EMPLOYEES) PAGE -->
             <section id="users" class="page">
                 <div class="pos-header" style="display:flex; flex-wrap:wrap; gap:15px; justify-content:space-between; align-items:center;">
-                    <h3 style="margin:0;">Manajemen Karyawan</h3>
+                    <h3 style="margin:0;">Employee Management</h3>
                     <button class="btn primary" style="white-space:nowrap;" onclick="app.openUserModal()">+ Tambah Karyawan</button>
                 </div>
                 
