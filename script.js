@@ -769,28 +769,10 @@ const     app = {
         document.getElementById('checkout-pay').value = '';
         document.getElementById('checkout-change').innerText = '$0.00';
         document.getElementById('checkout-change').style.color = 'var(--warning-color)';
-        
-        const methodEl = document.getElementById('checkout-method');
-        if(methodEl) methodEl.value = 'Cash';
-        this.handlePaymentMethod();
+        document.getElementById('checkout-method').value = 'Cash';
 
         this.showModal('modal-checkout');
         setTimeout(() => document.getElementById('checkout-pay').focus(), 100);
-    },
-
-    handlePaymentMethod() {
-        const method = document.getElementById('checkout-method').value;
-        if(method === 'QRIS') {
-            document.getElementById('cash-payment-section').style.display = 'none';
-            document.getElementById('qris-payment-section').style.display = 'block';
-            document.getElementById('checkout-pay').value = this.cartGrandTotal;
-            this.calculateChange();
-        } else {
-            document.getElementById('cash-payment-section').style.display = 'block';
-            document.getElementById('qris-payment-section').style.display = 'none';
-            document.getElementById('checkout-pay').value = '';
-            this.calculateChange();
-        }
     },
 
     calculateChange() {
@@ -808,13 +790,11 @@ const     app = {
     },
 
     processCheckout() {
-        let pay = parseInt(document.getElementById('checkout-pay').value) || 0;
         const method = document.getElementById('checkout-method').value;
-
-        if(method === 'QRIS') {
-            pay = this.cartGrandTotal;
-        }
-
+        let pay = parseFloat(document.getElementById('checkout-pay').value);
+        
+        if(isNaN(pay)) pay = 0;
+        
         if(pay < this.cartGrandTotal) {
             this.showToast("Insufficient payment amount!", true);
             return;
