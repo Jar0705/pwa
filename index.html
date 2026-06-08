@@ -53,23 +53,23 @@
         <!-- Login Form -->
         <div class="login-box" style="position: relative; z-index: 2; background: var(--card-bg); padding: 40px; border-radius: 16px; box-shadow: 0 15px 35px rgba(0,0,0,0.3); width: 90%; max-width: 400px; text-align: center;">
             <img src="assets/image/Starbucks.jpeg" alt="Starbucks" style="width: 80px; height: 80px; border-radius: 50%; margin-bottom: 20px; box-shadow: var(--shadow);">
-            <h2 style="color:var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 5px;">Welcome Back</h2>
-            <p style="color:var(--text-muted); font-size: 0.95rem; margin-bottom: 30px;">Enter your credentials to access the POS</p>
+            <h2 style="color:var(--primary-color); font-size: 2rem; font-weight: 700; margin-bottom: 5px;">Selamat Datang Kembali</h2>
+            <p style="color:var(--text-muted); font-size: 0.95rem; margin-bottom: 30px;">Masukkan kredensial Anda untuk masuk ke POS</p>
 
             <div class="form-group" style="text-align: left; margin-bottom: 20px;">
-                <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-main); margin-bottom: 8px; display: block;">Employee ID / Username</label>
-                <input type="text" id="username" placeholder="Enter admin" autocomplete="off" style="width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); font-size: 1rem;">
+                <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-main); margin-bottom: 8px; display: block;">ID Karyawan / Username</label>
+                <input type="text" id="username" placeholder="Masukkan admin" autocomplete="off" style="width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); font-size: 1rem;">
             </div>
             
             <div class="form-group" style="text-align: left; margin-bottom: 30px;">
-                <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-main); margin-bottom: 8px; display: block;">Secure Password</label>
-                <input type="password" id="password" placeholder="Enter 12345" style="width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); font-size: 1rem;">
+                <label style="font-weight: 600; font-size: 0.9rem; color: var(--text-main); margin-bottom: 8px; display: block;">Kata Sandi</label>
+                <input type="password" id="password" placeholder="Masukkan 12345" style="width: 100%; padding: 12px 15px; border-radius: 8px; border: 1px solid var(--border-color); background: var(--bg-color); font-size: 1rem;">
             </div>
 
-            <button class="btn primary" style="width:100%; padding: 14px; font-size: 1.05rem; font-weight: 600; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 98, 65, 0.3);" onclick="app.login()">Sign In</button>
+            <button class="btn primary" style="width:100%; padding: 14px; font-size: 1.05rem; font-weight: 600; border-radius: 8px; box-shadow: 0 4px 15px rgba(0, 98, 65, 0.3);" onclick="app.login()">Masuk</button>
             
             <div style="margin-top: 25px;">
-                <a href="#" style="color: var(--primary-color); font-size: 0.85rem; font-weight: 500; text-decoration: none;" onclick="app.forgotPassword()">Forgot Password? Contact IT Support</a>
+                <a href="#" style="color: var(--primary-color); font-size: 0.85rem; font-weight: 500; text-decoration: none;" onclick="app.forgotPassword()">Lupa Kata Sandi? Hubungi IT Support</a>
             </div>
         </div>
     </section>
@@ -86,32 +86,32 @@
 
             <div class="nav-links">
                 <div class="nav-item active" data-target="dashboard">
-                    Dashboard
+                    Dasbor
                 </div>
                 <div class="nav-item" data-target="pos">
-                    POS
+                    Kasir (POS)
                 </div>
                 <div class="nav-item" data-target="produk">
-                    Products
+                    Produk
                 </div>
                 <div class="nav-item" data-target="riwayat">
-                    History
+                    Riwayat
                 </div>
                 <div class="nav-item" data-target="pengaturan">
-                    Settings
+                    Pengaturan
                 </div>
                 <div class="nav-item" data-target="users">
-                    Employees
+                    Karyawan
                 </div>
             </div>
 
             <div class="header-actions">
                 <div id="realtime-clock" style="font-weight: 500; font-size: 0.9rem; color:var(--text-muted);"></div>
                 <div id="status-indicator" style="font-size:0.8rem; font-weight:600; color:var(--warning-color);">
-                    Online
+                    Aktif
                 </div>
                 <button class="btn danger" style="padding: 8px 15px; font-size: 0.85rem;" onclick="app.logout()">
-                    Logout
+                    Keluar
                 </button>
             </div>
         </header>
@@ -122,14 +122,14 @@
 
             <!-- 1. DASHBOARD PAGE -->
             <section id="dashboard" class="page active">
-                <h3 style="margin-bottom: 20px;">Today's Summary</h3>
+                <h3 style="margin-bottom: 20px;">Ringkasan Hari Ini</h3>
                 <div class="grid-cards">
                     <div class="card stat-card">
                         <div class="stat-icon"><svg width="24" height="24">
                                 <use href="#icon-pos"></use>
                             </svg></div>
                         <div class="stat-info">
-                            <p>Today's Revenue</p>
+                            <p>Pendapatan Hari Ini</p>
                             <h3 id="dash-revenue">Rp 0</h3>
                         </div>
                     </div>
@@ -140,7 +140,7 @@
                             </svg>
                         </div>
                         <div class="stat-info">
-                            <p>Total Transactions</p>
+                            <p>Total Transaksi</p>
                             <h3 id="dash-count">0</h3>
                         </div>
                     </div>
@@ -151,7 +151,7 @@
                             </svg>
                         </div>
                         <div class="stat-info">
-                            <p>Items Sold</p>
+                            <p>Barang Terjual</p>
                             <h3 id="dash-items">0</h3>
                         </div>
                     </div>
@@ -160,13 +160,13 @@
                 <div class="dashboard-charts"
                     style="margin-top: 20px; display: grid; grid-template-columns: 2fr 1fr; gap: 20px;">
                     <div class="card" style="margin-bottom:0;">
-                        <h4 style="margin-bottom: 15px; color: var(--text-main);">Revenue Trend (Last 7 Days)</h4>
+                        <h4 style="margin-bottom: 15px; color: var(--text-main);">Tren Pendapatan (7 Hari Terakhir)</h4>
                         <div style="position: relative; height: 250px; width: 100%;">
                             <canvas id="revenueChart"></canvas>
                         </div>
                     </div>
                     <div class="card" style="margin-bottom:0;">
-                        <h4 style="margin-bottom: 15px; color: var(--text-main);">Top Selling Products</h4>
+                        <h4 style="margin-bottom: 15px; color: var(--text-main);">Produk Terlaris</h4>
                         <ul id="topProductsList" style="list-style: none; padding: 0;">
                             <!-- rendered via js -->
                         </ul>
@@ -175,8 +175,8 @@
 
                 <div class="card" style="margin-top:20px;">
                     <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:15px;">
-                        <h4 style="color: var(--danger-color);">Low Stock Alerts</h4>
-                        <span class="badge badge-stock low" style="font-size:0.7rem;">&lt;= 5 Items</span>
+                        <h4 style="color: var(--danger-color);">Peringatan Stok Rendah</h4>
+                        <span class="badge badge-stock low" style="font-size:0.7rem;">&lt;= 5 Barang</span>
                     </div>
                     <div id="dash-low-stock">
                         <!-- Rendered via JS -->
@@ -189,18 +189,18 @@
                 <div class="pos-container">
                     <div class="pos-products">
                         <div class="pos-search-wrap">
-                            <input type="text" id="pos-search" placeholder="Search products..." class="pos-search-input">
+                            <input type="text" id="pos-search" placeholder="Cari produk..." class="pos-search-input">
                         </div>
                         <div class="category-tabs" id="pos-categories"></div>
                         <div class="product-grid" id="pos-grid"></div>
                     </div>
                     <div class="pos-cart">
                         <div class="cart-header">
-                            <span>Cart</span>
+                            <span>Keranjang</span>
                             <span class="cart-count" id="cart-count">0</span>
                         </div>
                         <div class="cart-items" id="cart-items">
-                            <div class="cart-empty">Cart is empty</div>
+                            <div class="cart-empty">Keranjang kosong</div>
                         </div>
                         <div class="cart-footer">
                             <div class="cart-total-row">
@@ -208,8 +208,8 @@
                                 <span id="cart-total">Rp 0</span>
                             </div>
                             <div class="cart-actions">
-                                <button class="btn btn-outline" onclick="app.clearCart()">Clear</button>
-                                <button class="btn btn-bayar" onclick="app.showCheckoutModal()">Checkout</button>
+                                <button class="btn btn-outline" onclick="app.clearCart()">Kosongkan</button>
+                                <button class="btn btn-bayar" onclick="app.showCheckoutModal()">Bayar</button>
                             </div>
                         </div>
                     </div>
@@ -219,21 +219,21 @@
             <!-- 3. PRODUK PAGE -->
             <section id="produk" class="page">
                 <div style="display:flex; flex-wrap:wrap; gap:15px; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                    <h3 style="margin:0;">Product Master Data</h3>
+                    <h3 style="margin:0;">Data Master Produk</h3>
                     <div style="display:flex; flex-wrap:wrap; gap:10px;">
-                        <input type="text" id="product-search" placeholder="Search products..."
+                        <input type="text" id="product-search" placeholder="Cari produk..."
                             style="width:200px; padding:8px 12px; flex: 1; min-width: 140px;">
-                        <button class="btn primary" style="white-space:nowrap;" onclick="app.showProductModal()">+ Add New</button>
+                        <button class="btn primary" style="white-space:nowrap;" onclick="app.showProductModal()">+ Tambah Baru</button>
                     </div>
                 </div>
                 <div class="card" style="overflow-x:auto;">
                     <table>
                         <thead>
                             <tr>
-                                <th>Product Name</th>
-                                <th>Price</th>
-                                <th>Stock/Category</th>
-                                <th style="text-align:right;">Actions</th>
+                                <th>Nama Produk</th>
+                                <th>Harga</th>
+                                <th>Stok/Kategori</th>
+                                <th style="text-align:right;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="product-table-body">
@@ -246,12 +246,12 @@
             <!-- 4. RIWAYAT PAGE -->
             <section id="riwayat" class="page">
                 <div style="display:flex; flex-wrap:wrap; gap:15px; justify-content:space-between; align-items:center; margin-bottom:20px;">
-                    <h3 style="margin:0;">Transaction History</h3>
+                    <h3 style="margin:0;">Riwayat Transaksi</h3>
                     <div style="display:flex; flex-wrap:wrap; gap:10px;">
-                        <input type="text" id="history-search" placeholder="Search ID/Date..."
+                        <input type="text" id="history-search" placeholder="Cari ID/Tanggal..."
                             style="width:200px; padding:8px 12px; flex: 1; min-width: 140px;">
                         <button class="btn" style="background:var(--card-bg); border:1px solid var(--border-color); white-space:nowrap;"
-                            onclick="app.exportCSV()">Export CSV</button>
+                            onclick="app.exportCSV()">Ekspor CSV</button>
                     </div>
                 </div>
                 <div id="history-list">
@@ -260,12 +260,12 @@
 
                 <div style="margin-top:24px;padding-top:20px;border-top:2px solid var(--border-color);">
                     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;">
-                        <span style="font-weight:700;font-size:1.1rem;">Stock Adjustment Logs</span>
+                        <span style="font-weight:700;font-size:1.1rem;">Log Penyesuaian Stok</span>
                         <span class="badge badge-stock" id="mutasi-count" style="font-size:0.7rem;">0</span>
                     </div>
                     <div class="card" style="padding:16px;">
                         <div id="mutasi-log" style="max-height:300px;overflow-y:auto;font-size:0.85rem;">
-                            <div style="color:var(--text-muted);text-align:center;padding:20px;">No adjustments yet</div>
+                            <div style="color:var(--text-muted);text-align:center;padding:20px;">Belum ada penyesuaian</div>
                         </div>
                     </div>
                 </div>
@@ -273,22 +273,22 @@
 
             <!-- 5. PENGATURAN PAGE -->
             <section id="pengaturan" class="page">
-                <h3 style="margin-bottom:20px;">System Settings</h3>
+                <h3 style="margin-bottom:20px;">Pengaturan Sistem</h3>
                 <div class="dashboard-charts" style="display:grid; grid-template-columns: 1fr 1fr; gap:20px;">
                     <div class="card">
                         <h4
                             style="margin-bottom:15px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
-                            Store Profile</h4>
+                            Profil Toko</h4>
                         <div class="form-group">
-                            <label>Store Name</label>
+                            <label>Nama Toko</label>
                             <input type="text" id="setting-store-name" value="STARBUCKS COFFEE">
                         </div>
                         <div class="form-group">
-                            <label>Address</label>
+                            <label>Alamat</label>
                             <input type="text" id="setting-store-address" value="1912 Pike Pl, Seattle, WA 98101">
                         </div>
                         <div class="form-group">
-                            <label>Tax ID / EIN</label>
+                            <label>NPWP</label>
                             <input type="text" id="setting-store-npwp" value="98-7654321">
                         </div>
                     </div>
@@ -296,24 +296,24 @@
                     <div class="card">
                         <h4
                             style="margin-bottom:15px; border-bottom:1px solid var(--border-color); padding-bottom:10px;">
-                            System Preferences</h4>
+                            Preferensi Sistem</h4>
                         <div class="form-group">
-                            <label>State Tax Rate (%)</label>
+                            <label>Pajak Pertambahan Nilai (%)</label>
                             <input type="number" id="setting-tax-rate" value="10.25" min="0" max="100" step="0.01">
-                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:5px;">Percentage added to subtotal (e.g. Seattle 10.25%).</div>
+                            <div style="font-size:0.75rem; color:var(--text-muted); margin-top:5px;">Persentase tambahan ke subtotal (contoh: 11%).</div>
                         </div>
                         <button class="btn primary" style="width:100%; margin-top:20px; padding:12px;"
-                            onclick="app.saveSettings()">Save Preferences</button>
+                            onclick="app.saveSettings()">Simpan Preferensi</button>
                     </div>
 
                     <div class="card" style="border: 1px solid var(--danger-color); background: rgba(231, 76, 60, 0.05);">
                         <h4 style="margin-bottom:15px; border-bottom:1px solid var(--danger-color); padding-bottom:10px; color: var(--danger-color);">
-                            Danger Zone</h4>
+                            Zona Bahaya</h4>
                         <p style="font-size:0.85rem; color:var(--text-main); margin-bottom: 15px;">
-                            Permanently erase all transaction history, stock adjustments, and reset the POS back to a clean state. This action cannot be undone.
+                            Hapus semua riwayat transaksi, mutasi stok, dan kembalikan Kasir ke kondisi awal. Tindakan ini tidak dapat dibatalkan.
                         </p>
                         <button class="btn danger" style="width:100%; padding:12px;"
-                            onclick="app.resetHistory()">Wipe Transaction History</button>
+                            onclick="app.resetHistory()">Hapus Riwayat Transaksi</button>
                     </div>
                 </div>
             </section>
@@ -321,8 +321,8 @@
             <!-- 6. USERS (EMPLOYEES) PAGE -->
             <section id="users" class="page">
                 <div class="pos-header" style="display:flex; flex-wrap:wrap; gap:15px; justify-content:space-between; align-items:center;">
-                    <h3 style="margin:0;">Employee Management</h3>
-                    <button class="btn primary" style="white-space:nowrap;" onclick="app.openUserModal()">+ Add Employee</button>
+                    <h3 style="margin:0;">Manajemen Karyawan</h3>
+                    <button class="btn primary" style="white-space:nowrap;" onclick="app.openUserModal()">+ Tambah Karyawan</button>
                 </div>
                 
                 <div class="card" style="margin-top: 20px; overflow-x: auto;">
@@ -331,8 +331,8 @@
                             <tr style="border-bottom: 1px solid var(--border-color);">
                                 <th style="padding: 12px; color: var(--text-muted); font-size: 0.85rem;">ID</th>
                                 <th style="padding: 12px; color: var(--text-muted); font-size: 0.85rem;">Username</th>
-                                <th style="padding: 12px; color: var(--text-muted); font-size: 0.85rem;">Role</th>
-                                <th style="padding: 12px; color: var(--text-muted); font-size: 0.85rem;">Actions</th>
+                                <th style="padding: 12px; color: var(--text-muted); font-size: 0.85rem;">Peran</th>
+                                <th style="padding: 12px; color: var(--text-muted); font-size: 0.85rem;">Aksi</th>
                             </tr>
                         </thead>
                         <tbody id="user-table-body">
@@ -350,44 +350,44 @@
     <!-- Product Modal -->
     <div class="modal-overlay" id="modal-product">
         <div class="modal-content">
-            <h3 id="product-modal-title" style="margin-bottom:20px;">Add Product</h3>
+            <h3 id="product-modal-title" style="margin-bottom:20px;">Tambah Produk</h3>
             <input type="hidden" id="product-id">
             <div class="form-group">
-                <label>Product Name</label>
+                <label>Nama Produk</label>
                 <input type="text" id="product-name" autocomplete="off">
             </div>
             <div class="form-group">
-                <label>Price (Rp)</label>
+                <label>Harga (Rp)</label>
                 <input type="number" id="product-price">
             </div>
             <div style="display:flex; gap:15px;">
                 <div class="form-group" style="flex:1;">
-                    <label>Category</label>
+                    <label>Kategori</label>
                     <select id="product-category">
-                        <option value="Coffee">Coffee</option>
-                        <option value="Non-Coffee">Non-Coffee</option>
-                        <option value="Food">Food</option>
+                        <option value="Coffee">Kopi</option>
+                        <option value="Non-Coffee">Bukan Kopi</option>
+                        <option value="Food">Makanan</option>
                         <option value="Merchandise">Merchandise</option>
-                        <option value="Other">Other</option>
+                        <option value="Other">Lainnya</option>
                     </select>
                 </div>
                 <div class="form-group" style="flex:1;">
-                    <label>Stock</label>
+                    <label>Stok</label>
                     <input type="number" id="product-stock" value="0">
                 </div>
             </div>
             <div class="form-group">
-                <label>Product Image</label>
+                <label>Gambar Produk</label>
                 <div style="display:flex; gap:10px; align-items:center;">
                     <input type="file" id="product-image" accept="image/*" style="flex:1; padding:8px; border:1px solid var(--border-color); border-radius:6px; background:var(--bg-color); color:var(--text-main); font-family:inherit; font-size:0.85rem;">
-                    <button class="btn" style="padding:6px 10px; font-size:0.75rem; background:var(--border-color); color:var(--text-muted);" onclick="event.preventDefault(); document.getElementById('product-image').value=''; document.getElementById('product-image-preview').innerHTML='';">Clear</button>
+                    <button class="btn" style="padding:6px 10px; font-size:0.75rem; background:var(--border-color); color:var(--text-muted);" onclick="event.preventDefault(); document.getElementById('product-image').value=''; document.getElementById('product-image-preview').innerHTML='';">Bersihkan</button>
                 </div>
                 <div id="product-image-preview" style="margin-top:8px;"></div>
             </div>
             <div style="display:flex; gap:10px; margin-top:10px;">
-                <button class="btn primary" style="flex:1;" onclick="app.saveProduct()">Save</button>
+                <button class="btn primary" style="flex:1;" onclick="app.saveProduct()">Simpan</button>
                 <button class="btn" style="background:var(--border-color); color:var(--text-main);"
-                    onclick="app.hideModal('modal-product')">Cancel</button>
+                    onclick="app.hideModal('modal-product')">Batal</button>
             </div>
         </div>
     </div>
@@ -395,36 +395,36 @@
     <!-- Mutation Modal -->
     <div class="modal-overlay" id="modal-mutasi">
         <div class="modal-content">
-            <h3 style="margin-bottom:16px;">Stock Adjustment</h3>
+            <h3 style="margin-bottom:16px;">Penyesuaian Stok</h3>
             <input type="hidden" id="mutasi-product-id">
             <div class="form-group">
-                <label>Product</label>
+                <label>Produk</label>
                 <input type="text" id="mutasi-product-name" readonly style="background:var(--border-color);">
             </div>
             <div style="display:flex;gap:12px;">
                 <div class="form-group" style="flex:1;">
-                    <label>Current Stock</label>
+                    <label>Stok Saat Ini</label>
                     <input type="text" id="mutasi-current-stock" readonly style="background:var(--border-color);">
                 </div>
                 <div class="form-group" style="flex:1;">
-                    <label>Type</label>
+                    <label>Tipe</label>
                     <select id="mutasi-type">
-                        <option value="in">Stock In</option>
-                        <option value="out">Stock Out</option>
+                        <option value="in">Stok Masuk</option>
+                        <option value="out">Stok Keluar</option>
                     </select>
                 </div>
             </div>
             <div class="form-group">
-                <label>Quantity</label>
+                <label>Kuantitas</label>
                 <input type="number" id="mutasi-qty" placeholder="0" min="1">
             </div>
             <div class="form-group">
-                <label>Note <span style="color:var(--text-muted);font-weight:400;">(optional)</span></label>
-                <input type="text" id="mutasi-note" placeholder="e.g. Restock, Return, Damaged...">
+                <label>Catatan <span style="color:var(--text-muted);font-weight:400;">(opsional)</span></label>
+                <input type="text" id="mutasi-note" placeholder="mis. Restok, Retur, Rusak...">
             </div>
             <div style="display:flex;gap:10px;margin-top:8px;">
-                <button class="btn primary" style="flex:1;" onclick="app.saveMutasi()">Save</button>
-                <button class="btn" style="background:var(--border-color);color:var(--text-main);flex:1;" onclick="app.hideModal('modal-mutasi')">Cancel</button>
+                <button class="btn primary" style="flex:1;" onclick="app.saveMutasi()">Simpan</button>
+                <button class="btn" style="background:var(--border-color);color:var(--text-main);flex:1;" onclick="app.hideModal('modal-mutasi')">Batal</button>
             </div>
         </div>
     </div>
@@ -432,27 +432,27 @@
     <!-- Checkout Modal -->
     <div class="modal-overlay" id="modal-checkout">
         <div class="modal-content">
-            <h3 style="margin-bottom:20px;">Payment</h3>
+            <h3 style="margin-bottom:20px;">Pembayaran</h3>
             <div style="text-align:center; margin-bottom:20px;">
-                <div style="color:var(--text-muted)">Total Amount</div>
+                <div style="color:var(--text-muted)">Total Tagihan</div>
                 <div style="font-size:2.5rem; font-weight:700; color:var(--primary-color)" id="checkout-total">Rp 0
                 </div>
             </div>
             <div class="form-group" style="margin-bottom:15px;">
-                <label>Payment Method</label>
+                <label>Metode Pembayaran</label>
                 <select id="checkout-method">
-                    <option value="Cash">Cash</option>
+                    <option value="Cash">Tunai</option>
                 </select>
             </div>
 
             <!-- Cash Input -->
             <div id="cash-payment-section">
                 <div class="form-group">
-                    <label>Amount Received (Rp)</label>
+                    <label>Uang Diterima (Rp)</label>
                     <input type="number" id="checkout-pay" oninput="app.calculateChange()">
                 </div>
                 <div class="form-group" style="margin-bottom:25px;">
-                    <label>Change Due</label>
+                    <label>Kembalian</label>
                     <div id="checkout-change" style="font-size:1.5rem; font-weight:600; color:var(--warning-color)">Rp 0
                     </div>
                 </div>
@@ -461,9 +461,9 @@
 
 
             <div style="display:flex; gap:10px;">
-                <button class="btn primary" style="flex:1;" onclick="app.processCheckout()">Pay & Save</button>
+                <button class="btn primary" style="flex:1;" onclick="app.processCheckout()">Bayar & Simpan</button>
                 <button class="btn" style="background:var(--border-color); color:var(--text-main);"
-                    onclick="app.hideModal('modal-checkout')">Cancel</button>
+                    onclick="app.hideModal('modal-checkout')">Batal</button>
             </div>
         </div>
     </div>
@@ -471,7 +471,7 @@
     <!-- MODAL ADD/EDIT USER -->
     <div id="modal-user" class="modal-overlay">
         <div class="modal-content" style="max-width: 400px;">
-            <h2 id="user-modal-title" style="margin-bottom: 20px;">Add Employee</h2>
+            <h2 id="user-modal-title" style="margin-bottom: 20px;">Tambah Karyawan</h2>
             <form onsubmit="app.saveUser(event)">
                 <input type="hidden" id="user-id">
                 <div class="form-group" style="text-align: left;">
@@ -479,19 +479,19 @@
                     <input type="text" id="user-username" required>
                 </div>
                 <div class="form-group" style="text-align: left;">
-                    <label>Password</label>
+                    <label>Kata Sandi</label>
                     <input type="text" id="user-password" required>
                 </div>
                 <div class="form-group" style="text-align: left;">
-                    <label>Role</label>
+                    <label>Peran</label>
                     <select id="user-role" style="width:100%; padding:10px; border-radius:8px; border:1px solid var(--border-color); background:var(--bg-color);">
-                        <option value="Cashier">Cashier</option>
+                        <option value="Cashier">Kasir</option>
                         <option value="Administrator">Administrator</option>
                     </select>
                 </div>
                 <div style="display:flex; gap:10px; margin-top:25px;">
-                    <button type="submit" class="btn primary" style="flex:1;">Save</button>
-                    <button type="button" class="btn" style="flex:1; background:var(--border-color); color:var(--text-main);" onclick="app.hideModal('modal-user')">Cancel</button>
+                    <button type="submit" class="btn primary" style="flex:1;">Simpan</button>
+                    <button type="button" class="btn" style="flex:1; background:var(--border-color); color:var(--text-main);" onclick="app.hideModal('modal-user')">Batal</button>
                 </div>
             </form>
         </div>
@@ -503,8 +503,8 @@
             <div class="confirm-icon">!</div>
             <p id="confirm-message" style="font-size:1rem; margin-bottom:20px; color:var(--text-main); line-height:1.5;"></p>
             <div style="display:flex; gap:10px;">
-                <button class="btn danger" style="flex:1;" id="confirm-yes">Yes</button>
-                <button class="btn" style="flex:1; background:var(--border-color); color:var(--text-main);" id="confirm-no">No</button>
+                <button class="btn danger" style="flex:1;" id="confirm-yes">Ya</button>
+                <button class="btn" style="flex:1; background:var(--border-color); color:var(--text-main);" id="confirm-no">Tidak</button>
             </div>
         </div>
     </div>

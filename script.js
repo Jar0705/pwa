@@ -171,34 +171,37 @@ const     app = {
         const user = document.getElementById("username").value;
         const pass = document.getElementById("password").value;
         const validUser = this.users.find(u => u.username === user && u.password === pass);
-        if(validUser){
-            localStorage.setItem("login", "true");
-            localStorage.setItem("logged_user", validUser.username);
-            this.checkLogin();
-            this.showToast(`Welcome, ${validUser.username}!`);
+        if (validUser) {
+            this.currentUser = validUser;
+            localStorage.setItem('kasir_session', JSON.stringify(validUser));
+            this.showToast(`Selamat datang, ${validUser.username}!`);
+            document.getElementById('loginPage').style.display = 'none';
+            document.getElementById('appPage').style.display = 'flex';
+            this.nav('dashboard');
         } else {
-            this.showToast("Wrong Username / Password!", true);
+            this.showToast("Username / Kata Sandi salah!", true);
         }
     },
     
     forgotPassword() {
         Swal.fire({
-            title: 'Forgot Password?',
-            html: '<p style="margin-bottom:15px; font-size:1rem; color:#555;">Please contact the Starbucks IT Service Desk to securely reset your credentials.</p><strong>Email:</strong> support@starbucks.com<br><strong>Phone:</strong> 1-800-STARBUC',
             icon: 'info',
-            confirmButtonText: 'Understood',
+            title: 'Lupa Kata Sandi?',
+            text: 'Silakan hubungi IT Support atau hubungi Administrator untuk mereset kata sandi Anda.',
+            confirmButtonText: 'Mengerti',
             confirmButtonColor: '#006241'
         });
     },
+
     logout() {
-        localStorage.removeItem("login");
-        this.checkLogin();
-        this.showToast('Logged out successfully');
+        this.currentUser = null;
+        localStorage.removeItem('kasir_session');
+        document.getElementById("loginPage").style.display = "flex";
+        document.getElementById("appPage").style.display = "none";
+        this.showToast('Berhasil keluar');
     },
 
-    // --- NAVIGATION ---
     setupListeners() {
-        // Nav links
         document.querySelectorAll('.nav-item').forEach(el => {
             el.addEventListener('click', (e) => {
                 const target = el.closest('.nav-item').getAttribute('data-target');
@@ -206,14 +209,12 @@ const     app = {
             });
         });
 
-        // Search Product POS
         document.getElementById('pos-search').addEventListener('input', this.debounce((e) => {
             this.renderPOS(e.target.value);
         }, 200));
         document.getElementById('product-search').addEventListener('input', () => this.renderProducts());
         document.getElementById('history-search').addEventListener('input', () => this.renderHistory());
 
-        // Image preview on file select
         document.getElementById('product-image').addEventListener('change', (e) => {
             const preview = document.getElementById('product-image-preview');
             if (e.target.files && e.target.files[0]) {
@@ -227,21 +228,17 @@ const     app = {
             }
         });
 
-        // Network status
         window.addEventListener('online', () => this.updateStatus());
         window.addEventListener('offline', () => this.updateStatus());
     },
 
     nav(target) {
-        // Update Active class
         document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
         document.querySelector(`.nav-item[data-target="${target}"]`).classList.add('active');
         
-        // Update Pages
         document.querySelectorAll('.page').forEach(el => el.classList.remove('active'));
         document.getElementById(target).classList.add('active');
 
-        // Update Topbar
         const titles = {
             'dashboard': 'Dashboard',
             'pos': 'POS',
@@ -252,7 +249,6 @@ const     app = {
         };
         document.getElementById('topbar-title').innerText = titles[target];
 
-        // Call specific render functions
         if(target === 'dashboard') this.renderDashboard();
         if(target === 'pos') this.renderPOS();
         if(target === 'produk') this.renderProducts();
@@ -269,11 +265,10 @@ const     app = {
         } else {
             el.innerText = "Offline";
             el.style.color = "var(--danger-color)";
-            this.showToast("Offline Mode", true);
+            this.showToast("Mode Offline", true);
         }
     },
 
-    // --- DASHBOARD ---
     renderDashboard() {
         const todayStr = new Date().toLocaleDateString('id-ID');
         let todayRevenue = 0;
@@ -294,17 +289,16 @@ const     app = {
         const elItems = document.getElementById('dash-items');
         if(elItems) elItems.innerText = todayItemsSold;
 
-        // Render low stock alerts
         const lowStockContainer = document.getElementById('dash-low-stock');
         if(lowStockContainer) {
             const lowStockProducts = this.products.filter(p => (p.stock || 0) <= 5);
             if(lowStockProducts.length === 0) {
-                lowStockContainer.innerHTML = '<div style="color:var(--text-muted); font-size:0.9rem;">All stock levels are safe.</div>';
+                lowStockContainer.innerHTML = '<div style="color:var(--text-muted); font-size:0.9rem;">Stok dalam kondisi aman.</div>';
             } else {
                 lowStockContainer.innerHTML = lowStockProducts.map(p => `
                     <div style="display:flex; justify-content:space-between; align-items:center; padding:10px 0; border-bottom:1px dashed var(--border-color);">
                         <div style="font-weight:500;">${p.name} <span class="badge badge-category" style="margin-left:5px;">${p.category||'Other'}</span></div>
-                        <div style="color:var(--danger-color); font-weight:700;">Left: ${p.stock||0}</div>
+                        <div style="color:var(--danger-color); font-weight:700;">Sisa: ${p.stock||0}</div>
                     </div>
                 `).join('');
             }
@@ -314,11 +308,9 @@ const     app = {
     },
 
     renderCharts() {
-        // 1. Chart
         const ctx = document.getElementById('revenueChart');
         if(!ctx) return;
         
-        // aggregate last 7 days
         const last7Days = [];
         const dataMap = {};
         for(let i=6; i>=0; i--) {
@@ -348,7 +340,7 @@ const     app = {
                 data: {
                     labels: last7Days,
                     datasets: [{
-                        label: 'Revenue ($)',
+                        label: 'Pendapatan (IDR)',
                         data: dataVals,
                         borderColor: '#006241',
                         backgroundColor: 'rgba(0, 98, 65, 0.1)',
@@ -364,13 +356,12 @@ const     app = {
                         legend: { display: false }
                     },
                     scales: {
-                        y: { beginAtZero: true, ticks: { callback: (value) => value >= 1000 ? '$' + (value/1000).toFixed(1).replace('.0','') + 'k' : '$' + value } }
+                        y: { beginAtZero: true, ticks: { callback: (value) => value >= 1000000 ? (value/1000000).toFixed(1).replace('.0','') + 'jt' : (value/1000).toFixed(0) + 'rb' } }
                     }
                 }
             });
-        } catch(e) { console.log("Chart.js not loaded yet or offline", e); }
+        } catch(e) { console.log("Chart.js tidak termuat", e); }
 
-        // 2. Top Products
         const prodCount = {};
         this.history.forEach(h => {
             h.items.forEach(item => {
@@ -381,7 +372,7 @@ const     app = {
         const sortedProds = Object.entries(prodCount).sort((a,b) => b[1] - a[1]).slice(0, 5);
         const listEl = document.getElementById('topProductsList');
         if(sortedProds.length === 0) {
-            listEl.innerHTML = '<li style="color:var(--text-muted);">No sales data yet</li>';
+            listEl.innerHTML = '<li style="color:var(--text-muted);">Belum ada data penjualan</li>';
         } else {
             listEl.innerHTML = sortedProds.map((p, index) => `
                 <li style="display:flex; justify-content:space-between; margin-bottom:12px; padding-bottom:12px; border-bottom:1px solid var(--border-color);">
@@ -395,7 +386,6 @@ const     app = {
         }
     },
 
-    // --- PRODUCT MANAGEMENT ---
     renderProducts() {
         const tbody = document.getElementById('product-table-body');
         const search = (document.getElementById('product-search').value || '').toLowerCase();
@@ -405,8 +395,8 @@ const     app = {
             filtered = this.products.filter(p => p.name.toLowerCase().includes(search));
         }
 
-        if(filtered.length === 0) {
-            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted)">Product not found</td></tr>`;
+        if (filtered.length === 0) {
+            tbody.innerHTML = `<tr><td colspan="4" style="text-align:center; color:var(--text-muted)">Produk tidak ditemukan</td></tr>`;
             return;
         }
 
@@ -425,11 +415,11 @@ const     app = {
                     <span class="badge badge-category" style="margin-top:4px;">${cat}</span>
                 </td>
                 <td style="color:var(--primary-color); font-weight:600;">${this.formatCurrency(p.price)}</td>
-                <td><span class="badge ${stockBadge}">Stock: ${stock}</span></td>
+                <td><span class="badge ${stockBadge}">Stok: ${stock}</span></td>
                 <td style="text-align:right;">
-                    <button class="btn" style="padding:6px 10px; background:rgba(0,98,65,0.1); color:var(--primary-color); font-size:0.75rem; border:1px solid rgba(0,98,65,0.2);" onclick="app.showMutasiModal(${p.id})">Stock</button>
+                    <button class="btn" style="padding:6px 10px; background:rgba(0,98,65,0.1); color:var(--primary-color); font-size:0.75rem; border:1px solid rgba(0,98,65,0.2);" onclick="app.showMutasiModal(${p.id})">Stok</button>
                     <button class="btn" style="padding:6px 10px; background:var(--warning-color); color:white; font-size:0.75rem;" onclick="app.editProduct(${p.id})">Edit</button>
-                    <button class="btn danger" style="padding:6px 10px; font-size:0.75rem;" onclick="app.deleteProduct(${p.id})">Delete</button>
+                    <button class="btn danger" style="padding:6px 10px; font-size:0.75rem;" onclick="app.deleteProduct(${p.id})">Hapus</button>
                 </td>
             </tr>
             `;
@@ -452,8 +442,8 @@ const     app = {
         document.getElementById('product-stock').value = '0';
         document.getElementById('product-image').value = '';
         document.getElementById('product-image-preview').innerHTML = '';
-        document.getElementById('product-modal-title').innerText = 'Add Product';
-        this.showModal('modal-product');
+        document.getElementById('product-modal-title').innerText = 'Tambah Produk';
+        document.getElementById('modal-product').classList.add('show');
     },
 
     editProduct(id) {
@@ -468,8 +458,8 @@ const     app = {
         document.getElementById('product-image-preview').innerHTML = p.image
             ? `<img src="${p.image}" style="max-width:80px;max-height:80px;border-radius:8px;border:1px solid var(--border-color);">`
             : '';
-        document.getElementById('product-modal-title').innerText = 'Edit Product';
-        this.showModal('modal-product');
+        document.getElementById('product-modal-title').innerText = 'Edit Produk';
+        document.getElementById('modal-product').classList.add('show');
     },
 
     async saveProduct() {
@@ -486,39 +476,39 @@ const     app = {
             image = await this.readFileAsBase64(fileInput.files[0]);
         }
 
-        if(!name || !price) {
-            this.showToast('Fill in product name and price!', true);
+        if (!name || isNaN(price)) {
+            this.showToast('Isi nama produk dan harga!', true);
             return;
         }
 
-        if(id) {
-            // Edit
-            const idx = this.products.findIndex(x => x.id == id);
-            this.products[idx] = { id: parseInt(id), name, price, category, stock, image };
-            this.showToast('Product updated');
+        const newProd = {
+            id: id ? parseInt(id) : Date.now(),
+            name, price, category, stock, image
+        };
+
+        if (id) {
+            const idx = this.products.findIndex(p => p.id === parseInt(id));
+            if (idx > -1) this.products[idx] = newProd;
+            this.showToast('Produk berhasil diperbarui');
         } else {
-            // Add
-            this.products.push({ id: Date.now(), name, price, category, stock, image });
-            this.showToast('Product added');
+            this.products.unshift(newProd);
+            this.showToast('Produk berhasil ditambahkan');
         }
 
         localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
         this.hideModal('modal-product');
         this.renderProducts();
-        this.renderPOS(); // Refresh catalog if in POS
     },
 
     deleteProduct(id) {
-        this.showConfirm('Are you sure you want to delete this product?', () => {
-            this.products = this.products.filter(x => x.id !== id);
+        this.showConfirm('Yakin ingin menghapus produk ini?', () => {
+            this.products = this.products.filter(p => p.id !== id);
             localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
             this.renderProducts();
-            this.renderPOS();
-            this.showToast('Product successfully deleted');
+            this.showToast('Produk berhasil dihapus');
         });
     },
 
-    // --- MUTASI STOK ---
     showMutasiModal(id) {
         const p = this.products.find(x => x.id === id);
         if(!p) return;
@@ -535,42 +525,39 @@ const     app = {
         const id = parseInt(document.getElementById('mutasi-product-id').value);
         const qty = parseInt(document.getElementById('mutasi-qty').value);
         const type = document.getElementById('mutasi-type').value;
-        const note = document.getElementById('mutasi-note').value.trim();
-
-        if(!qty || qty <= 0) {
-            this.showToast('Fill in adjustment quantity!', true);
+        
+        if(!qty || isNaN(qty) || qty <= 0) {
+            this.showToast('Isi kuantitas penyesuaian!', true);
             return;
         }
 
-        const product = this.products.find(x => x.id === id);
+        const product = this.products.find(p => p.id === id);
         if(!product) return;
 
-        if(type === 'out' && qty > (product.stock || 0)) {
-            this.showToast('Insufficient stock!', true);
+        if(type === 'out' && (product.stock || 0) < qty) {
+            this.showToast('Stok tidak mencukupi!', true);
             return;
         }
 
-        // Update stock
-        product.stock = (product.stock || 0) + (type === 'in' ? qty : -qty);
-        localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
-
-        // Save mutation record
-        const mutation = {
-            id: 'MUT-' + Date.now(),
+        const mutasi = {
+            id: 'MTS-' + Date.now(),
             timestamp: Date.now(),
-            productId: id,
+            productId: product.id,
             productName: product.name,
             type: type,
             qty: qty,
-            note: note || (type === 'in' ? 'Restock' : 'Sales'),
-            stockAfter: product.stock
+            note: document.getElementById('mutasi-note').value,
+            user: this.currentUser ? this.currentUser.username : 'admin'
         };
 
-        this.mutations.unshift(mutation);
+        product.stock = type === 'in' ? (product.stock || 0) + qty : (product.stock || 0) - qty;
+        
+        this.mutations.unshift(mutasi);
         localStorage.setItem(DB_MUTATIONS, JSON.stringify(this.mutations));
+        localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
 
         this.hideModal('modal-mutasi');
-        this.showToast('Adjustment successful');
+        this.showToast('Penyesuaian stok berhasil');
         this.renderProducts();
         this.renderMutasiLog();
     },
@@ -578,12 +565,11 @@ const     app = {
     renderMutasiLog() {
         const container = document.getElementById('mutasi-log');
         const countEl = document.getElementById('mutasi-count');
-        if(!container) return;
-
+        
         if(countEl) countEl.innerText = this.mutations.length;
 
         if(this.mutations.length === 0) {
-            container.innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:10px;">No adjustments yet</div>';
+            container.innerHTML = '<div style="color:var(--text-muted);text-align:center;padding:10px;">Belum ada penyesuaian</div>';
             return;
         }
 
@@ -638,8 +624,8 @@ const     app = {
             filtered = filtered.filter(p => p.name.toLowerCase().includes(search.toLowerCase()));
         }
 
-        if(filtered.length === 0) {
-            grid.innerHTML = `<div style="grid-column: 1/-1; color:var(--text-muted); padding:20px; text-align:center;">Product not found</div>`;
+        if (filtered.length === 0) {
+            grid.innerHTML = `<div style="grid-column: 1/-1; color:var(--text-muted); padding:20px; text-align:center;">Produk tidak ditemukan</div>`;
             return;
         }
 
@@ -672,7 +658,7 @@ const     app = {
         const currentQty = existing ? existing.qty : 0;
 
         if(currentQty + 1 > (p.stock || 0)) {
-            this.showToast('Insufficient stock!', true);
+            this.showToast('Stok tidak mencukupi!', true);
             return;
         }
 
@@ -693,10 +679,10 @@ const     app = {
 
     clearCart() {
         if(this.cart.length === 0) return;
-        this.showConfirm('Clear cart?', () => {
+        this.showConfirm('Kosongkan keranjang?', () => {
             this.cart = [];
             this.renderCart();
-            this.showToast('Cart cleared');
+            this.showToast('Keranjang dikosongkan');
         });
     },
 
@@ -713,7 +699,7 @@ const     app = {
 
         const product = this.products.find(p => p.id === id);
         if(delta > 0 && product && newQty > (product.stock || 0)) {
-            this.showToast('Insufficient stock!', true);
+            this.showToast('Stok tidak mencukupi!', true);
             return;
         }
 
@@ -727,9 +713,11 @@ const     app = {
         const countEl = document.getElementById('cart-count');
         let grandTotal = 0;
 
-        if(this.cart.length === 0) {
-            container.innerHTML = `<div class="cart-empty">Cart is empty</div>`;
+        if (this.cart.length === 0) {
+            container.innerHTML = `<div class="cart-empty">Keranjang kosong</div>`;
             if(countEl) countEl.innerText = '0';
+            document.getElementById('cart-total').innerText = 'Rp 0';
+            return;
         } else {
             container.innerHTML = this.cart.map(c => {
                 grandTotal += c.total;
@@ -756,8 +744,8 @@ const     app = {
 
     // --- CHECKOUT & PRINT ---
     showCheckoutModal() {
-        if(this.cart.length === 0) {
-            this.showToast("Cart is empty!", true);
+        if (this.cart.length === 0) {
+            this.showToast("Keranjang kosong!", true);
             return;
         }
 
@@ -780,9 +768,9 @@ const     app = {
         const change = pay - this.cartGrandTotal;
         const changeEl = document.getElementById('checkout-change');
         
-        if(change < 0) {
-            changeEl.innerText = 'Missing ' + this.formatCurrency(Math.abs(change));
-            changeEl.style.color = 'var(--danger-color)';
+        if (change < 0) {
+            changeEl.style.color = "var(--danger-color)";
+            changeEl.innerText = 'Kurang ' + this.formatCurrency(Math.abs(change));
         } else {
             changeEl.innerText = this.formatCurrency(change);
             changeEl.style.color = 'var(--primary-color)';
@@ -795,13 +783,13 @@ const     app = {
         
         if(isNaN(pay)) pay = 0;
         
-        if(pay < this.cartGrandTotal) {
-            this.showToast("Insufficient payment amount!", true);
+        const change = pay - this.cartGrandTotal;
+
+        if (method === 'Cash' && change < 0) {
+            this.showToast("Jumlah pembayaran kurang!", true);
             return;
         }
 
-        const change = pay - this.cartGrandTotal;
-        
         // Save to History
         const transaction = {
             id: 'TRX-' + Date.now(),
@@ -818,15 +806,15 @@ const     app = {
         this.history.unshift(transaction);
         localStorage.setItem(DB_HISTORY, JSON.stringify(this.history));
 
-        // Re-validate stock before deducting
-        for (const cartItem of this.cart) {
+        // Final Check Stock
+        for (let cartItem of this.cart) {
             const product = this.products.find(p => p.id === cartItem.id);
             if (!product) {
-                this.showToast(`Product "${cartItem.name}" not found!`, true);
+                this.showToast(`Produk "${cartItem.name}" tidak ditemukan!`, true);
                 return;
             }
             if ((product.stock || 0) < cartItem.qty) {
-                this.showToast(`Insufficient stock for "${product.name}" (${product.stock || 0} left)!`, true);
+                this.showToast(`Stok tidak mencukupi untuk "${product.name}" (sisa ${product.stock || 0})!`, true);
                 return;
             }
         }
@@ -843,14 +831,14 @@ const     app = {
         this.hideModal('modal-checkout');
         
         Swal.fire({
-            title: 'Payment Successful!',
-            text: 'Do you want to print the receipt?',
+            title: 'Pembayaran Berhasil!',
+            text: 'Apakah Anda ingin mencetak struk?',
             icon: 'success',
             showCancelButton: true,
-            confirmButtonText: 'Print Receipt',
-            cancelButtonText: 'No, Thanks',
+            confirmButtonText: 'Cetak Struk',
+            cancelButtonText: 'Tidak, Terima Kasih',
             confirmButtonColor: '#006241',
-            cancelButtonColor: '#757575',
+            cancelButtonColor: '#6c757d',
             reverseButtons: true
         }).then((result) => {
             if (result.isConfirmed) {
@@ -887,10 +875,11 @@ const     app = {
         `).join('');
 
         // Dynamic tax label
-        const taxLabelEl = document.querySelector('.receipt-total .receipt-item:nth-child(2) span:first-child');
-        if(taxLabelEl) taxLabelEl.innerText = `Tax (${this.settings.taxRate}%)`;
-        const taxAmtEl = document.getElementById('receipt-tax');
-        if(taxAmtEl) taxAmtEl.innerText = trx.tax > 0 ? this.formatCurrency(trx.tax) : 'Incl.';
+        const taxLabelEl = document.getElementById('receipt-tax-label');
+        if(taxLabelEl) taxLabelEl.innerText = `Pajak (${this.settings.taxRate}%)`;
+        
+        const taxAmtEl = document.getElementById('receipt-tax-amt');
+        if(taxAmtEl) taxAmtEl.innerText = trx.tax > 0 ? this.formatCurrency(trx.tax) : 'Termasuk';
 
         document.getElementById('receipt-total-amt').innerText = this.formatCurrency(trx.subtotal || trx.total);
         document.getElementById('receipt-pay-amt').innerText = this.formatCurrency(trx.pay);
@@ -918,7 +907,7 @@ const     app = {
         }
 
         if(filtered.length === 0) {
-            container.innerHTML = `<div class="card" style="text-align:center; color:var(--text-muted)">History not found</div>`;
+            container.innerHTML = `<div class="card" style="text-align:center; color:var(--text-muted)">Riwayat tidak ditemukan</div>`;
             return;
         }
 
@@ -953,7 +942,7 @@ const     app = {
 
     exportCSV() {
         if(this.history.length === 0) {
-            this.showToast('No data to export!', true);
+            this.showToast('Tidak ada data untuk diekspor!', true);
             return;
         }
         
@@ -974,7 +963,7 @@ const     app = {
         link.click();
         document.body.removeChild(link);
         
-        this.showToast("Downloaded successfully");
+        this.showToast("Berhasil diunduh");
     },
 
     // --- SETTINGS ---
@@ -992,11 +981,11 @@ const     app = {
         this.settings.taxRate = parseFloat(document.getElementById('setting-tax-rate').value) || 0;
         
         localStorage.setItem('kasir_settings', JSON.stringify(this.settings));
-        this.showToast('Settings successfully saved!');
+        this.showToast('Pengaturan berhasil disimpan!');
     },
 
     resetHistory() {
-        this.showConfirm('Are you absolutely sure you want to wipe all transaction history and stock adjustments? This action CANNOT be undone.', () => {
+        this.showConfirm('Apakah Anda yakin ingin menghapus seluruh riwayat transaksi dan penyesuaian stok? Tindakan ini TIDAK DAPAT dibatalkan.', () => {
             // Clear history and mutations
             this.history = [];
             this.mutations = [];
@@ -1007,7 +996,7 @@ const     app = {
             this.renderHistory();
             this.renderMutasiLog();
             this.renderDashboard();
-            this.showToast('All transaction history wiped completely', true);
+            this.showToast('Seluruh riwayat transaksi telah dihapus', true);
         });
     },
 
@@ -1039,7 +1028,7 @@ const     app = {
         
         if (id) {
             const u = this.users.find(x => x.id === id);
-            title.innerText = 'Edit Employee';
+            title.innerText = 'Edit Karyawan';
             idInput.value = u.id;
             usernameInput.value = u.username;
             passwordInput.value = u.password;
@@ -1052,7 +1041,7 @@ const     app = {
                 roleInput.disabled = false;
             }
         } else {
-            title.innerText = 'Add Employee';
+            title.innerText = 'Tambah Karyawan';
             idInput.value = '';
             usernameInput.value = '';
             passwordInput.value = '';
@@ -1065,11 +1054,11 @@ const     app = {
     saveUser(e) {
         e.preventDefault();
         const id = document.getElementById('user-id').value;
-        const username = document.getElementById('user-username').value;
-        const password = document.getElementById('user-password').value;
+        const username = document.getElementById('user-username').value.trim();
+        const password = document.getElementById('user-password').value.trim();
         const role = document.getElementById('user-role').value;
         
-        if (!username || !password) return this.showToast('Username and Password required', true);
+        if (!username || !password) return this.showToast('Username dan Kata Sandi wajib diisi', true);
         
         if (id) {
             // Edit
@@ -1079,13 +1068,13 @@ const     app = {
                 u.role = role;
             }
             u.password = password;
-            this.showToast('Employee updated');
+            this.showToast('Data karyawan diperbarui');
         } else {
             // Add
-            if (this.users.find(x => x.username === username)) return this.showToast('Username already exists', true);
+            if (this.users.find(x => x.username === username)) return this.showToast('Username sudah ada', true);
             const newId = this.users.length > 0 ? Math.max(...this.users.map(user => user.id)) + 1 : 1;
             this.users.push({ id: newId, username, password, role });
-            this.showToast('Employee added');
+            this.showToast('Karyawan ditambahkan');
         }
         
         localStorage.setItem(DB_USERS, JSON.stringify(this.users));
@@ -1093,12 +1082,12 @@ const     app = {
         this.renderUsers();
     },
     deleteUser(id) {
-        if (id === 1) return this.showToast('Cannot delete main admin', true);
-        this.showConfirm('Are you sure you want to delete this employee?', () => {
+        if (id === 1) return this.showToast('Tidak dapat menghapus admin utama', true);
+        this.showConfirm('Yakin ingin menghapus karyawan ini?', () => {
             this.users = this.users.filter(u => u.id !== id);
             localStorage.setItem(DB_USERS, JSON.stringify(this.users));
             this.renderUsers();
-            this.showToast('Employee deleted');
+            this.showToast('Karyawan dihapus');
         });
     }
 };
