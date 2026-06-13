@@ -51,12 +51,12 @@ const     app = {
         let savedProducts = JSON.parse(localStorage.getItem(DB_PRODUCTS));
         
         // Force wipe logic via check for old IDR prices or user request
-        if(localStorage.getItem('force_reset_v2') !== 'true') {
+        if(localStorage.getItem('force_reset_v3') !== 'true') {
             localStorage.removeItem(DB_PRODUCTS);
             localStorage.removeItem(DB_HISTORY);
             localStorage.removeItem(DB_MUTATIONS);
             localStorage.removeItem('kasir_settings');
-            localStorage.setItem('force_reset_v2', 'true');
+            localStorage.setItem('force_reset_v3', 'true');
             savedProducts = null;
         }
 
