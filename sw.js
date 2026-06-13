@@ -25,7 +25,7 @@ const ASSETS_TO_CACHE = [
     '/assets/image/earl_grey.jpg',
     '/assets/image/croissant.jpg',
     '/assets/image/background-login.jpg',
-    '/assets/image/Starbucks.jpeg',
+    '/assets/image/Logo-Ipwija.png',
     'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap',
     'https://cdn.jsdelivr.net/npm/chart.js'
 ];

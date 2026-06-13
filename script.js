@@ -16,7 +16,7 @@ const     app = {
     mutations: [],
     users: [],
     settings: {
-        storeName: 'STARBUCKS COFFEE',
+        storeName: 'IPWIJA COFFEE',
         storeAddress: '1912 Pike Pl, Seattle, WA 98101',
         storeNpwp: '98-7654321',
         taxRate: 10.25
@@ -43,9 +43,9 @@ const     app = {
             { id: 14, name: 'New York Cheesecake', price: 50000, category: 'Food', stock: 8, image: 'assets/image/cheesecake.jpg' },
             { id: 15, name: 'Tuna Puff', price: 32000, category: 'Food', stock: 12, image: 'assets/image/tuna_puff.jpg' },
             
-            { id: 16, name: 'Starbucks Tumbler', price: 350000, category: 'Merchandise', stock: 5, image: 'assets/image/tumbler.jpg' },
+            { id: 16, name: 'Ipwija Tumbler', price: 350000, category: 'Merchandise', stock: 5, image: 'assets/image/tumbler.jpg' },
             { id: 17, name: 'Coffee Beans 250g', price: 140000, category: 'Merchandise', stock: 15, image: 'assets/image/coffee_beans.jpg' },
-            { id: 18, name: 'Starbucks Mug', price: 250000, category: 'Merchandise', stock: 10, image: 'assets/image/Starbucks.jpeg' }
+            { id: 18, name: 'Ipwija Mug', price: 250000, category: 'Merchandise', stock: 10, image: 'assets/image/Logo-Ipwija.png' }
         ];
 
         let savedProducts = JSON.parse(localStorage.getItem(DB_PRODUCTS));
@@ -189,7 +189,7 @@ const     app = {
             title: 'Lupa Kata Sandi?',
             text: 'Silakan hubungi IT Support atau hubungi Administrator untuk mereset kata sandi Anda.',
             confirmButtonText: 'Mengerti',
-            confirmButtonColor: '#006241'
+            confirmButtonColor: '#1A4687'
         });
     },
 
@@ -342,7 +342,7 @@ const     app = {
                     datasets: [{
                         label: 'Pendapatan (IDR)',
                         data: dataVals,
-                        borderColor: '#006241',
+                        borderColor: '#1A4687',
                         backgroundColor: 'rgba(0, 98, 65, 0.1)',
                         borderWidth: 2,
                         fill: true,
@@ -837,7 +837,7 @@ const     app = {
             showCancelButton: true,
             confirmButtonText: 'Cetak Struk',
             cancelButtonText: 'Tidak, Terima Kasih',
-            confirmButtonColor: '#006241',
+            confirmButtonColor: '#1A4687',
             cancelButtonColor: '#6c757d',
             reverseButtons: true
         }).then((result) => {
@@ -856,7 +856,7 @@ const     app = {
         const headerEl = document.querySelector('.receipt-header');
         if(headerEl) {
             headerEl.innerHTML = `
-                <img src="assets/image/Starbucks.jpeg" alt="Logo" style="width: 60px; height: 60px; border-radius: 50%; filter: grayscale(100%); margin-bottom:5px;">
+                <img src="assets/image/Logo-Ipwija.png" alt="Logo" style="width: 60px; height: 60px; border-radius: 50%; filter: grayscale(100%); margin-bottom:5px;">
                 <h3 style="margin:0; font-family:sans-serif; letter-spacing:1px; text-transform:uppercase;">${this.settings.storeName}</h3>
                 <p style="margin:2px 0; font-size:11px;">${this.settings.storeAddress}</p>
                 <p style="margin:2px 0; font-size:11px;">NPWP: ${this.settings.storeNpwp}</p>
