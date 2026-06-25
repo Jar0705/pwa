@@ -1,4 +1,4 @@
-const CACHE_NAME = 'kasir-pro-v13-ipwija';
+const CACHE_NAME = 'kasir-pro-v14-ipwija-firebase';
 const ASSETS_TO_CACHE = [
     './',
     './index.html',
@@ -27,7 +27,10 @@ const ASSETS_TO_CACHE = [
     './assets/image/background-login.jpg',
     './assets/image/Logo-Ipwija.png',
     'https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap',
-    'https://cdn.jsdelivr.net/npm/chart.js'
+    'https://cdn.jsdelivr.net/npm/chart.js',
+    'https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js',
+    'https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js',
+    'https://cdn.jsdelivr.net/npm/sweetalert2@11'
 ];
 
 self.addEventListener('install', event => {
