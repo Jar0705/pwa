@@ -8,6 +8,48 @@ const DB_HISTORY = 'kasir_history';
 const DB_MUTATIONS = 'kasir_mutations';
 const DB_USERS = 'kasir_users';
 
+// --- FIREBASE INITIALIZATION ---
+const firebaseConfig = {
+  apiKey: "AIzaSyBDUrw1DkFQNq5bOAcFJ33-gpMAENRDjfk",
+  authDomain: "ipwija-coffee-db.firebaseapp.com",
+  projectId: "ipwija-coffee-db",
+  storageBucket: "ipwija-coffee-db.firebasestorage.app",
+  messagingSenderId: "686599799948",
+  appId: "1:686599799948:web:38fcdb65244a17b5866ed1"
+};
+
+if (!firebase.apps.length) {
+    firebase.initializeApp(firebaseConfig);
+}
+const db = firebase.firestore();
+
+// Enable offline persistence
+db.enablePersistence().catch((err) => {
+    console.warn("Firebase persistence error:", err.code);
+});
+
+// Helper for single document sync (like settings, users, products)
+function syncDoc(collection, docId, localKey, appRef, renderCallback) {
+    db.collection(collection).doc(docId).onSnapshot((doc) => {
+        if (doc.exists) {
+            const data = doc.data().data;
+            if (data) {
+                const parsed = JSON.parse(data);
+                app[appRef] = parsed;
+                localStorage.setItem(localKey, data);
+                if (renderCallback) renderCallback();
+            }
+        } else {
+            // Upload local data to cloud if cloud is empty
+            const localData = localStorage.getItem(localKey);
+            if (localData) {
+                db.collection(collection).doc(docId).set({ data: localData });
+            }
+        }
+    });
+}
+
+
 // Main App Object to avoid global scope pollution
 const     app = {
     cart: [],
@@ -77,6 +119,7 @@ const     app = {
             });
         }
         localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
+        db.collection('store').doc('products').set({ data: JSON.stringify(this.products) });
         
         this.settings = JSON.parse(localStorage.getItem('kasir_settings')) || this.settings;
         this.history = JSON.parse(localStorage.getItem(DB_HISTORY)) || [];
@@ -87,6 +130,7 @@ const     app = {
         this.users = JSON.parse(localStorage.getItem(DB_USERS)) || defaultUsers;
         if(this.users.length === 0) this.users = defaultUsers;
         localStorage.setItem(DB_USERS, JSON.stringify(this.users));
+        db.collection('store').doc('users').set({ data: JSON.stringify(this.users) });
         
         // Force Light Theme
         document.documentElement.setAttribute('data-theme', 'light');
@@ -496,6 +540,7 @@ const     app = {
         }
 
         localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
+        db.collection('store').doc('products').set({ data: JSON.stringify(this.products) });
         this.hideModal('modal-product');
         this.renderProducts();
     },
@@ -504,6 +549,7 @@ const     app = {
         this.showConfirm('Yakin ingin menghapus produk ini?', () => {
             this.products = this.products.filter(p => p.id !== id);
             localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
+        db.collection('store').doc('products').set({ data: JSON.stringify(this.products) });
             this.renderProducts();
             this.showToast('Produk berhasil dihapus');
         });
@@ -554,7 +600,9 @@ const     app = {
         
         this.mutations.unshift(mutasi);
         localStorage.setItem(DB_MUTATIONS, JSON.stringify(this.mutations));
+        db.collection('store').doc('mutations').set({ data: JSON.stringify(this.mutations) });
         localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
+        db.collection('store').doc('products').set({ data: JSON.stringify(this.products) });
 
         this.hideModal('modal-mutasi');
         this.showToast('Penyesuaian stok berhasil');
@@ -805,6 +853,7 @@ const     app = {
         
         this.history.unshift(transaction);
         localStorage.setItem(DB_HISTORY, JSON.stringify(this.history));
+        db.collection('store').doc('history').set({ data: JSON.stringify(this.history) });
 
         // Final Check Stock
         for (let cartItem of this.cart) {
@@ -827,6 +876,7 @@ const     app = {
             }
         });
         localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
+        db.collection('store').doc('products').set({ data: JSON.stringify(this.products) });
 
         this.hideModal('modal-checkout');
         
@@ -981,6 +1031,7 @@ const     app = {
         this.settings.taxRate = parseFloat(document.getElementById('setting-tax-rate').value) || 0;
         
         localStorage.setItem('kasir_settings', JSON.stringify(this.settings));
+        db.collection('store').doc('settings').set({ data: JSON.stringify(this.settings) });
         this.showToast('Pengaturan berhasil disimpan!');
     },
 
@@ -1078,6 +1129,7 @@ const     app = {
         }
         
         localStorage.setItem(DB_USERS, JSON.stringify(this.users));
+        db.collection('store').doc('users').set({ data: JSON.stringify(this.users) });
         this.hideModal('modal-user');
         this.renderUsers();
     },
@@ -1086,6 +1138,7 @@ const     app = {
         this.showConfirm('Yakin ingin menghapus karyawan ini?', () => {
             this.users = this.users.filter(u => u.id !== id);
             localStorage.setItem(DB_USERS, JSON.stringify(this.users));
+        db.collection('store').doc('users').set({ data: JSON.stringify(this.users) });
             this.renderUsers();
             this.showToast('Karyawan dihapus');
         });
