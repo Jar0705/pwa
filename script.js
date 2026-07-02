@@ -119,7 +119,6 @@ const     app = {
             });
         }
         localStorage.setItem(DB_PRODUCTS, JSON.stringify(this.products));
-        db.collection('store').doc('products').set({ data: JSON.stringify(this.products) });
         
         this.settings = JSON.parse(localStorage.getItem('kasir_settings')) || this.settings;
         this.history = JSON.parse(localStorage.getItem(DB_HISTORY)) || [];
@@ -130,8 +129,23 @@ const     app = {
         this.users = JSON.parse(localStorage.getItem(DB_USERS)) || defaultUsers;
         if(this.users.length === 0) this.users = defaultUsers;
         localStorage.setItem(DB_USERS, JSON.stringify(this.users));
-        db.collection('store').doc('users').set({ data: JSON.stringify(this.users) });
         
+        // Setup Firebase Realtime Synchronization
+        syncDoc('store', 'products', DB_PRODUCTS, 'products', () => {
+            if(document.getElementById('produk').classList.contains('active')) this.renderProducts();
+            if(document.getElementById('pos').classList.contains('active')) this.renderPOS();
+        });
+        syncDoc('store', 'history', DB_HISTORY, 'history', () => {
+            if(document.getElementById('riwayat').classList.contains('active')) this.renderHistory();
+            if(document.getElementById('dashboard').classList.contains('active')) this.renderDashboard();
+        });
+        syncDoc('store', 'mutations', DB_MUTATIONS, 'mutations', () => {
+            if(document.getElementById('riwayat').classList.contains('active')) this.renderMutasiLog();
+        });
+        syncDoc('store', 'users', DB_USERS, 'users', () => {
+            if(document.getElementById('users').classList.contains('active')) this.renderUsers();
+        });
+
         // Force Light Theme
         document.documentElement.setAttribute('data-theme', 'light');
 
@@ -202,10 +216,14 @@ const     app = {
 
     // --- AUTH ---
     checkLogin() {
-        if(localStorage.getItem("login") === "true"){
+        const session = localStorage.getItem("kasir_session");
+        if(session){
+            this.currentUser = JSON.parse(session);
             document.getElementById("loginPage").style.display = "none";
             document.getElementById("appPage").style.display = "flex";
-            this.nav('dashboard');
+            
+            const lastPage = localStorage.getItem("last_page") || 'dashboard';
+            this.nav(lastPage);
         } else {
             document.getElementById("loginPage").style.display = "flex";
             document.getElementById("appPage").style.display = "none";
@@ -277,6 +295,7 @@ const     app = {
     },
 
     nav(target) {
+        localStorage.setItem("last_page", target);
         document.querySelectorAll('.nav-item').forEach(el => el.classList.remove('active'));
         document.querySelector(`.nav-item[data-target="${target}"]`).classList.add('active');
         
